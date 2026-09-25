@@ -1,0 +1,106 @@
+# kMap configuration. A missing key falls back to its default. /kmap reload re-reads this file.
+
+language: "en"
+
+render:
+  # Render mode for worlds without an entry in worlds.yml that are small enough to bake.
+  mode: "WORLD_VIEW"
+  # What the toggle key opens for a new player: MINIMAP_ONLY, MINIMAP_AND_BIG, MINIMAP_AND_SCREEN, BIG_MAP_ONLY, SCREEN_MAP_ONLY
+  defaultModule: "MINIMAP_AND_BIG"
+  defaultMinimapShape: "SQUARE"
+  defaultMinimapPlacement: "TOP_LEFT"
+  coordinatesEnabled: true
+  openMapOnJoin: true
+  joinOpenDelayTicks: 20
+  screenMapGlideTicks: 2
+  screenPanRadiusBlocks: 768
+  largeWorldThreshold: 8192
+  # Unregistered worlds stream as this mode.
+  largeWorldMode: "DEEP_EXPLORER"
+  rgbTextured: false
+  discoverRadiusChunks: 6
+  tilesPerFlush: 4
+  flushIntervalTicks: 2
+  prewarmRadiusChunks: 3
+  streamRadiusChunks: 10
+  minimapSizePx: 64
+  minimapBlocks: 88
+  bigMapSizePx: 300
+  bigMapBlocks: 360
+  tabMap:
+    enabled: true
+    widthPx: 300
+    heightPx: 170
+    updateTicks: 10
+  cave:
+    layerHeight: 8
+    computeRadiusChunks: 6
+    snapshotsPerTick: 24
+
+cursor:
+  defaultSensitivity: 1.0
+  pixelsPerDegree: 4.0
+
+markers:
+  distanceUpdateTicks: 20
+  entities:
+    enabled: true
+    players: true
+    mobs: true
+    radiusBlocks: 44
+    heightRadius: 8
+    updateTicks: 3
+    animationTicks: 10
+    sizePx: 6
+    maxPerPlayer: 24
+    playerImage: "player_red.png"
+    mobImage: "mob_yellow.png"
+
+guis:
+  admin: true
+  settings: true
+  faq: true
+  waypoints: true
+  newWaypoint: true
+  search: true
+  zoomButtons: true
+  resetView: true
+  fonts: true
+
+binds:
+  enabled: true
+  toggleMap:
+    - gesture: "SWAP_HANDS"
+      sneaking: null
+      hand: "ANY"
+
+storage:
+  type: "FILE"
+  save:
+    discovery: false
+    markers: false
+    worldColors: false
+
+resourcepack:
+  setOnJoin: true
+  required: false
+  prompt: "kMap needs its resource pack to draw the map."
+  description: "kMap - minimap, waypoints & markers"
+  joinDelayTicks: 1
+  hosting:
+    # SELF_HOST | EXTERNAL | NONE
+    mode: "SELF_HOST"
+    selfHost:
+      bindIp: "0.0.0.0"
+      port: 8163
+      # "auto" uses server-ip from server.properties, otherwise 127.0.0.1. Put your public IP or domain here.
+      publicAddress: "auto"
+    external:
+      url: ""
+  merge:
+    # NONE | AUTO | NEXO. NEXO hands the base pack to Nexo so players download one pack.
+    target: "NONE"
+    packs: []
+
+debug:
+  logs: false

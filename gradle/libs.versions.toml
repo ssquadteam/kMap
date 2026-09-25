@@ -1,0 +1,14 @@
+[versions]
+kotlin = "2.4.10"
+paperweight = "2.0.0-beta.21"
+paper-dev-bundle = "26.2.build.128-stable"
+nexo = "1.27.0"
+shadow = "9.4.1"
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+paperweight-userdev = { id = "io.papermc.paperweight.userdev", version.ref = "paperweight" }
+
+[libraries]
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+nexo = { module = "com.nexomc:nexo", version.ref = "nexo" }

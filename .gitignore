@@ -1,0 +1,9 @@
+build/
+.gradle/
+.kotlin/
+.idea/
+*.iml
+__pycache__/
+*.pyc
+docs/
+*.md

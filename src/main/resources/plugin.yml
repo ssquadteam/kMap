@@ -1,0 +1,15 @@
+name: kMap
+version: '${version}'
+main: com.github.ssquadteam.kmap.KMapPlugin
+api-version: '26.2'
+folia-supported: true
+author: ssquadteam
+description: Minimap, full-screen map, waypoints and searchable locations for vanilla clients.
+softdepend: [Nexo]
+libraries:
+  - org.jetbrains.kotlin:kotlin-stdlib:${kotlin}
+permissions:
+  kmap.minimap:
+    default: true
+  kmap.admin:
+    default: op

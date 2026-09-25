@@ -1,0 +1,2721 @@
+{
+ "providers": [
+  {
+   "type": "space",
+   "advances": {
+    "": 1,
+    "": -1,
+    "": 2,
+    "": -2,
+    "": 4,
+    "": -4,
+    "": 8,
+    "": -8,
+    "": 16,
+    "": -16,
+    "": 32,
+    "": -32,
+    "": 64,
+    "": -64,
+    "": 128,
+    "": -128,
+    "": 256,
+    "": -256,
+    "": 512,
+    "": -512,
+    "": 1024,
+    "": -1024,
+    "": 2048,
+    "": -2048,
+    "": 4096,
+    "": -4096,
+    "": 8192,
+    "": -8192,
+    "": 0.5,
+    "": -0.5
+   }
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/ribbon_l.png",
+   "height": 9,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/ribbon_m.png",
+   "height": 9,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/ribbon_r.png",
+   "height": 9,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/plate_l.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/plate_m.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/plate_r.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/pill_l.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/pill_m.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/pill_r.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/fill.png",
+   "height": 1,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/bar_button.png",
+   "height": 18,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/icon_magnifier.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/icon_compass.png",
+   "height": 9,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/icon_gear.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/icon_scroll.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/icon_book.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/icon_zoom_in.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/icon_zoom_out.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/icon_reset.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/icon_pencil.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/icon_eye.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/icon_eye_off.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/icon_target.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/icon_trash.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/icon_trash_armed.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/icon_chevron.png",
+   "height": 7,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/icon_arrow_up.png",
+   "height": 3,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/icon_arrow_down.png",
+   "height": 3,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/icon_pin_small.png",
+   "height": 6,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/close.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/close_small.png",
+   "height": 10,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/toggle_on.png",
+   "height": 9,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/toggle_off.png",
+   "height": 9,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/swatch_0.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/swatch_1.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/swatch_2.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/swatch_3.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/swatch_4.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/swatch_5.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/swatch_6.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/swatch_7.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/swatch_ring.png",
+   "height": 15,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cursor.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cursor_0.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cursor_1.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cursor_2.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cursor_3.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cursor_4.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cursor_5.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cursor_6.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cursor_7.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/arrow.png",
+   "height": 9,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/icon_plate.png",
+   "height": 18,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/keycap_esc.png",
+   "height": 9,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_bank.png",
+   "height": 16,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_bank_outline.png",
+   "height": 20,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_cave.png",
+   "height": 16,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_cave_outline.png",
+   "height": 20,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_chest.png",
+   "height": 16,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_chest_outline.png",
+   "height": 20,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_dungeon.png",
+   "height": 16,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_dungeon_outline.png",
+   "height": 20,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_house.png",
+   "height": 16,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_house_outline.png",
+   "height": 20,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_map.png",
+   "height": 16,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_map_outline.png",
+   "height": 20,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_quest.png",
+   "height": 16,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_quest_outline.png",
+   "height": 20,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_store.png",
+   "height": 16,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_store_outline.png",
+   "height": 20,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_teleport.png",
+   "height": 16,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_teleport_outline.png",
+   "height": 20,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_waypoint.png",
+   "height": 16,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/loc_waypoint_outline.png",
+   "height": 20,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/mark_player.png",
+   "height": 6,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/mark_mob.png",
+   "height": 5,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/mark_square.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/world_square.png",
+   "height": 13,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/mark_arrow.png",
+   "height": 9,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/beam.png",
+   "height": 64,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f41.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f42.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f43.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f44.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f45.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f46.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f47.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f48.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f49.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f4a.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f4b.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f4c.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f4d.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f4e.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f4f.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f50.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f51.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f52.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f53.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f54.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f55.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f56.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f57.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f58.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f59.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f5a.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/mletter_0.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/mletter_1.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/mletter_2.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/mletter_3.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/mletter_4.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/mletter_5.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/mletter_6.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/mletter_7.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/mletter_8.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/mletter_9.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_6d6c65747465725f3f.png",
+   "height": 8,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_a.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_b.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_c.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_d.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_e.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_f.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_g.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_h.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_i.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_j.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_k.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_l.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_m.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_n.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_o.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_p.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_q.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_r.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_s.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_t.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_u.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_v.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_w.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_x.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_y.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_z.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f41.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f42.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f43.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f44.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f45.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f46.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f47.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f48.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f49.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f4a.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f4b.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f4c.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f4d.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f4e.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f4f.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f50.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f51.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f52.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f53.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f54.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f55.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f56.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f57.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f58.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f59.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f5a.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_0.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_1.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_2.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_3.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_4.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_5.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_6.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_7.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_8.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph_9.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f2e.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f2c.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f3a.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f3b.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f21.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f3f.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f27.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f2d.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f2b.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f2f.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f28.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f29.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f23.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f26.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f25.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f2a.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f3d.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wglyph__.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f3c.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f3e.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f5b.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/g_77676c7970685f5d.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/button_40.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/button_gold_40.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/button_52.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/button_gold_52.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/button_60.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/button_gold_60.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/button_70.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/button_gold_70.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/button_86.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/button_gold_86.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/button_96.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/button_gold_96.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/button_110.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/button_gold_110.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/button_small_22.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/choice_40.png",
+   "height": 12,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/choice_40_on.png",
+   "height": 12,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/corner_cell.png",
+   "height": 7,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/corner_cell_on.png",
+   "height": 7,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/row_action.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/row_action_on.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/win_waypoint.png",
+   "height": 214,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/win_waypoints.png",
+   "height": 214,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/row_wp.png",
+   "height": 20,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/row_wp_hover.png",
+   "height": 20,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/row_wp_selected.png",
+   "height": 20,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/scroll_track_140.png",
+   "height": 140,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/scroll_thumb_24.png",
+   "height": 24,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/win_settings.png",
+   "height": 214,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/win_faq.png",
+   "height": 236,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/faq_key.png",
+   "height": 12,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/faq_desc.png",
+   "height": 12,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/search_bar.png",
+   "height": 17,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/win_results.png",
+   "height": 150,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/row_result.png",
+   "height": 26,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/row_result_hover.png",
+   "height": 26,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/tag_l.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/tag_m.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/tag_r.png",
+   "height": 11,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/key_l.png",
+   "height": 12,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/key_m.png",
+   "height": 12,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/key_r.png",
+   "height": 12,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/chip_l.png",
+   "height": 9,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/chip_m.png",
+   "height": 9,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/chip_r.png",
+   "height": 9,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/seal.png",
+   "height": 15,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cbtn_gold_44.png",
+   "height": 15,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cbtn_parch_44.png",
+   "height": 15,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cbtn_red_44.png",
+   "height": 15,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cbtn_gold_56.png",
+   "height": 15,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cbtn_parch_56.png",
+   "height": 15,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cbtn_red_56.png",
+   "height": 15,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cbtn_gold_64.png",
+   "height": 15,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cbtn_parch_64.png",
+   "height": 15,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cbtn_red_64.png",
+   "height": 15,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cbtn_gold_78.png",
+   "height": 15,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cbtn_parch_78.png",
+   "height": 15,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cbtn_red_78.png",
+   "height": 15,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cbtn_gold_92.png",
+   "height": 15,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cbtn_parch_92.png",
+   "height": 15,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cbtn_red_92.png",
+   "height": 15,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cbtn_parch_13.png",
+   "height": 13,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/cbtn_gold_13.png",
+   "height": 13,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/tile_18.png",
+   "height": 18,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/tile_18_on.png",
+   "height": 18,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/gem_0.png",
+   "height": 12,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/gem_1.png",
+   "height": 12,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/gem_2.png",
+   "height": 12,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/gem_3.png",
+   "height": 12,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/gem_4.png",
+   "height": 12,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/gem_5.png",
+   "height": 12,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/gem_6.png",
+   "height": 12,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/gem_7.png",
+   "height": 12,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/gem_select.png",
+   "height": 16,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/lamp_on.png",
+   "height": 10,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/lamp_off.png",
+   "height": 10,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/shape_square.png",
+   "height": 18,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/shape_square_on.png",
+   "height": 18,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/shape_circle.png",
+   "height": 18,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/shape_circle_on.png",
+   "height": 18,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/screen_mock.png",
+   "height": 22,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/corner_dot.png",
+   "height": 6,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/corner_dot_on.png",
+   "height": 6,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/rail_132.png",
+   "height": 132,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/knob_22.png",
+   "height": 22,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/card_wp.png",
+   "height": 22,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/card_wp_hover.png",
+   "height": 22,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/card_wp_selected.png",
+   "height": 22,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/card_res.png",
+   "height": 26,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/card_res_hover.png",
+   "height": 26,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/lined_row.png",
+   "height": 12,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/win2_waypoint.png",
+   "height": 196,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/win2_waypoints.png",
+   "height": 214,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/win2_settings.png",
+   "height": 216,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/win2_faq.png",
+   "height": 232,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/win2_results.png",
+   "height": 156,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/big_corner.png",
+   "height": 4,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  }
+ ]
+}
