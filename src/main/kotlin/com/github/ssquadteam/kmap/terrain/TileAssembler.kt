@@ -11,6 +11,21 @@ class TileAssembler {
         fun known(cx: Int, cz: Int): Boolean
     }
 
+    private class Known(val discovered: Discovered) {
+        private var lastCx = Int.MIN_VALUE
+        private var lastCz = Int.MIN_VALUE
+        private var last = false
+
+        fun at(cx: Int, cz: Int): Boolean {
+            if (cx != lastCx || cz != lastCz) {
+                lastCx = cx
+                lastCz = cz
+                last = discovered.known(cx, cz)
+            }
+            return last
+        }
+    }
+
     private class Lookup(val source: Source) {
         private var lastKey = Long.MIN_VALUE
         private var last: ChunkSurface? = null
@@ -34,6 +49,7 @@ class TileAssembler {
     fun palette(originX: Int, originZ: Int, source: Source, discovered: Discovered, versionOut: LongArray? = null): ByteArray {
         val out = ByteArray(128 * 128)
         val main = Lookup(source)
+        val known = Known(discovered)
         val side = Lookup(source)
         var maxVersion = 0L
         for (r in 0 until 128) {
@@ -42,7 +58,7 @@ class TileAssembler {
                 val wx = originX + c
                 val cx = wx shr 4
                 val cz = wz shr 4
-                if (!discovered.known(cx, cz)) continue
+                if (!known.at(cx, cz)) continue
                 val s = main.at(cx, cz)
                 if (s == null) {
                     out[r * 128 + c] = MapPalette.GREY_KNOWN
@@ -66,6 +82,7 @@ class TileAssembler {
     fun rgb(originX: Int, originZ: Int, source: Source, discovered: Discovered, brightness: Double, versionOut: LongArray? = null): ByteArray {
         val out = ByteArray(128 * 128)
         val main = Lookup(source)
+        val known = Known(discovered)
         val side = Lookup(source)
         var maxVersion = 0L
         val (gk0, gk1) = MapPalette.rgb555Pair(KNOWN_RGB)
@@ -76,7 +93,7 @@ class TileAssembler {
                 val wx = originX + b
                 val cx = wx shr 4
                 val cz = wz shr 4
-                if (!discovered.known(cx, cz)) continue
+                if (!known.at(cx, cz)) continue
                 val idx = r * 128 + b * 2
                 val s = main.at(cx, cz)
                 if (s == null) {
