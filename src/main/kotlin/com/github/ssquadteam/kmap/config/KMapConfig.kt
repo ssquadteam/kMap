@@ -85,9 +85,11 @@ class KMapConfig(val yaml: YamlConfiguration) {
         )
     }
 
-    val saveDiscovery = yaml.getBoolean("storage.save.discovery", false)
-    val saveMarkers = yaml.getBoolean("storage.save.markers", false)
-    val saveWorldColors = yaml.getBoolean("storage.save.worldColors", false)
+    val saveDiscovery = yaml.getBoolean("storage.save.discovery", true)
+    val saveMarkers = yaml.getBoolean("storage.save.markers", true)
+    val saveWorldColors = yaml.getBoolean("storage.save.worldColors", true)
+    val autosaveSeconds = yaml.getInt("storage.autosaveSeconds", 120).coerceIn(15, 3600)
+    val terrainMemoryChunks = yaml.getInt("storage.terrain.memoryChunks", 16000).coerceIn(1024, 1_000_000)
 
     val packSetOnJoin = yaml.getBoolean("resourcepack.setOnJoin", true)
     val packRequired = yaml.getBoolean("resourcepack.required", false)

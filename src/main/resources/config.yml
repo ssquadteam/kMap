@@ -77,9 +77,17 @@ binds:
 storage:
   type: "FILE"
   save:
-    discovery: false
-    markers: false
-    worldColors: false
+    # Explored areas (fog of war) per player and world.
+    discovery: true
+    # Player waypoints.
+    markers: true
+    # Map colours of explored chunks, so far areas show after restarts without loading them.
+    worldColors: true
+  # Seconds between background saves of explored areas and map colours.
+  autosaveSeconds: 120
+  terrain:
+    # Chunks of map colour kept in memory per world; older ones are dropped and read back from disk when needed.
+    memoryChunks: 16000
 
 resourcepack:
   setOnJoin: true

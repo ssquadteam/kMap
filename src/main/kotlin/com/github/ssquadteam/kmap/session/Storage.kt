@@ -1,12 +1,17 @@
 package com.github.ssquadteam.kmap.session
 
 import com.github.ssquadteam.kmap.KMapPlugin
+import com.github.ssquadteam.kmap.terrain.ChunkBitmap
 import org.bukkit.World
+import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.io.File
 import java.util.UUID
+import java.util.zip.Deflater
 import java.util.zip.DeflaterOutputStream
 import java.util.zip.InflaterInputStream
 
@@ -15,35 +20,36 @@ class Storage(private val plugin: KMapPlugin) {
 
     fun settingsFile(id: UUID) = File(root, "players/$id/settings.yml")
 
-    fun loadSettings(player: Player): PlayerSettings = PlayerSettings.load(settingsFile(player.uniqueId), plugin.cfg)
+    fun waypointsFile(id: UUID) = File(root, "players/$id/waypoints.yml")
+
+    fun loadSettings(player: Player): PlayerSettings {
+        val bytes = plugin.files.read(settingsFile(player.uniqueId)) ?: return PlayerSettings.defaults(plugin.cfg)
+        val y = YamlConfiguration()
+        return if (runCatching { y.loadFromString(bytes.toString(Charsets.UTF_8)) }.isSuccess) PlayerSettings.load(y, plugin.cfg) else PlayerSettings.defaults(plugin.cfg)
+    }
 
     fun saveSettings(player: Player, s: PlayerSettings) {
-        runCatching { s.save(settingsFile(player.uniqueId)) }
+        plugin.files.write(settingsFile(player.uniqueId), s.toYaml().saveToString().toByteArray(Charsets.UTF_8))
     }
 
-    private fun discoveryFile(id: UUID, world: World) = File(root, "players/$id/discovery/${world.name}.bin")
+    private fun discoveryFile(id: UUID, world: String) = File(root, "players/$id/discovery/$world.bin")
 
-    fun loadDiscovery(player: Player, world: World): Set<Long>? {
-        if (!plugin.cfg.saveDiscovery) return null
-        val f = discoveryFile(player.uniqueId, world)
-        if (!f.isFile) return null
-        return runCatching {
-            DataInputStream(InflaterInputStream(f.inputStream().buffered())).use { input ->
-                val n = input.readInt()
-                HashSet<Long>(n * 2).apply { repeat(n) { add(input.readLong()) } }
-            }
-        }.getOrNull()
-    }
-
-    fun saveDiscovery(id: UUID, world: World, keys: Collection<Long>) {
+    fun loadDiscovery(player: Player, world: World, into: ChunkBitmap) {
         if (!plugin.cfg.saveDiscovery) return
-        val f = discoveryFile(id, world)
-        f.parentFile.mkdirs()
-        runCatching {
-            DataOutputStream(DeflaterOutputStream(f.outputStream().buffered())).use { out ->
-                out.writeInt(keys.size)
-                for (k in keys) out.writeLong(k)
-            }
-        }
+        val bytes = plugin.files.read(discoveryFile(player.uniqueId, world.name)) ?: return
+        runCatching { DataInputStream(InflaterInputStream(ByteArrayInputStream(bytes))).use { into.read(it) } }
+    }
+
+    fun saveDiscovery(id: UUID, world: String, bits: ChunkBitmap) {
+        if (!plugin.cfg.saveDiscovery) return
+        val bos = ByteArrayOutputStream()
+        DataOutputStream(DeflaterOutputStream(bos, Deflater(Deflater.BEST_SPEED))).use { bits.write(it) }
+        plugin.files.write(discoveryFile(id, world), bos.toByteArray())
+    }
+
+    fun autosave(map: PlayerMap) {
+        val world = map.discoveryWorld() ?: return
+        if (!map.discoveryDirty()) return
+        saveDiscovery(map.player.uniqueId, world, map.discovered)
     }
 }

@@ -49,7 +49,10 @@ class KMapPlugin : JavaPlugin() {
         private set
     lateinit var areas: com.github.ssquadteam.kmap.world.AreaService
         private set
-    private lateinit var blocks: BlockChangeListener
+    lateinit var files: com.github.ssquadteam.kmap.storage.AsyncFiles
+        private set
+    lateinit var blocks: BlockChangeListener
+        private set
     private val tasks = ArrayList<ScheduledTask>()
 
     fun pluginFile(): File = file
@@ -60,6 +63,7 @@ class KMapPlugin : JavaPlugin() {
         getResource("kmap/map_palette.txt")!!.use { MapPalette.load(it) }
         com.github.ssquadteam.kmap.terrain.Colormaps.install(this)
         sampler = SurfaceSampler(getResource("kmap/block_colors.txt")!!.use { BlockColors(it) })
+        files = com.github.ssquadteam.kmap.storage.AsyncFiles(logger)
         storage = Storage(this)
         lang = com.github.ssquadteam.kmap.lang.Lang(this, cfg.language)
         lang.load()
@@ -79,12 +83,16 @@ class KMapPlugin : JavaPlugin() {
         blocks = BlockChangeListener(this)
         server.pluginManager.registerEvents(maps, this)
         server.pluginManager.registerEvents(blocks, this)
+        server.pluginManager.registerEvents(worlds, this)
         server.pluginManager.registerEvents(binds, this)
         server.pluginManager.registerEvents(screens, this)
         server.pluginManager.registerEvents(bakes, this)
         bakes.start()
         tasks += Bukkit.getGlobalRegionScheduler().runAtFixedRate(this, { worlds.pump() }, 1L, 1L)
         tasks += Bukkit.getGlobalRegionScheduler().runAtFixedRate(this, { blocks.flush() }, 20L, 20L)
+        tasks += Bukkit.getAsyncScheduler().runAtFixedRate(this, { worlds.evict() }, 30L, 30L, java.util.concurrent.TimeUnit.SECONDS)
+        val autosave = cfg.autosaveSeconds.toLong()
+        tasks += Bukkit.getAsyncScheduler().runAtFixedRate(this, { autosave() }, autosave, autosave, java.util.concurrent.TimeUnit.SECONDS)
         lifecycleManager.registerEventHandler(io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents.COMMANDS) { e ->
             e.registrar().register("kmap", listOf("kminimap"), com.github.ssquadteam.kmap.commands.KMapCommand(this))
             e.registrar().register("sens", listOf("sensitivity"), com.github.ssquadteam.kmap.commands.SensitivityCommand(this))
@@ -102,7 +110,15 @@ class KMapPlugin : JavaPlugin() {
     override fun onDisable() {
         tasks.forEach { it.cancel() }
         for (p in Bukkit.getOnlinePlayers()) maps.detach(p)
+        worlds.flush()
+        files.shutdown()
+        worlds.flushNow()
         packs.stop()
+    }
+
+    private fun autosave() {
+        for (m in maps.all()) storage.autosave(m)
+        worlds.flush()
     }
 
     fun reload() {

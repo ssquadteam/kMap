@@ -14,6 +14,7 @@ import com.github.ssquadteam.kmap.render.Codes
 import com.github.ssquadteam.kmap.render.Surface
 import com.github.ssquadteam.kmap.render.TileFrame
 import com.github.ssquadteam.kmap.screen.ScreenSession
+import com.github.ssquadteam.kmap.terrain.ChunkBitmap
 import com.github.ssquadteam.kmap.terrain.MapPalette
 import com.github.ssquadteam.kmap.terrain.TerrainCache
 import com.github.ssquadteam.kmap.terrain.TileAssembler
@@ -79,7 +80,11 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
     private val carriers = LinkedHashMap<String, Carrier>()
     private val tiles = HashMap<Long, TileSlot>()
     private val freeMapIds = ArrayDeque<Int>()
-    private val discovered = ConcurrentHashMap.newKeySet<Long>()
+    val discovered = ChunkBitmap()
+    @Volatile
+    private var discoveryWorld: String? = null
+    @Volatile
+    private var savedDiscoveryMod = 0L
     private var lastChunk = Long.MIN_VALUE
     private var lastBlock = Triple(Int.MIN_VALUE, 0, 0)
     private var ticks = 0
@@ -93,7 +98,7 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
     val hudMarkers = HudMarkers(plugin, this)
     val worldMarkers = WorldMarkers(plugin, this)
     private val markerOffset = (player.entityId and 0xFFFF)
-    val waypoints = WaypointStore(File(plugin.dataFolder, "data/players/${player.uniqueId}/waypoints.yml"), plugin.cfg.saveMarkers)
+    val waypoints = WaypointStore(plugin.storage.waypointsFile(player.uniqueId), plugin.cfg.saveMarkers, plugin.files)
 
     @Volatile
     var trackedPin: Int? = null
@@ -166,7 +171,9 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
         despawnAll()
         world = plugin.worlds.of(player.world)
         discovered.clear()
-        plugin.storage.loadDiscovery(player, player.world)?.let { discovered.addAll(it) }
+        plugin.storage.loadDiscovery(player, player.world, discovered)
+        discoveryWorld = player.world.name
+        savedDiscoveryMod = discovered.modCount
         lastChunk = Long.MIN_VALUE
         lastBlock = Triple(Int.MIN_VALUE, 0, 0)
         caveLayer = Int.MIN_VALUE
@@ -511,11 +518,18 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
     private fun discover(cx: Int, cz: Int) {
         val r = plugin.worldsConfig.entry(player.world.name)?.discoverRadiusChunks ?: plugin.cfg.discoverRadiusChunks
         for (dx in -r..r) for (dz in -r..r) {
-            if (dx * dx + dz * dz <= r * r + r) discovered.add(TerrainCache.key(cx + dx, cz + dz))
+            if (dx * dx + dz * dz <= r * r + r) discovered.add(cx + dx, cz + dz)
         }
     }
 
-    fun discoveredChunks(): Set<Long> = discovered
+    fun discoveryWorld(): String? = discoveryWorld
+
+    fun discoveryDirty(): Boolean {
+        val m = discovered.modCount
+        if (m == savedDiscoveryMod) return false
+        savedDiscoveryMod = m
+        return true
+    }
 
     private fun wantedLayer(by: Int): Int {
         val wm = world ?: return Int.MIN_VALUE
@@ -573,8 +587,7 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
         val sr = cfg.streamRadiusChunks.coerceAtMost(player.viewDistance + 1)
         for (dx in -sr..sr) for (dz in -sr..sr) {
             if (dx * dx + dz * dz > sr * sr + sr) continue
-            val k = TerrainCache.key(cx + dx, cz + dz)
-            if (!discovered.contains(k)) continue
+            if (!discovered.contains(cx + dx, cz + dz)) continue
             if (layer == Int.MIN_VALUE) {
                 cache.request(cx + dx, cz + dz)
             } else if (dx * dx + dz * dz <= cfg.caveComputeRadiusChunks * cfg.caveComputeRadiusChunks) {
@@ -634,7 +647,7 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
                 if (budget <= 0) continue
                 budget--
                 val source = if (layer == Int.MIN_VALUE) TileAssembler.Source { x, z -> cache.get(x, z) } else TileAssembler.Source { x, z -> cache.slice(x, z, layer) }
-                val known = TileAssembler.Discovered { x, z -> discovered.contains(TerrainCache.key(x, z)) }
+                val known = TileAssembler.Discovered { x, z -> discovered.contains(x, z) }
                 val data = if (kind == TileData.RGB) assembler.rgb(slot.originX, slot.originZ, source, known, wm.brightness) else assembler.palette(slot.originX, slot.originZ, source, known)
                 sendTile(slot, data, meta, latest)
             } else {
@@ -668,7 +681,7 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
                     val data = ByteArray(128 * 128)
                     for (r in 0 until 128) {
                         for (c in 0 until 128) {
-                            if (!discovered.contains(TerrainCache.key(ocx + c, ocz + r))) data[r * 128 + c] = MapPalette.UNKNOWN
+                            if (!discovered.contains(ocx + c, ocz + r)) data[r * 128 + c] = MapPalette.UNKNOWN
                         }
                     }
                     sendTile(slot, data, meta, version)
@@ -680,7 +693,8 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
     }
 
     private fun latestVersion(cache: TerrainCache, slot: TileSlot, layer: Int): Long {
-        var v = discovered.size.toLong() shl 40
+        var v = 0L
+        var known = 0L
         val wide = if (slot.kind == TileData.RGB) 64 else 128
         val cx0 = slot.originX shr 4
         val cx1 = (slot.originX + wide - 1) shr 4
@@ -688,11 +702,13 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
         val cz1 = (slot.originZ + 127) shr 4
         for (x in cx0 - 1..cx1) {
             for (z in cz0 - 1..cz1) {
+                val d = discovered.contains(x, z)
+                if (d) known++
                 val s = if (layer == Int.MIN_VALUE) cache.get(x, z) else cache.slice(x, z, layer)
-                if (s != null) v += s.version * 31 + x * 7 + z
+                if (s != null) v += s.version * 31 + x * 7 + z else if (d && layer == Int.MIN_VALUE) cache.request(x, z)
             }
         }
-        return v
+        return v + (known shl 40)
     }
 
     private fun tileRadiusBlocks(): Int {

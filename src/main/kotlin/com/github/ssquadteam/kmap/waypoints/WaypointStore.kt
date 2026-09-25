@@ -4,7 +4,7 @@ import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import java.util.UUID
 
-class WaypointStore(private val file: File, private val persist: Boolean) {
+class WaypointStore(private val file: File, private val persist: Boolean, private val files: com.github.ssquadteam.kmap.storage.AsyncFiles) {
     val all = ArrayList<Waypoint>()
 
     fun inWorld(world: String): List<Waypoint> = all.filter { it.world == world }
@@ -23,8 +23,10 @@ class WaypointStore(private val file: File, private val persist: Boolean) {
 
     fun load() {
         all.clear()
-        if (!persist || !file.isFile) return
-        val y = YamlConfiguration.loadConfiguration(file)
+        if (!persist) return
+        val bytes = files.read(file) ?: return
+        val y = YamlConfiguration()
+        if (runCatching { y.loadFromString(bytes.toString(Charsets.UTF_8)) }.isFailure) return
         for (m in y.getMapList("waypoints")) {
             runCatching {
                 all.add(
@@ -42,7 +44,6 @@ class WaypointStore(private val file: File, private val persist: Boolean) {
         if (!persist) return
         val y = YamlConfiguration()
         y.set("waypoints", all.map { mapOf("id" to it.id.toString(), "name" to it.name, "world" to it.world, "x" to it.x, "y" to it.y, "z" to it.z, "color" to it.color, "icon" to it.icon, "visible" to it.visible, "tracked" to it.tracked) })
-        file.parentFile.mkdirs()
-        runCatching { y.save(file) }
+        files.write(file, y.saveToString().toByteArray(Charsets.UTF_8))
     }
 }

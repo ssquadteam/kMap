@@ -98,6 +98,7 @@ command:
   registered_loaded: "World {0} registered. It bakes the next time it loads."
   unknown_world: "No world called {0}."
   rebake: "Rendering the map of {0} again..."
+  refresh: "Re-reading {0} explored chunks around you."
   locations_reloaded: "Reloaded {0} locations."
   locations_failed: "locations.yml did not parse, kept the old list. See the console."
   testperm: "{0} is now {1} for you."
@@ -114,7 +115,7 @@ command:
   area_too_big: "That would pass 16384 px of total picture."
   area_warn: "Past 8192 px only newer graphics hardware will show this map."
   map_ready: "Map of {0} is ready."
-  usage: "/kmap <toggle|module|shape|corner|zoom|reload|world-register|rebake|area|locations-reload|testperm|world|admin>"
+  usage: "/kmap <toggle|module|shape|corner|zoom|reload|world-register|refresh|rebake|area|locations-reload|testperm|world|admin>"
 module:
   minimap_only: "Nothing, minimap only"
   minimap_and_big: "Big map"

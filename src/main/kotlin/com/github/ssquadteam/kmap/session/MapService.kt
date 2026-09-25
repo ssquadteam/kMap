@@ -32,7 +32,7 @@ class MapService(private val plugin: KMapPlugin) : Listener {
         val s = sessions.remove(player.uniqueId) ?: return
         s.stop()
         plugin.storage.saveSettings(player, s.settings)
-        plugin.storage.saveDiscovery(player.uniqueId, player.world, s.discoveredChunks())
+        s.discoveryWorld()?.let { plugin.storage.saveDiscovery(player.uniqueId, it, s.discovered) }
         PacketInterceptor.eject(player)
     }
 
@@ -76,7 +76,7 @@ class MapService(private val plugin: KMapPlugin) : Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     fun onWorld(e: PlayerChangedWorldEvent) {
         val s = sessions[e.player.uniqueId] ?: return
-        plugin.storage.saveDiscovery(e.player.uniqueId, e.from, s.discoveredChunks())
+        s.discoveryWorld()?.let { plugin.storage.saveDiscovery(e.player.uniqueId, it, s.discovered) }
         if (s.active) e.player.scheduler.run(plugin, { s.enterWorld() }, null)
     }
 

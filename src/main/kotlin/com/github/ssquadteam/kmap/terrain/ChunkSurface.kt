@@ -12,6 +12,20 @@ class ChunkSurface(
     @Volatile
     var version: Long = 0
 
+    @Volatile
+    var lastAccess: Long = 0
+
+    var fromDisk = false
+
+    val hash: Int by lazy {
+        var h = heights.contentHashCode()
+        h = h * 31 + rgb.contentHashCode()
+        h = h * 31 + mapColor.contentHashCode()
+        h = h * 31 + water.contentHashCode()
+        h = h * 31 + waterRgb.contentHashCode()
+        if (h == 0) 1 else h
+    }
+
     companion object {
         fun empty(cx: Int, cz: Int) = ChunkSurface(cx, cz, ShortArray(256), IntArray(256), ByteArray(256), ByteArray(256), IntArray(256))
     }

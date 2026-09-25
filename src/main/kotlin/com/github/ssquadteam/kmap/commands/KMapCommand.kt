@@ -111,6 +111,22 @@ class KMapCommand(private val plugin: KMapPlugin) : BasicCommand {
                 plugin.worldsConfig.register(name, w, h, cx, cz, rot, tint)
                 if (world != null) msg(sender, "registered", name, w, h, cx, cz) else msg(sender, "registered_loaded", name)
             }
+            "refresh" -> {
+                if (!admin(sender)) return
+                val p = player ?: return msg(sender, "players_only")
+                val r = (args.getOrNull(1)?.toIntOrNull() ?: 8).coerceIn(1, 64)
+                val cache = plugin.worlds.of(p.world).cache
+                val cx = p.location.blockX shr 4
+                val cz = p.location.blockZ shr 4
+                var n = 0
+                for (dx in -r..r) for (dz in -r..r) {
+                    if (cache.known(cx + dx, cz + dz)) {
+                        cache.invalidate(cx + dx, cz + dz)
+                        n++
+                    }
+                }
+                msg(sender, "refresh", n)
+            }
             "rebake" -> {
                 if (!admin(sender)) return
                 val name = args.getOrNull(1) ?: player?.world?.name ?: return msg(sender, "usage")
@@ -163,7 +179,7 @@ class KMapCommand(private val plugin: KMapPlugin) : BasicCommand {
     override fun suggest(source: CommandSourceStack, args: Array<out String>): Collection<String> {
         val admin = source.sender.hasPermission(ADMIN)
         val subs = mutableListOf("toggle", "module", "shape", "corner", "zoom")
-        if (admin) subs += listOf("reload", "world-register", "rebake", "area", "locations-reload", "testperm", "world", "admin")
+        if (admin) subs += listOf("reload", "world-register", "refresh", "rebake", "area", "locations-reload", "testperm", "world", "admin")
         if (args.size <= 1) return subs.filter { it.startsWith(args.getOrNull(0)?.lowercase() ?: "") }
         val prefix = args.last().lowercase()
         val options = when (args[0].lowercase()) {

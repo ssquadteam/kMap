@@ -5,7 +5,6 @@ import com.github.ssquadteam.kmap.config.KMapConfig
 import com.github.ssquadteam.kmap.config.MapModule
 import com.github.ssquadteam.kmap.config.MinimapShape
 import org.bukkit.configuration.file.YamlConfiguration
-import java.io.File
 
 class PlayerSettings(
     var module: MapModule,
@@ -21,7 +20,7 @@ class PlayerSettings(
     var zoomTouched: Boolean,
     var cursor: Int,
 ) {
-    fun save(file: File) {
+    fun toYaml(): YamlConfiguration {
         val y = YamlConfiguration()
         y.set("module", module.name)
         y.set("shape", shape.name)
@@ -35,8 +34,7 @@ class PlayerSettings(
         y.set("screenZoom", screenZoom)
         y.set("zoomTouched", zoomTouched)
         y.set("cursor", cursor)
-        file.parentFile.mkdirs()
-        y.save(file)
+        return y
     }
 
     companion object {
@@ -44,10 +42,8 @@ class PlayerSettings(
 
         fun defaults(cfg: KMapConfig) = PlayerSettings(cfg.defaultModule, cfg.defaultShape, cfg.defaultCorner, 3, cfg.coordinatesEnabled, true, true, true, cfg.defaultSensitivity, 6, false, 0)
 
-        fun load(file: File, cfg: KMapConfig): PlayerSettings {
+        fun load(y: YamlConfiguration, cfg: KMapConfig): PlayerSettings {
             val d = defaults(cfg)
-            if (!file.isFile) return d
-            val y = YamlConfiguration.loadConfiguration(file)
             return PlayerSettings(
                 MapModule.parse(y.getString("module")) ?: d.module,
                 runCatching { MinimapShape.valueOf(y.getString("shape")!!) }.getOrDefault(d.shape),

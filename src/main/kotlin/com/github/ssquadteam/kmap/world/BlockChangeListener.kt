@@ -29,6 +29,8 @@ class BlockChangeListener(private val plugin: KMapPlugin) : Listener {
         dirty.computeIfAbsent(b.world) { ConcurrentHashMap.newKeySet() }.add((b.x shr 4).toLong() shl 32 or ((b.z shr 4).toLong() and 0xFFFFFFFFL))
     }
 
+    fun consume(world: World, cx: Int, cz: Int): Boolean = dirty[world]?.remove((cx.toLong() shl 32) or (cz.toLong() and 0xFFFFFFFFL)) == true
+
     fun flush() {
         for ((world, set) in dirty) {
             val it = set.iterator()
@@ -54,4 +56,22 @@ class BlockChangeListener(private val plugin: KMapPlugin) : Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true) fun tree(e: StructureGrowEvent) = e.blocks.forEach { mark(it.block) }
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true) fun boom(e: EntityExplodeEvent) = e.blockList().forEach { mark(it) }
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true) fun boom2(e: BlockExplodeEvent) = e.blockList().forEach { mark(it) }
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true) fun entity(e: org.bukkit.event.entity.EntityChangeBlockEvent) = mark(e.block)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true) fun pistonOut(e: org.bukkit.event.block.BlockPistonExtendEvent) = piston(e.block, e.blocks, e.direction)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true) fun pistonIn(e: org.bukkit.event.block.BlockPistonRetractEvent) = piston(e.block, e.blocks, e.direction)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true) fun sponge(e: org.bukkit.event.block.SpongeAbsorbEvent) { mark(e.block); e.blocks.forEach { mark(it.block) } }
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true) fun fertilize(e: org.bukkit.event.block.BlockFertilizeEvent) = e.blocks.forEach { mark(it.block) }
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true) fun fluid(e: org.bukkit.event.block.FluidLevelChangeEvent) = mark(e.block)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true) fun moisture(e: org.bukkit.event.block.MoistureChangeEvent) = mark(e.block)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true) fun dispense(e: org.bukkit.event.block.BlockDispenseEvent) = mark(e.block.getRelative((e.block.blockData as? org.bukkit.block.data.Directional)?.facing ?: org.bukkit.block.BlockFace.SELF))
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true) fun destroy(e: com.destroystokyo.paper.event.block.BlockDestroyEvent) = mark(e.block)
+
+    private fun piston(base: Block, moved: List<Block>, dir: org.bukkit.block.BlockFace) {
+        mark(base)
+        mark(base.getRelative(dir))
+        for (b in moved) {
+            mark(b)
+            mark(b.getRelative(dir))
+        }
+    }
 }
