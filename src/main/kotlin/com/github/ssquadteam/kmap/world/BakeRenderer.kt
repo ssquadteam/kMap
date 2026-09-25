@@ -1,6 +1,7 @@
 package com.github.ssquadteam.kmap.world
 
 import com.github.ssquadteam.kmap.config.BakeSource
+import com.github.ssquadteam.kmap.terrain.Shading
 import com.github.ssquadteam.kmap.terrain.TileData
 import java.awt.image.BufferedImage
 import kotlin.math.floor
@@ -91,33 +92,22 @@ object BakeRenderer {
                 }
                 val hh = grid.heights[i]
                 val depth = grid.water[i].toInt()
-                val hn = h(grid, x, z - 1, hh)
-                val hs = h(grid, x, z + 1, hh)
-                val hw = h(grid, x - 1, z, hh)
-                val he = h(grid, x + 1, z, hh)
-                val base = TileData.mix(grid.rgb[i], blurred[i], 0.55)
+                val base = TileData.mix(grid.rgb[i], blurred[i], 0.35)
                 if (depth > 0) {
-                    val floorShade = TileData.shadeRgb(base, 0.9)
-                    val water = grid.waterRgb[i]
-                    val t = (0.35 + depth * 0.055).coerceAtMost(0.92)
-                    var c = TileData.mix(floorShade, water, t)
-                    c = TileData.shadeRgb(c, (1.08 - depth * 0.018).coerceIn(0.62, 1.08))
-                    val shore = listOf(hn, hs, hw, he).any { it > hh }
-                    out[i] = if (shore && depth <= 1) TileData.mix(c, 0xE8E0C0, 0.25) else c
+                    val shore = dry(grid, x, z - 1) || dry(grid, x - 1, z) || dry(grid, x + 1, z) || dry(grid, x, z + 1)
+                    out[i] = Shading.water(base, grid.waterRgb[i], depth, shore, brightness)
                     continue
                 }
-                val dx = (he - hw) * 0.5
-                val dz = (hs - hn) * 0.5
-                var light = 1.0 + (-dx * 0.7 - dz * 0.7) * 0.11
-                light = light.coerceIn(0.62, 1.32)
-                var c = TileData.shadeRgb(base, light * brightness)
-                val step = max(max(hn, hs), max(hw, he)) - hh
-                if (step >= 2) c = TileData.shadeRgb(c, 0.78)
-                if (floor(hh / 12.0) != floor(hn / 12.0) || floor(hh / 12.0) != floor(hw / 12.0)) c = TileData.shadeRgb(c, 0.93)
-                out[i] = c
+                out[i] = Shading.land(base, hh, h(grid, x, z - 1, hh), h(grid, x - 1, z, hh), h(grid, x - 1, z - 1, hh), h(grid, x - 2, z - 2, hh), brightness)
             }
         }
         return out
+    }
+
+    private fun dry(grid: BakeGrid, x: Int, z: Int): Boolean {
+        if (x < 0 || z < 0 || x >= grid.width || z >= grid.height) return false
+        val i = z * grid.width + x
+        return grid.has(i) && grid.water[i].toInt() == 0
     }
 
     fun sprite(pixels: IntArray, w: Int, h: Int, originX: Int, originZ: Int, blocksPerPx: Double): BufferedImage {

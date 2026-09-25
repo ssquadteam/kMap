@@ -3,35 +3,28 @@
 language: "en"
 
 render:
-  # Render mode for worlds without an entry in worlds.yml that are small enough to bake.
-  mode: "WORLD_VIEW"
   # What the toggle key opens for a new player: MINIMAP_ONLY, MINIMAP_AND_BIG, MINIMAP_AND_SCREEN, BIG_MAP_ONLY, SCREEN_MAP_ONLY
-  defaultModule: "MINIMAP_AND_BIG"
+  defaultModule: "MINIMAP_AND_SCREEN"
   defaultMinimapShape: "SQUARE"
   defaultMinimapPlacement: "TOP_LEFT"
   coordinatesEnabled: true
   openMapOnJoin: true
   joinOpenDelayTicks: 20
-  screenMapGlideTicks: 2
   screenPanRadiusBlocks: 768
   largeWorldThreshold: 8192
   # Unregistered worlds stream as this mode.
   largeWorldMode: "DEEP_EXPLORER"
-  rgbTextured: false
+  # Full-colour streamed maps: biome tints, block texture tones, shadows, contour lines and water depth.
+  # false uses the 62 vanilla map colours instead (half the map tiles per player, flatter look).
+  rgbTextured: true
   discoverRadiusChunks: 6
   tilesPerFlush: 4
   flushIntervalTicks: 2
-  prewarmRadiusChunks: 3
   streamRadiusChunks: 10
   minimapSizePx: 64
   minimapBlocks: 88
   bigMapSizePx: 300
   bigMapBlocks: 360
-  tabMap:
-    enabled: true
-    widthPx: 300
-    heightPx: 170
-    updateTicks: 10
   cave:
     layerHeight: 8
     computeRadiusChunks: 6
@@ -57,7 +50,6 @@ markers:
     mobImage: "mob_yellow.png"
 
 guis:
-  admin: true
   settings: true
   faq: true
   waypoints: true
@@ -65,7 +57,6 @@ guis:
   search: true
   zoomButtons: true
   resetView: true
-  fonts: true
 
 binds:
   enabled: true
@@ -106,9 +97,13 @@ resourcepack:
     external:
       url: ""
   merge:
-    # NONE | AUTO | NEXO. NEXO hands the base pack to Nexo so players download one pack.
-    target: "NONE"
+    # AUTO hands the kMap pack to Nexo, ItemsAdder or Oraxen (the first one installed) so players download one pack.
+    # NONE | AUTO | NEXO | ITEMSADDER | ORAXEN
+    target: "AUTO"
+    # Extra packs (zip files or folders inside plugins/kMap) merged into the kMap pack.
     packs: []
+    # Put baked world maps inside the main pack instead of sending them as separate packs.
+    bakes: true
 
 debug:
   logs: false

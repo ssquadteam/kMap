@@ -144,7 +144,7 @@ bool kmSurfaceVisible(int surface, int band) {
     if (surface == 1) return band == 1;
     if (surface == 2 || surface == 3) return band >= 2;
     if (surface == 4) return band == 2;
-    if (surface == 5 || surface == 6) return band <= 1;
+    if (surface == 5) return band <= 1;
     return true;
 }
 
@@ -225,11 +225,6 @@ void kmClassA(int surface, float localX, float localY, int param, int band) {
         origin = area.xy;
         kmClipKind = 1;
         kmClip = area;
-    } else if (surface == 6) {
-        area = KM_TAB_RECT;
-        origin = area.xy;
-        kmClipKind = 1;
-        kmClip = area;
     }
     kmQuad = kmCornerUnit(corner);
     vertexColor = vec4(1.0);
@@ -305,8 +300,8 @@ void kmClassA(int surface, float localX, float localY, int param, int band) {
             int panZ = c & 16383;
             int zoomIdx = (c >> 14) & 15;
             int fx = (c >> 18) & 3;
-            float scale = (surface == 6 ? exp2(float(zoomIdx) * 0.5 - 6.0) : KM_SCREEN_ZOOMS[clamp(zoomIdx, 0, 11)]) * blocksPerPx;
-            vec2 tlCanvas = vec2(origin.x + localX - 1.0, (surface == 6 ? area.y + area.w * 0.5 : KM_CANVAS_H * 0.5) - float(panZ) * scale);
+            float scale = KM_SCREEN_ZOOMS[clamp(zoomIdx, 0, 11)] * blocksPerPx;
+            vec2 tlCanvas = vec2(localX - 1.0, KM_CANVAS_H * 0.5 - float(panZ) * scale);
             canvas = tlCanvas + u * imgSize * scale;
             if (fx == 1) {
                 canvas += kmCursorPos(kmSens(param)) - vec2(KM_CANVAS_W, KM_CANVAS_H) * 0.5;
@@ -350,7 +345,7 @@ void kmClassA(int surface, float localX, float localY, int param, int band) {
         vec2 canvasMin = kmScreenToCanvas(vec2(0.0));
         vec2 canvasMax = kmScreenToCanvas(ScreenSize);
         vec2 canvas = mix(canvasMin, canvasMax, u);
-        if (surface <= 1 || surface == 6) {
+        if (surface <= 1) {
             canvas = area.xy + u * area.zw;
         }
         texCoord0 = UV0;
@@ -551,13 +546,6 @@ void main() {
     if (band == 3) {
         gl_Position = vec4(2.0, 2.0, 2.0, 1.0);
         vertexColor = vec4(0.0);
-        return;
-    }
-    if (Position.x < KM_TAB_SHIFT * 0.5) {
-        float guiW = 2.0 / ProjMat[0][0];
-        float localX = Position.x - KM_TAB_SHIFT - guiW * 0.5 + 1.0;
-        float localY = Position.y - KM_TAB_TOP;
-        kmClassA(6, localX, localY, 0, band);
         return;
     }
 #endif

@@ -2710,11 +2710,254 @@
   },
   {
    "type": "bitmap",
+   "file": "kmap:ui/topbar_l.png",
+   "height": 13,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/topbar_m.png",
+   "height": 13,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/topbar_r.png",
+   "height": 13,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/topbar_search.png",
+   "height": 13,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/topbar_search_on.png",
+   "height": 13,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/sfield_l.png",
+   "height": 16,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/sfield_m.png",
+   "height": 16,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/sfield_r.png",
+   "height": 16,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/win3_top.png",
+   "height": 19,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/win3_mid.png",
+   "height": 1,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/win3_bot.png",
+   "height": 6,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/rcard.png",
+   "height": 28,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/rcard_hover.png",
+   "height": 28,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/arrow_up.png",
+   "height": 7,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/arrow_up_on.png",
+   "height": 7,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/arrow_down.png",
+   "height": 7,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/arrow_down_on.png",
+   "height": 7,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/ribbon2_l.png",
+   "height": 9,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/ribbon2_m.png",
+   "height": 9,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/ribbon2_r.png",
+   "height": 9,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/ping_0.png",
+   "height": 21,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/ping_1.png",
+   "height": 21,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/wp_glow.png",
+   "height": 19,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/zoom_plus.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/zoom_plus_on.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/zoom_minus.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
+   "file": "kmap:ui/zoom_minus_on.png",
+   "height": 14,
+   "ascent": 0,
+   "chars": [
+    ""
+   ]
+  },
+  {
+   "type": "bitmap",
    "file": "kmap:ui/big_corner.png",
    "height": 4,
    "ascent": 0,
    "chars": [
-    ""
+    ""
    ]
   }
  ]

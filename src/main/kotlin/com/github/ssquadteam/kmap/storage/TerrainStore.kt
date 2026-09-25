@@ -145,10 +145,12 @@ class TerrainStore(private val dir: File, private val files: AsyncFiles, private
     }
 
     private fun encodeChunk(s: ChunkSurface): ByteArray {
+        val rgb = s.rgb.isNotEmpty()
         var waterCols = 0
-        for (i in 0 until 256) if (s.water[i].toInt() != 0) waterCols++
-        val out = ByteArray(256 * 2 + 256 + 256 + 256 * 3 + waterCols * 3)
+        if (rgb) for (i in 0 until 256) if (s.water[i].toInt() != 0) waterCols++
+        val out = ByteArray(1 + 256 * 2 + 256 + 256 + (if (rgb) 256 * 3 else 0) + waterCols * 3)
         var p = 0
+        out[p++] = if (rgb) 1 else 0
         for (i in 0 until 256) {
             val h = s.heights[i].toInt()
             out[p++] = (h shr 8).toByte()
@@ -158,6 +160,7 @@ class TerrainStore(private val dir: File, private val files: AsyncFiles, private
         p += 256
         System.arraycopy(s.water, 0, out, p, 256)
         p += 256
+        if (!rgb) return out
         for (i in 0 until 256) {
             val c = s.rgb[i]
             out[p++] = (c shr 16).toByte()
@@ -175,8 +178,9 @@ class TerrainStore(private val dir: File, private val files: AsyncFiles, private
     }
 
     private fun decodeChunk(cx: Int, cz: Int, b: ByteArray): ChunkSurface {
-        val s = ChunkSurface.empty(cx, cz)
-        var p = 0
+        val rgb = b[0].toInt() == 1
+        val s = ChunkSurface.empty(cx, cz, rgb)
+        var p = 1
         for (i in 0 until 256) {
             s.heights[i] = (((b[p].toInt() and 255) shl 8) or (b[p + 1].toInt() and 255)).toShort()
             p += 2
@@ -185,6 +189,10 @@ class TerrainStore(private val dir: File, private val files: AsyncFiles, private
         p += 256
         System.arraycopy(b, p, s.water, 0, 256)
         p += 256
+        if (!rgb) {
+            s.fromDisk = true
+            return s
+        }
         for (i in 0 until 256) {
             s.rgb[i] = ((b[p].toInt() and 255) shl 16) or ((b[p + 1].toInt() and 255) shl 8) or (b[p + 2].toInt() and 255)
             p += 3
@@ -202,6 +210,6 @@ class TerrainStore(private val dir: File, private val files: AsyncFiles, private
         private const val INDEX_MAGIC = 0x4B4D4931
         private const val REGION_MAGIC = 0x4B4D5431
         private const val REGION_CACHE = 12
-        const val FORMAT = 1
+        const val FORMAT = 3
     }
 }

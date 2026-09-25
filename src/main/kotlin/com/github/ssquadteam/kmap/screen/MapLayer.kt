@@ -83,6 +83,15 @@ object MapLayer {
                 c.glyph(g, (px - g.width / 2.0).roundToInt().toDouble(), y, Codes.glyph(y, Tint.NONE, 1, fx))
             }
         }
+        s.ping?.let { (tx, tz) ->
+            val px = s.canvasX(tx) + offX
+            val py = s.canvasY(tz) + offY
+            if (visible(px, py)) {
+                val g = glyphs[if ((s.ticks / 5) % 2 == 0) "ping_0" else "ping_1"]
+                val y = (py - g.height / 2.0).roundToInt()
+                c.glyph(g, (px - g.width / 2.0).roundToInt().toDouble(), y, Codes.glyph(y, Tint.NONE, 3, fx))
+            }
+        }
         val ax = s.canvasX(p.location.x) + offX
         val ay = s.canvasY(p.location.z) + offY
         if (visible(ax, ay)) {
@@ -104,6 +113,11 @@ object MapLayer {
 
     fun waypoint(c: Canvas, w: Waypoint, px: Double, py: Double, fx: Fx, s: ScreenSession) {
         val glyphs = c.glyphs
+        if (s.hoveredWaypoint == w.id) {
+            val glow = glyphs["wp_glow"]
+            val gy = (py - glow.height / 2.0).roundToInt()
+            c.glyph(glow, (px - glow.width / 2.0).roundToInt().toDouble(), gy, Codes.glyph(gy, Tint.NONE, 1, fx))
+        }
         val sq = glyphs["mark_square"]
         val x = (px - sq.width / 2.0).roundToInt().toDouble()
         val y = (py - sq.height / 2.0).roundToInt()

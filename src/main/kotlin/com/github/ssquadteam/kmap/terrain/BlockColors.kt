@@ -5,7 +5,7 @@ import net.minecraft.world.level.block.Block
 import java.io.InputStream
 import java.util.IdentityHashMap
 
-class BlockColor(val rgb: Int, val tint: Char)
+class BlockColor(val rgb: Int, val dark: Int, val light: Int, val tint: Char)
 
 class BlockColors(input: InputStream) {
     private val byName = HashMap<String, BlockColor>()
@@ -14,7 +14,9 @@ class BlockColors(input: InputStream) {
     init {
         input.bufferedReader().forEachLine { line ->
             val p = line.trim().split(' ')
-            if (p.size == 5) byName[p[0]] = BlockColor((p[1].toInt() shl 16) or (p[2].toInt() shl 8) or p[3].toInt(), p[4][0])
+            if (p.size != 11) return@forEachLine
+            fun rgb(o: Int) = (p[o].toInt() shl 16) or (p[o + 1].toInt() shl 8) or p[o + 2].toInt()
+            byName[p[0]] = BlockColor(rgb(1), rgb(4), rgb(7), p[10][0])
         }
     }
 

@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
+import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.inventory.EquipmentSlot
@@ -44,7 +45,7 @@ class BindService(private val plugin: KMapPlugin) : Listener {
         val map = plugin.maps.of(p) ?: return
         p.scheduler.run(plugin, {
             val open = p.openInventory
-            if (open.topInventory.type != org.bukkit.event.inventory.InventoryType.CRAFTING) p.closeInventory()
+            if (open.topInventory.type != InventoryType.CRAFTING) p.closeInventory()
             if (!map.active) map.start()
             map.toggle()
         }, null)

@@ -27,6 +27,9 @@ class ChunkSurface(
     }
 
     companion object {
-        fun empty(cx: Int, cz: Int) = ChunkSurface(cx, cz, ShortArray(256), IntArray(256), ByteArray(256), ByteArray(256), IntArray(256))
+        private val NO_RGB = IntArray(0)
+
+        fun empty(cx: Int, cz: Int, rgb: Boolean = true) =
+            ChunkSurface(cx, cz, ShortArray(256), if (rgb) IntArray(256) else NO_RGB, ByteArray(256), ByteArray(256), if (rgb) IntArray(256) else NO_RGB)
     }
 }

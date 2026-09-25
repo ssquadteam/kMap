@@ -4,13 +4,17 @@ import com.github.ssquadteam.kmap.KMapPlugin
 import com.github.ssquadteam.kmap.nms.EntityDataKeys
 import com.github.ssquadteam.kmap.nms.FakeIds
 import com.github.ssquadteam.kmap.nms.Packets
+import com.github.ssquadteam.kmap.pack.ShaderDefines
 import com.github.ssquadteam.kmap.render.Canvas
 import com.github.ssquadteam.kmap.render.Codes
+import com.github.ssquadteam.kmap.render.Glyphs
 import com.github.ssquadteam.kmap.render.Tint
 import com.github.ssquadteam.kmap.render.WorldIcon
 import com.github.ssquadteam.kmap.session.PlayerMap
 import com.github.ssquadteam.kmap.waypoints.Waypoint
 import io.papermc.paper.adventure.PaperAdventure
+import java.util.Locale
+import kotlin.math.sqrt
 import net.kyori.adventure.text.Component
 import net.minecraft.network.protocol.Packet
 import net.minecraft.network.protocol.game.ClientGamePacketListener
@@ -19,7 +23,6 @@ import org.joml.Quaternionf
 import org.joml.Quaternionfc
 import org.joml.Vector3f
 import org.joml.Vector3fc
-import kotlin.math.sqrt
 
 class WorldMarkers(private val plugin: KMapPlugin, private val map: PlayerMap) {
     private class Beam(val id: Int, var x: Double, var y: Double, var z: Double)
@@ -73,7 +76,7 @@ class WorldMarkers(private val plugin: KMapPlugin, private val map: PlayerMap) {
             val px = loc.x + dx * k
             val pz = loc.z + dz * k
             val lift = (loc.y + dy * k - top).toFloat()
-            val distText = if (d < 1000) String.format(java.util.Locale.ROOT, "%.1fm", d) else String.format(java.util.Locale.ROOT, "%.1fkm", d / 1000)
+            val distText = if (d < 1000) String.format(Locale.ROOT, "%.1fm", d) else String.format(Locale.ROOT, "%.1fkm", d / 1000)
             val m = markers[t.key]
             if (m == null) {
                 val icon = WorldIcon(0.001f, 2)
@@ -120,7 +123,7 @@ class WorldMarkers(private val plugin: KMapPlugin, private val map: PlayerMap) {
         )
     }
 
-    private fun label(t: Target, dist: String, glyphs: com.github.ssquadteam.kmap.render.Glyphs): Component {
+    private fun label(t: Target, dist: String, glyphs: Glyphs): Component {
         val c = Canvas(glyphs)
         val iconName = t.icon?.let { plugin.pins.iconGlyphName(it, glyphs)?.let { n -> glyphs.find(n + "_w")?.name ?: n } }
         if (iconName != null && glyphs.find(iconName)?.let { true } == true && iconName.endsWith("_w")) {
@@ -134,8 +137,8 @@ class WorldMarkers(private val plugin: KMapPlugin, private val map: PlayerMap) {
         return c.build()
     }
 
-    private fun row(c: Canvas, glyphs: com.github.ssquadteam.kmap.render.Glyphs, text: String, row: Int, tint: Tint) {
-        val w = com.github.ssquadteam.kmap.pack.ShaderDefines.WCELL_W
+    private fun row(c: Canvas, glyphs: Glyphs, text: String, row: Int, tint: Tint) {
+        val w = ShaderDefines.WCELL_W
         val chars = text.take(24)
         val start = -(chars.length * w) / 2
         for ((i, ch) in chars.withIndex()) {

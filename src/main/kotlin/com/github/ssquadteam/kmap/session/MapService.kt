@@ -45,18 +45,18 @@ class MapService(private val plugin: KMapPlugin) : Listener {
     fun onJoin(e: PlayerJoinEvent) {
         val p = e.player
         attach(p)
-        if (plugin.cfg.packSetOnJoin && !plugin.packs.mergedIntoNexo) {
+        if (plugin.cfg.packSetOnJoin && !plugin.packs.mergedIntoPlugin) {
             p.scheduler.runDelayed(plugin, { plugin.packs.send(p) }, null, plugin.cfg.packJoinDelayTicks.toLong().coerceAtLeast(1))
         }
         if (plugin.cfg.openMapOnJoin) {
-            val fallback = if (plugin.cfg.packSetOnJoin && !plugin.packs.mergedIntoNexo) 200L else plugin.cfg.joinOpenDelayTicks.toLong().coerceAtLeast(1)
+            val fallback = if (plugin.cfg.packSetOnJoin && !plugin.packs.mergedIntoPlugin) 200L else plugin.cfg.joinOpenDelayTicks.toLong().coerceAtLeast(1)
             p.scheduler.runDelayed(plugin, { sessions[p.uniqueId]?.start() }, null, fallback)
         }
     }
 
     @EventHandler
     fun onPack(e: PlayerResourcePackStatusEvent) {
-        if (e.id != plugin.packs.baseId && !plugin.packs.mergedIntoNexo) return
+        if (e.id != plugin.packs.baseId && !plugin.packs.mergedIntoPlugin) return
         if (e.status == PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED) {
             plugin.packs.markLoaded(e.player, true)
             if (plugin.cfg.openMapOnJoin) {
@@ -70,6 +70,7 @@ class MapService(private val plugin: KMapPlugin) : Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     fun onQuit(e: PlayerQuitEvent) {
         plugin.packs.markLoaded(e.player, false)
+        plugin.areas.forget(e.player)
         detach(e.player)
     }
 

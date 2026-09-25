@@ -58,8 +58,13 @@ class WorldIcon(private val scale: Float, private val glide: Int) {
         )
     }
 
-    fun move(x: Double, y: Double, z: Double): Packet<in ClientGamePacketListener>? {
+    fun move(x: Double, y: Double, z: Double, minStep: Double = 0.0): Packet<in ClientGamePacketListener>? {
         if (x == this.x && y == this.y && z == this.z) return null
+        if (minStep > 0.0 && y == this.y) {
+            val dx = x - this.x
+            val dz = z - this.z
+            if (dx * dx + dz * dz < minStep * minStep) return null
+        }
         this.x = x
         this.y = y
         this.z = z

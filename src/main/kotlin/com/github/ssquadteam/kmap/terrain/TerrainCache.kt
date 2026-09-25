@@ -25,6 +25,25 @@ class TerrainCache(
     private val sliceQueue = ConcurrentLinkedQueue<Pair<Long, Int>>()
     private val slicePending = ConcurrentHashMap.newKeySet<Pair<Long, Int>>()
     private val clock = AtomicLong()
+    private val tileMods = ConcurrentHashMap<Long, Long>()
+
+    fun tileMod(wide: Int, tx: Int, tz: Int): Long = tileMods[modKey(wide, tx, tz)] ?: 0L
+
+    private fun modKey(wide: Int, tx: Int, tz: Int): Long = key(tx * 2 + (if (wide == 64) 1 else 0), tz)
+
+    private fun bump(cx: Int, cz: Int) {
+        val x0 = (cx shl 4) - 1
+        val z0 = (cz shl 4) - 1
+        val x1 = x0 + 19
+        val z1 = z0 + 19
+        for (tz in Math.floorDiv(z0 - TileData.STRIDE_Z, TileData.STRIDE_Z)..Math.floorDiv(z1, TileData.STRIDE_Z)) {
+            val top = tz * TileData.STRIDE_Z
+            if (top + 127 < z0 || top > z1) continue
+            for (wide in WIDTHS) {
+                for (tx in Math.floorDiv(x0, wide)..Math.floorDiv(x1, wide)) tileMods.merge(modKey(wide, tx, tz), 1L, Long::plus)
+            }
+        }
+    }
 
     fun get(cx: Int, cz: Int): ChunkSurface? = surfaces[key(cx, cz)]?.also { it.lastAccess = now }
 
@@ -58,7 +77,9 @@ class TerrainCache(
     }
 
     fun onChunkLoad(cx: Int, cz: Int) {
-        if (surfaces[key(cx, cz)]?.fromDisk == true) invalidate(cx, cz)
+        val k = key(cx, cz)
+        misses.remove(k)
+        if (surfaces[k]?.fromDisk == true) invalidate(cx, cz)
     }
 
     fun sampleNow(chunk: LevelChunk) {
@@ -71,13 +92,14 @@ class TerrainCache(
         val k = key(surface.cx, surface.cz)
         surfaces[k] = surface
         misses.remove(k)
+        bump(surface.cx, surface.cz)
         if (store != null && store.hashOf(surface.cx, surface.cz) != surface.hash) store.mark(surface)
     }
 
     private fun putFromDisk(surface: ChunkSurface) {
         surface.version = clock.incrementAndGet()
         surface.lastAccess = now
-        surfaces.putIfAbsent(key(surface.cx, surface.cz), surface)
+        if (surfaces.putIfAbsent(key(surface.cx, surface.cz), surface) == null) bump(surface.cx, surface.cz)
     }
 
     fun pump(budget: Int, sliceBudget: Int, sliceHeight: Int) {
@@ -120,11 +142,12 @@ class TerrainCache(
                     if (chunk != null) {
                         val base = options()
                         val top = (index + 1) * sliceHeight - 1
-                        val opt = SampleOptions(null, base.skipDecoration, base.skipBlocks, base.biomeTint, top, top - sliceHeight * 4)
+                        val opt = SampleOptions(null, base.skipDecoration, base.skipBlocks, base.biomeTint, top, top - sliceHeight * 4, base.rgb)
                         val surface = sampler.sample(chunk, opt)
                         surface.version = clock.incrementAndGet()
                         surface.lastAccess = now
                         slices.computeIfAbsent(p.first) { ConcurrentHashMap() }[index] = surface
+                        bump(cx, cz)
                     }
                 } finally {
                     slicePending.remove(p)
@@ -151,7 +174,8 @@ class TerrainCache(
     companion object {
         @Volatile
         var now = 0L
-        private const val MISS_TICKS = 200L
+        private const val MISS_TICKS = 60L
+        private val WIDTHS = intArrayOf(64, 128)
         private const val SLICE_IDLE_TICKS = 2400L
 
         fun key(cx: Int, cz: Int): Long = (cx.toLong() shl 32) or (cz.toLong() and 0xFFFFFFFFL)

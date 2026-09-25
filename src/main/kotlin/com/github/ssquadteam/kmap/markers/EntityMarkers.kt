@@ -5,6 +5,7 @@ import com.github.ssquadteam.kmap.nms.Packets
 import com.github.ssquadteam.kmap.render.Canvas
 import com.github.ssquadteam.kmap.render.Codes
 import com.github.ssquadteam.kmap.render.WorldIcon
+import net.kyori.adventure.text.Component
 import net.minecraft.network.protocol.Packet
 import net.minecraft.network.protocol.game.ClientGamePacketListener
 import net.minecraft.world.entity.Mob
@@ -14,6 +15,10 @@ import org.bukkit.craftbukkit.entity.CraftPlayer
 import org.bukkit.entity.Player
 
 class EntityMarkers(private val plugin: KMapPlugin, private val player: Player) {
+    companion object {
+        private const val MIN_STEP = 0.35
+    }
+
     private class Tracked(val icon: WorldIcon, val isPlayer: Boolean)
 
     private val tracked = HashMap<Int, Tracked>()
@@ -56,7 +61,7 @@ class EntityMarkers(private val plugin: KMapPlugin, private val player: Player) 
                 out.addAll(icon.spawnPackets(e.x, y, e.z, text(isPlayer, miniParam, showOnBig)))
                 tracked[e.id] = Tracked(icon, isPlayer)
             } else {
-                existing.icon.move(e.x, y, e.z)?.let { out.add(it) }
+                existing.icon.move(e.x, y, e.z, MIN_STEP)?.let { out.add(it) }
                 if (paramChanged) existing.icon.setText(text(isPlayer, miniParam, showOnBig))?.let { out.add(it) }
             }
         }
@@ -66,7 +71,19 @@ class EntityMarkers(private val plugin: KMapPlugin, private val player: Player) 
         }
     }
 
-    private fun text(isPlayer: Boolean, miniParam: Int, showOnBig: Boolean): net.kyori.adventure.text.Component {
+    private fun text(isPlayer: Boolean, miniParam: Int, showOnBig: Boolean): Component {
+        val k = (miniParam shl 2) or (if (isPlayer) 2 else 0) or (if (showOnBig) 1 else 0)
+        if (textKey[k and 3] == k) textCache[k and 3]?.let { return it }
+        return build(isPlayer, miniParam, showOnBig).also {
+            textKey[k and 3] = k
+            textCache[k and 3] = it
+        }
+    }
+
+    private val textKey = IntArray(4) { -1 }
+    private val textCache = arrayOfNulls<Component>(4)
+
+    private fun build(isPlayer: Boolean, miniParam: Int, showOnBig: Boolean): Component {
         val glyphs = plugin.packs.glyphs
         val name = if (isPlayer) (glyphs.find("user_icons_" + plugin.cfg.entities.playerImage.substringBeforeLast('.'))?.name ?: "mark_player") else (glyphs.find("user_icons_" + plugin.cfg.entities.mobImage.substringBeforeLast('.'))?.name ?: "mark_mob")
         val size = plugin.cfg.entities.sizePx - if (isPlayer) 0 else 1

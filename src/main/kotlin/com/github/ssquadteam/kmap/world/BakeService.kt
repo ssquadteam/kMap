@@ -7,15 +7,7 @@ import com.github.ssquadteam.kmap.config.WorldEntry
 import com.github.ssquadteam.kmap.pack.PackBuilder
 import com.github.ssquadteam.kmap.session.PlayerMap
 import com.github.ssquadteam.kmap.terrain.SampleOptions
-import net.kyori.adventure.text.Component
-import org.bukkit.Bukkit
-import org.bukkit.World
-import org.bukkit.command.CommandSender
-import org.bukkit.configuration.file.YamlConfiguration
-import org.bukkit.craftbukkit.CraftWorld
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.world.WorldLoadEvent
+import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.UUID
@@ -23,6 +15,17 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Semaphore
 import javax.imageio.ImageIO
+import net.kyori.adventure.text.Component
+import org.bukkit.Bukkit
+import org.bukkit.World
+import org.bukkit.WorldCreator
+import org.bukkit.command.CommandSender
+import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.craftbukkit.CraftWorld
+import org.bukkit.entity.Player
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+import org.bukkit.event.world.WorldLoadEvent
 
 class BakeService(private val plugin: KMapPlugin) : Listener {
     private val running = ConcurrentHashMap.newKeySet<String>()
@@ -57,7 +60,7 @@ class BakeService(private val plugin: KMapPlugin) : Listener {
                 plugin.logger.warning("World '${entry.name}' is not loaded and Folia cannot load worlds at runtime; load it with your world setup instead")
                 continue
             }
-            Bukkit.getGlobalRegionScheduler().execute(plugin) { runCatching { org.bukkit.WorldCreator(entry.name).createWorld() } }
+            Bukkit.getGlobalRegionScheduler().execute(plugin) { runCatching { WorldCreator(entry.name).createWorld() } }
         }
     }
 
@@ -130,7 +133,7 @@ class BakeService(private val plugin: KMapPlugin) : Listener {
                 rebuildPack(world.name)
                 val secs = (System.currentTimeMillis() - started) / 1000
                 plugin.logger.info("Map of '${world.name}' is READY - ${results.sumOf { it.widthPx }}x${results.maxOfOrNull { it.heightPx } ?: 0} px in ${secs}s (cached to data/bakes/).")
-                sender?.sendMessage(Component.text(plugin.lang.get(sender as? org.bukkit.entity.Player, "command.map_ready", world.name)))
+                sender?.sendMessage(Component.text(plugin.lang.get(sender as? Player, "command.map_ready", world.name)))
                 for (m in plugin.maps.all()) {
                     if (m.player.world == world) m.player.scheduler.run(plugin, { m.enterWorld() }, null)
                 }
@@ -274,5 +277,5 @@ class BakeService(private val plugin: KMapPlugin) : Listener {
     }
 
     @Suppress("unused")
-    private fun png(img: java.awt.image.BufferedImage): ByteArray = ByteArrayOutputStream().also { ImageIO.write(img, "png", it) }.toByteArray()
+    private fun png(img: BufferedImage): ByteArray = ByteArrayOutputStream().also { ImageIO.write(img, "png", it) }.toByteArray()
 }

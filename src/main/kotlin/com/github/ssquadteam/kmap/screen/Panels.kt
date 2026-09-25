@@ -2,10 +2,14 @@ package com.github.ssquadteam.kmap.screen
 
 import com.github.ssquadteam.kmap.config.Corner
 import com.github.ssquadteam.kmap.config.MinimapShape
+import com.github.ssquadteam.kmap.render.Codes
 import com.github.ssquadteam.kmap.render.Fx
 import com.github.ssquadteam.kmap.render.Tint
+import com.github.ssquadteam.kmap.session.PlayerSettings
 import com.github.ssquadteam.kmap.waypoints.Waypoint
+import java.util.Locale
 import java.util.UUID
+import net.kyori.adventure.text.Component
 
 object Win {
     const val W = 228
@@ -18,9 +22,10 @@ object Win {
     const val FAQ_X = 192.0
     const val FAQ_Y = 64
     val LIST_CLIP = doubleArrayOf(LIST_X + 11, LIST_Y + 35.0, 206.0, 146.0)
-    const val SEARCH_X = 217.0
-    const val SEARCH_Y = 14
-    val SEARCH_CLIP = doubleArrayOf(SEARCH_X + 4, SEARCH_Y + 38.0, 198.0, 132.0)
+    const val SEARCH_X = 204.0
+    const val SEARCH_Y = 21
+    const val SEARCH_W = 232
+    val SEARCH_CLIP = doubleArrayOf(SEARCH_X + 6, SEARCH_Y + 36.0, 220.0, 146.0)
 }
 
 fun header(s: ScreenSession, ui: Ui, bg: String, icon: String, title: String, chip: String?, x: Double, y: Int, width: Int) {
@@ -289,21 +294,21 @@ class SettingsPanel : Panel {
         ui.glyph("cbtn_parch_13", X + 122, Y + 105, Tint.NONE, 2, Fx.HOVER)
         ui.centered(ui.glyphs.bold, X + 128.5, Y + 106, "-", Tint.INK, 3)
         ui.hit(X + 122, Y + 105.0, 13.0, 13.0, "sens:-", { st.sensitivity = (st.sensitivity - 0.1).coerceIn(1.0, 3.0); s.map.onSettingsChanged() })
-        ui.centered(ui.glyphs.bold, X + 152, Y + 106, String.format(java.util.Locale.ROOT, "%.1fx", st.sensitivity), Tint.INK, 2)
+        ui.centered(ui.glyphs.bold, X + 152, Y + 106, String.format(Locale.ROOT, "%.1fx", st.sensitivity), Tint.INK, 2)
         ui.glyph("cbtn_parch_13", X + 169, Y + 105, Tint.NONE, 2, Fx.HOVER)
         ui.centered(ui.glyphs.bold, X + 175.5, Y + 106, "+", Tint.INK, 3)
         ui.hit(X + 169, Y + 105.0, 13.0, 13.0, "sens:+", { st.sensitivity = (st.sensitivity + 0.1).coerceIn(1.0, 3.0); s.map.onSettingsChanged() })
         ui.text(ui.glyphs.small, X + 122, Y + 126, lang.get(p, "settings.module").uppercase(), Tint.INK_SOFT, 2)
         ui.text(ui.glyphs.small, X + 122, Y + 136, lang.get(p, "module." + st.module.name.lowercase()).uppercase(), Tint.INK, 2, max = 92.0)
         ui.tag(X + 14, Y + 166, lang.get(p, "settings.cursor").uppercase())
-        for (i in 0 until com.github.ssquadteam.kmap.session.PlayerSettings.CURSORS) {
+        for (i in 0 until PlayerSettings.CURSORS) {
             val tx = X + 72 + i * 18
             ui.glyph(if (st.cursor == i) "tile_18_on" else "tile_18", tx, Y + 163, Tint.NONE, 1, Fx.HOVER)
             ui.glyph("cursor_$i", tx + 5, Y + 165, Tint.NONE, 2)
             ui.hit(tx, Y + 163.0, 18.0, 18.0, "cursor:$i", { st.cursor = i; s.map.onSettingsChanged() })
         }
         ui.cbutton("parch", 56, X + 12, Y + 195, lang.get(p, "settings.reset").uppercase(), "reset") {
-            val d = com.github.ssquadteam.kmap.session.PlayerSettings.defaults(s.cfg)
+            val d = PlayerSettings.defaults(s.cfg)
             st.shape = d.shape
             st.corner = d.corner
             st.coords = d.coords
@@ -363,58 +368,84 @@ class SearchPanel : Panel {
         val lang = s.plugin.lang
         val X = Win.SEARCH_X
         val Y = Win.SEARCH_Y
-        ui.glyph("search_bar", X + 3, Y, Tint.NONE, 1)
-        ui.glyph("icon_magnifier", X + 8, Y + 4, Tint.NONE, 2)
+        val W = Win.SEARCH_W
+        ui.threeSlice("sfield", X, Y, W, Tint.NONE, 1)
+        ui.glyph("icon_magnifier", X + 6, Y + 4, Tint.NONE, 2)
         val shown = s.textField?.value ?: query
         if (shown.isEmpty()) {
-            ui.text(ui.glyphs.text, X + 20, Y + 3, lang.get(p, "search.placeholder"), Tint.MUTED, 2)
+            ui.text(ui.glyphs.text, X + 18, Y + 4, lang.get(p, "search.placeholder"), Tint.MUTED, 2)
         } else {
-            val w = ui.text(ui.glyphs.text, X + 20, Y + 3, shown, Tint.CREAM, 2, max = 150.0)
-            if (s.textField != null) ui.text(ui.glyphs.text, X + 21 + w, Y + 3, "_", Tint.GOLD, 2)
+            val w = ui.text(ui.glyphs.text, X + 18, Y + 4, shown, Tint.CREAM, 2, max = 170.0)
+            if (s.textField != null && (s.ticks / 10) % 2 == 0) ui.text(ui.glyphs.text, X + 19 + w, Y + 4, "_", Tint.GOLD, 2)
         }
-        ui.hit(X + 3, Y.toDouble(), 168.0, 17.0, "search_field", { focus(s) })
-        ui.keycap(X + 180, Y + 3, "ESC")
-        ui.glyph("close_small", X + 191, Y + 4, Tint.NONE, 2, Fx.HOVER)
-        ui.hit(X + 191, Y + 4.0, 10.0, 10.0, "search_close", { s.setPanel(null) })
+        ui.hit(X, Y.toDouble(), W - 36.0, 16.0, "search_field", { focus(s) })
+        ui.keycap(X + W - 36, Y + 2, "ESC")
+        ui.glyph("close_small", X + W - 15, Y + 3, Tint.NONE, 2, Fx.HOVER)
+        ui.hit(X + W - 15, Y + 3.0, 10.0, 10.0, "search_close", { s.setPanel(null) })
+
         val results = s.plugin.locations.search(p, p.world.name, shown)
-        val RY = Y + 20
-        ui.glyph("win2_results", X, RY, Tint.NONE, 0)
-        ui.text(ui.glyphs.small, X + 8, RY + 6, lang.get(p, "search.results").uppercase(), Tint.CREAM, 2)
+        val ry = Y + 18
+        val rows = results.size.coerceIn(1, 5)
+        val bodyH = rows * 29 + 1
+        ui.glyph("win3_top", X, ry, Tint.NONE, 0)
+        val mid = ui.glyphs["win3_mid"]
+        for (i in 0 until bodyH) ui.canvas.glyph(mid, X, ry + 19 + i, Codes.glyph(ry + 19 + i, Tint.NONE, 0))
+        ui.glyph("win3_bot", X, ry + 19 + bodyH, Tint.NONE, 0)
+        ui.text(ui.glyphs.small, X + 8, ry + 5, lang.get(p, "search.results").uppercase(), Tint.CREAM, 2)
         val found = lang.get(p, "search.found", results.size).uppercase()
-        val fw = ui.glyphs.small.width(found)
-        ui.text(ui.glyphs.small, X + 198 - fw, RY + 6, found, Tint.GOLD, 2)
-        val rowH = 28
-        val maxScroll = ((results.size - 4) * rowH).coerceAtLeast(0)
+        ui.text(ui.glyphs.small, X + W - 34 - ui.glyphs.small.width(found), ry + 5, found, Tint.GOLD, 2)
+        val rowH = 29
+        val visible = 5
+        val maxScroll = (results.size - visible).coerceAtLeast(0)
         scroll = scroll.coerceIn(0, maxScroll)
-        if (results.isEmpty()) ui.centered(ui.glyphs.text, X + 103, RY + 70, lang.get(p, "search.none"), Tint.INK_SOFT, 2)
-        for ((i, l) in results.withIndex()) {
-            val ry = RY + 22 + i * rowH - scroll
-            if (ry < RY + 22 - rowH || ry > RY + 150) continue
+        if (maxScroll > 0) {
+            arrow(ui, "up", X + W - 29, ry + 4) { scroll = (scroll - 1).coerceAtLeast(0) }
+            arrow(ui, "down", X + W - 19, ry + 4) { scroll = (scroll + 1).coerceAtMost(maxScroll) }
+        }
+        if (results.isEmpty()) ui.centered(ui.glyphs.text, X + W / 2.0, ry + 29, lang.get(p, "search.none"), Tint.INK_SOFT, 2)
+        val here = p.location
+        for (row in 0 until visible) {
+            val l = results.getOrNull(scroll + row) ?: break
+            val cy = ry + 19 + row * rowH
+            val cx = X + 10
             val id = "result:${l.index}"
-            ui.glyph(if (ui.isHovered(id)) "card_res_hover" else "card_res", X + 10, ry, Tint.NONE, 1, Fx.CLIP_B)
+            ui.glyph(if (ui.isHovered(id)) "rcard_hover" else "rcard", cx, cy, Tint.NONE, 1)
             val icon = l.icon?.let { s.plugin.pins.iconGlyphName(it, ui.glyphs) } ?: "loc_waypoint"
             val ig = ui.glyphs[icon]
-            ui.glyph(icon, X + 16 + (16 - ig.width) / 2, ry + 5, Tint.NONE, 2, Fx.CLIP_B)
+            ui.glyph(icon, cx + 4 + (18 - ig.width) / 2, cy + (28 - ig.height) / 2, Tint.NONE, 2)
             val nameTint = l.nameColor?.let { Tint.nearest(it) } ?: Tint.INK
-            val nw = ui.text(ui.glyphs.bold, X + 38, ry + 1, l.name, nameTint, 2, Fx.CLIP_B, 96.0)
+            val nw = ui.text(ui.glyphs.bold, cx + 27, cy + 2, l.name, nameTint, 2, max = 110.0)
             if (l.tag != null) {
-                val tt = l.tagColor?.let { Tint.nearest(it) } ?: Tint.RED
-                val tagX = X + 41 + nw
                 val font = ui.glyphs.small
-                val w = font.width(l.tag.uppercase()).toInt() + 5
-                ui.threeSlice("pill", tagX, ry + 2, w, tt, 2, Fx.CLIP_B)
-                ui.text(font, tagX + 2, ry + 3, l.tag.uppercase(), Tint.CREAM, 3, Fx.CLIP_B)
+                val label = l.tag.uppercase()
+                val tw = font.width(label).toInt() + 8
+                val tx = cx + 30 + nw
+                val tint = l.tagColor?.let { Tint.nearest(it) }
+                if (tint == null) ui.threeSlice("ribbon2", tx, cy + 2, tw, Tint.NONE, 2) else ui.threeSlice("pill", tx, cy + 3, tw, tint, 2)
+                ui.text(font, tx + 4, cy + 3, label, Tint.CREAM, 3)
             }
-            val coords = "${l.x.toInt()}, " + (l.y?.let { "${it.toInt()}, " } ?: "") + "${l.z.toInt()}"
-            ui.text(ui.glyphs.small, X + 38, ry + 11, coords, Tint.INK_SOFT, 2, Fx.CLIP_B)
-            if (l.description != null) ui.text(ui.glyphs.small, X + 38, ry + 18, l.description, l.descColor?.let { Tint.nearest(it) } ?: Tint.MUTED, 2, Fx.CLIP_B, 144.0)
-            ui.glyph("icon_chevron", X + 186, ry + 9, Tint.NONE, 2, Fx.CLIP_B)
-            ui.hit(X + 10, ry.toDouble(), 186.0, 26.0, id, {
+            val coords = "X ${l.x.toInt()}  " + (l.y?.let { "Y ${it.toInt()}  " } ?: "") + "Z ${l.z.toInt()}"
+            ui.text(ui.glyphs.small, cx + 27, cy + 12, coords, Tint.INK_SOFT, 2)
+            if (l.world == null || l.world == p.world.name) {
+                val dist = distance(Math.hypot(l.x - here.x, l.z - here.z))
+                ui.text(ui.glyphs.small, cx + 196 - ui.glyphs.small.width(dist), cy + 12, dist, Tint.INK, 2)
+            }
+            if (l.description != null) ui.text(ui.glyphs.small, cx + 27, cy + 19, l.description, l.descColor?.let { Tint.nearest(it) } ?: Tint.MUTED, 2, max = 170.0)
+            ui.hit(cx, cy.toDouble(), 212.0, 28.0, id, {
                 s.flyTo(l.x, l.z)
-                s.player.sendActionBar(net.kyori.adventure.text.Component.text(s.plugin.lang.get(s.player, "search.moved", l.name, l.x.toInt(), l.y?.toInt() ?: "?", l.z.toInt())))
+                s.player.sendActionBar(Component.text(lang.get(p, "search.moved", l.name, l.x.toInt(), l.y?.toInt() ?: "?", l.z.toInt())))
                 s.setPanel(null)
             })
         }
-        ui.hit(X + 4, RY + 20.0, 198.0, 132.0, "results", null, { d -> scroll = (scroll + d * rowH).coerceIn(0, maxScroll) })
+        ui.hit(X + 6, ry + 18.0, 220.0, bodyH.toDouble(), "results", null, { d -> scroll = (scroll + d).coerceIn(0, maxScroll) })
     }
+
+    private fun arrow(ui: Ui, dir: String, x: Double, y: Int, action: () -> Unit) {
+        val id = "search_$dir"
+        ui.glyph(if (ui.isHovered(id)) "arrow_${dir}_on" else "arrow_$dir", x, y, Tint.NONE, 2)
+        ui.hit(x, y.toDouble(), 9.0, 7.0, id, action)
+    }
+
+    private fun distance(blocks: Double): String =
+        if (blocks < 1000) "${blocks.toInt()}M" else String.format(Locale.ROOT, "%.1fKM", blocks / 1000)
 }

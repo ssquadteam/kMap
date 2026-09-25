@@ -4,16 +4,17 @@ import com.github.ssquadteam.kmap.KMapPlugin
 import com.github.ssquadteam.kmap.config.HostingMode
 import com.github.ssquadteam.kmap.config.MergeTarget
 import com.github.ssquadteam.kmap.render.Glyphs
-import net.kyori.adventure.resource.ResourcePackInfo
-import net.kyori.adventure.resource.ResourcePackRequest
-import net.kyori.adventure.text.Component
-import org.bukkit.Bukkit
-import org.bukkit.entity.Player
+import com.google.gson.JsonPrimitive
 import java.io.File
 import java.net.URI
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import java.util.zip.ZipFile
+import net.kyori.adventure.resource.ResourcePackInfo
+import net.kyori.adventure.resource.ResourcePackRequest
+import net.kyori.adventure.text.Component
+import org.bukkit.Bukkit
+import org.bukkit.entity.Player
 
 class PackService(private val plugin: KMapPlugin) {
     private var host: PackHost? = null
@@ -24,8 +25,9 @@ class PackService(private val plugin: KMapPlugin) {
     lateinit var glyphs: Glyphs
         private set
     private val loaded = ConcurrentHashMap.newKeySet<UUID>()
-    var mergedIntoNexo = false
+    var merger: PackMerger? = null
         private set
+    val mergedIntoPlugin: Boolean get() = merger != null
     private var clips: List<DoubleArray> = emptyList()
 
     fun setClips(value: List<DoubleArray>) {
@@ -83,7 +85,7 @@ class PackService(private val plugin: KMapPlugin) {
 
         builder.putText(
             "pack.mcmeta",
-            "{\"pack\":{\"description\":${com.google.gson.JsonPrimitive(cfg.packDescription)},\"min_format\":88,\"max_format\":88}}",
+            "{\"pack\":{\"description\":${JsonPrimitive(cfg.packDescription)},\"min_format\":88,\"max_format\":88}}",
         )
         for (entry in cfg.mergePacks) mergeExternal(builder, File(plugin.dataFolder, entry))
         if (cfg.mergeBakes) plugin.bakes.allBakeFiles(builder)
@@ -107,11 +109,40 @@ class PackService(private val plugin: KMapPlugin) {
             HostingMode.EXTERNAL -> cfg.externalUrl.ifBlank { null }
             HostingMode.NONE -> null
         }
-        mergedIntoNexo = false
-        if (cfg.mergeTarget != MergeTarget.NONE && Bukkit.getPluginManager().isPluginEnabled("Nexo")) {
-            mergedIntoNexo = NexoHook.install(plugin, out)
+        merger = pickMerger()?.takeIf { it.install(out, built.sha1Hex) }
+        plugin.logger.info("Resource pack ${built.sha1Hex} (${built.bytes.size / 1024} KB)" + (merger?.let { ", merged into ${it.pluginName}" } ?: ""))
+        if (merger == null) hostingNotice(out)
+    }
+
+    private fun pickMerger(): PackMerger? {
+        val pm = Bukkit.getPluginManager()
+        fun nexo() = if (pm.isPluginEnabled("Nexo")) NexoPackMerger(plugin) else null
+        fun itemsAdder() = if (pm.isPluginEnabled("ItemsAdder")) FolderPackMerger.itemsAdder(plugin) else null
+        fun oraxen() = if (pm.isPluginEnabled("Oraxen")) FolderPackMerger.oraxen(plugin) else null
+        return when (plugin.cfg.mergeTarget) {
+            MergeTarget.NONE -> null
+            MergeTarget.NEXO -> nexo()
+            MergeTarget.ITEMSADDER -> itemsAdder()
+            MergeTarget.ORAXEN -> oraxen()
+            MergeTarget.AUTO -> nexo() ?: itemsAdder() ?: oraxen()
         }
-        plugin.logger.info("Resource pack ${built.sha1Hex} (${built.bytes.size / 1024} KB)" + if (mergedIntoNexo) ", merged into Nexo" else "")
+    }
+
+    private fun hostingNotice(zip: File) {
+        val cfg = plugin.cfg
+        val log = plugin.logger
+        when {
+            cfg.hostingMode == HostingMode.NONE || (cfg.hostingMode == HostingMode.EXTERNAL && cfg.externalUrl.isBlank()) -> {
+                log.warning("No Nexo, ItemsAdder or Oraxen found and no pack hosting is set up, so players will not get the kMap resource pack.")
+                log.warning("Upload ${zip.path} to a resource pack host (for example mc-packs.net or your own web server),")
+                log.warning("then set resourcepack.hosting.mode to EXTERNAL and resourcepack.hosting.external.url to the direct download link in config.yml.")
+                log.warning("Or set resourcepack.hosting.mode to SELF_HOST to let kMap serve the pack on port ${cfg.selfHostPort}.")
+            }
+            cfg.hostingMode == HostingMode.SELF_HOST && baseUrl?.contains("127.0.0.1") == true -> {
+                log.warning("kMap is serving its pack at $baseUrl, which only this machine can reach.")
+                log.warning("Set resourcepack.hosting.selfHost.publicAddress to your public IP or domain so players can download it.")
+            }
+        }
     }
 
     private fun mergeExternal(builder: PackBuilder, file: File) {
@@ -137,18 +168,15 @@ class PackService(private val plugin: KMapPlugin) {
         Bukkit.getGlobalRegionScheduler().runDelayed(plugin, {
             rebuildQueued = false
             rebuild()
-            if (mergedIntoNexo) {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "nexo reload pack")
-            } else {
-                for (p in Bukkit.getOnlinePlayers()) send(p)
-            }
+            val m = merger
+            if (m != null) m.reload() else for (p in Bukkit.getOnlinePlayers()) send(p)
         }, 40L)
     }
 
     fun send(player: Player) {
         val built = base ?: return
         val url = baseUrl ?: return
-        if (mergedIntoNexo) return
+        if (merger != null) return
         val info = ResourcePackInfo.resourcePackInfo(baseId, URI.create(url), built.sha1Hex)
         player.sendResourcePacks(
             ResourcePackRequest.resourcePackRequest()

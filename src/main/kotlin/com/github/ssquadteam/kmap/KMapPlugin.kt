@@ -1,22 +1,37 @@
 package com.github.ssquadteam.kmap
 
+import com.github.ssquadteam.kmap.binds.BindService
+import com.github.ssquadteam.kmap.commands.KMapCommand
+import com.github.ssquadteam.kmap.commands.SensitivityCommand
 import com.github.ssquadteam.kmap.config.KMapConfig
 import com.github.ssquadteam.kmap.config.WorldsConfig
+import com.github.ssquadteam.kmap.lang.Lang
+import com.github.ssquadteam.kmap.locations.LocationService
+import com.github.ssquadteam.kmap.locations.PinService
 import com.github.ssquadteam.kmap.pack.PackService
+import com.github.ssquadteam.kmap.screen.ScreenService
+import com.github.ssquadteam.kmap.screen.TextInput
+import com.github.ssquadteam.kmap.screen.Win
 import com.github.ssquadteam.kmap.session.MapService
 import com.github.ssquadteam.kmap.session.Storage
+import com.github.ssquadteam.kmap.storage.AsyncFiles
 import com.github.ssquadteam.kmap.terrain.BlockColors
+import com.github.ssquadteam.kmap.terrain.Colormaps
 import com.github.ssquadteam.kmap.terrain.MapPalette
 import com.github.ssquadteam.kmap.terrain.SurfaceSampler
+import com.github.ssquadteam.kmap.world.AreaService
+import com.github.ssquadteam.kmap.world.BakeService
 import com.github.ssquadteam.kmap.world.BlockChangeListener
 import com.github.ssquadteam.kmap.world.WorldMaps
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask
+import java.awt.image.BufferedImage
+import java.io.File
+import java.util.concurrent.TimeUnit
+import javax.imageio.ImageIO
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
-import java.awt.image.BufferedImage
-import java.io.File
-import javax.imageio.ImageIO
 
 class KMapPlugin : JavaPlugin() {
     lateinit var cfg: KMapConfig
@@ -33,23 +48,23 @@ class KMapPlugin : JavaPlugin() {
         private set
     lateinit var sampler: SurfaceSampler
         private set
-    lateinit var lang: com.github.ssquadteam.kmap.lang.Lang
+    lateinit var lang: Lang
         private set
-    lateinit var locations: com.github.ssquadteam.kmap.locations.LocationService
+    lateinit var locations: LocationService
         private set
-    lateinit var pins: com.github.ssquadteam.kmap.locations.PinService
+    lateinit var pins: PinService
         private set
-    lateinit var textInput: com.github.ssquadteam.kmap.screen.TextInput
+    lateinit var textInput: TextInput
         private set
-    lateinit var binds: com.github.ssquadteam.kmap.binds.BindService
+    lateinit var binds: BindService
         private set
-    lateinit var screens: com.github.ssquadteam.kmap.screen.ScreenService
+    lateinit var screens: ScreenService
         private set
-    lateinit var bakes: com.github.ssquadteam.kmap.world.BakeService
+    lateinit var bakes: BakeService
         private set
-    lateinit var areas: com.github.ssquadteam.kmap.world.AreaService
+    lateinit var areas: AreaService
         private set
-    lateinit var files: com.github.ssquadteam.kmap.storage.AsyncFiles
+    lateinit var files: AsyncFiles
         private set
     lateinit var blocks: BlockChangeListener
         private set
@@ -61,23 +76,23 @@ class KMapPlugin : JavaPlugin() {
         saveDefaultConfig()
         loadConfigs()
         getResource("kmap/map_palette.txt")!!.use { MapPalette.load(it) }
-        com.github.ssquadteam.kmap.terrain.Colormaps.install(this)
+        Colormaps.install(this)
         sampler = SurfaceSampler(getResource("kmap/block_colors.txt")!!.use { BlockColors(it) })
-        files = com.github.ssquadteam.kmap.storage.AsyncFiles(logger)
+        files = AsyncFiles(logger)
         storage = Storage(this)
-        lang = com.github.ssquadteam.kmap.lang.Lang(this, cfg.language)
+        lang = Lang(this, cfg.language)
         lang.load()
-        locations = com.github.ssquadteam.kmap.locations.LocationService(File(dataFolder, "locations.yml")) { logger.warning(it) }
+        locations = LocationService(File(dataFolder, "locations.yml")) { logger.warning(it) }
         locations.load()
-        pins = com.github.ssquadteam.kmap.locations.PinService(this)
-        textInput = com.github.ssquadteam.kmap.screen.TextInput(this)
-        binds = com.github.ssquadteam.kmap.binds.BindService(this)
-        screens = com.github.ssquadteam.kmap.screen.ScreenService(this)
-        bakes = com.github.ssquadteam.kmap.world.BakeService(this)
-        areas = com.github.ssquadteam.kmap.world.AreaService(this)
+        pins = PinService(this)
+        textInput = TextInput(this)
+        binds = BindService(this)
+        screens = ScreenService(this)
+        bakes = BakeService(this)
+        areas = AreaService(this)
         worlds = WorldMaps(this)
         packs = PackService(this)
-        packs.setClips(listOf(com.github.ssquadteam.kmap.screen.Win.LIST_CLIP, com.github.ssquadteam.kmap.screen.Win.SEARCH_CLIP))
+        packs.setClips(listOf(Win.LIST_CLIP, Win.SEARCH_CLIP))
         packs.start()
         maps = MapService(this)
         blocks = BlockChangeListener(this)
@@ -90,12 +105,12 @@ class KMapPlugin : JavaPlugin() {
         bakes.start()
         tasks += Bukkit.getGlobalRegionScheduler().runAtFixedRate(this, { worlds.pump() }, 1L, 1L)
         tasks += Bukkit.getGlobalRegionScheduler().runAtFixedRate(this, { blocks.flush() }, 20L, 20L)
-        tasks += Bukkit.getAsyncScheduler().runAtFixedRate(this, { worlds.evict() }, 30L, 30L, java.util.concurrent.TimeUnit.SECONDS)
+        tasks += Bukkit.getAsyncScheduler().runAtFixedRate(this, { worlds.evict() }, 30L, 30L, TimeUnit.SECONDS)
         val autosave = cfg.autosaveSeconds.toLong()
-        tasks += Bukkit.getAsyncScheduler().runAtFixedRate(this, { autosave() }, autosave, autosave, java.util.concurrent.TimeUnit.SECONDS)
-        lifecycleManager.registerEventHandler(io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents.COMMANDS) { e ->
-            e.registrar().register("kmap", listOf("kminimap"), com.github.ssquadteam.kmap.commands.KMapCommand(this))
-            e.registrar().register("sens", listOf("sensitivity"), com.github.ssquadteam.kmap.commands.SensitivityCommand(this))
+        tasks += Bukkit.getAsyncScheduler().runAtFixedRate(this, { autosave() }, autosave, autosave, TimeUnit.SECONDS)
+        lifecycleManager.registerEventHandler(LifecycleEvents.COMMANDS) { e ->
+            e.registrar().register("kmap", listOf("kminimap"), KMapCommand(this))
+            e.registrar().register("sens", listOf("sensitivity"), SensitivityCommand(this))
             for (c in binds.commandBinds()) {
                 val parts = c.split(' ')
                 if (parts.size == 1) runCatching { e.registrar().register(parts[0], binds.commandExecutor()) }
@@ -123,7 +138,7 @@ class KMapPlugin : JavaPlugin() {
 
     fun reload() {
         loadConfigs()
-        lang = com.github.ssquadteam.kmap.lang.Lang(this, cfg.language)
+        lang = Lang(this, cfg.language)
         lang.load()
         locations.load()
         packs.rebuild()

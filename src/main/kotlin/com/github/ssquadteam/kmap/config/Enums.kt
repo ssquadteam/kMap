@@ -48,7 +48,7 @@ enum class Corner { TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT }
 
 enum class HostingMode { SELF_HOST, EXTERNAL, NONE }
 
-enum class MergeTarget { NONE, AUTO, NEXO }
+enum class MergeTarget { NONE, AUTO, NEXO, ITEMSADDER, ORAXEN }
 
 enum class PinLabel { HOVER, ALWAYS, NEVER }
 

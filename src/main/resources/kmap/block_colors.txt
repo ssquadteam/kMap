@@ -1,1195 +1,1195 @@
-acacia_button 168 90 50 -
-acacia_door 167 95 60 -
-acacia_fence 168 90 50 -
-acacia_fence_gate 168 90 50 -
-acacia_hanging_sign 154 87 62 -
-acacia_leaves 149 148 148 F
-acacia_log 150 88 55 -
-acacia_planks 168 90 50 -
-acacia_pressure_plate 168 90 50 -
-acacia_sapling 118 117 23 -
-acacia_shelf 156 85 53 -
-acacia_sign 157 89 54 -
-acacia_slab 168 90 50 -
-acacia_stairs 168 90 50 -
-acacia_trapdoor 156 87 51 -
-acacia_wall_hanging_sign 154 87 62 -
-acacia_wall_sign 157 89 54 -
-acacia_wood 103 96 86 -
-activator_rail 115 87 74 -
-allium 158 137 183 -
-amethyst_block 133 97 191 -
-amethyst_cluster 163 126 207 -
-ancient_debris 94 66 58 -
-andesite 136 136 136 -
-andesite_slab 136 136 136 -
-andesite_stairs 136 136 136 -
-andesite_wall 136 136 136 -
-anvil 72 72 72 -
-attached_melon_stem 153 153 153 F
-attached_pumpkin_stem 154 154 154 F
-azalea 101 124 47 -
-azalea_leaves 90 114 44 -
-azure_bluet 169 204 127 -
-bamboo 93 144 19 -
-bamboo_block 139 141 62 -
-bamboo_button 193 173 80 -
-bamboo_door 191 171 81 -
-bamboo_fence 206 186 89 -
-bamboo_fence_gate 206 185 86 -
-bamboo_hanging_sign 179 163 85 -
-bamboo_mosaic 190 170 78 -
-bamboo_mosaic_slab 190 170 78 -
-bamboo_mosaic_stairs 190 170 78 -
-bamboo_planks 193 173 80 -
-bamboo_pressure_plate 193 173 80 -
-bamboo_sapling 92 89 35 -
-bamboo_shelf 182 164 75 -
-bamboo_sign 208 187 88 -
-bamboo_slab 193 173 80 -
-bamboo_stairs 193 173 80 -
-bamboo_trapdoor 198 179 85 -
-bamboo_wall_hanging_sign 179 163 85 -
-bamboo_wall_sign 208 187 88 -
-barrel 134 100 58 -
-barrier 212 0 0 -
-basalt 80 81 86 -
-beacon 175 213 219 -
-bedrock 85 85 85 -
-bee_nest 202 160 74 -
-beehive 180 146 90 -
-beetroots 65 137 41 -
-bell 188 148 42 -
-big_dripleaf 111 141 51 -
-big_dripleaf_stem 91 115 45 -
-birch_button 192 175 121 -
-birch_door 220 209 176 -
-birch_fence 192 175 121 -
-birch_fence_gate 192 175 121 -
-birch_hanging_sign 175 158 111 -
-birch_leaves 130 129 130 B
-birch_log 193 179 135 -
-birch_planks 192 175 121 -
-birch_pressure_plate 192 175 121 -
-birch_sapling 127 160 79 -
-birch_shelf 175 155 106 -
-birch_sign 194 179 132 -
-birch_slab 192 175 121 -
-birch_stairs 192 175 121 -
-birch_trapdoor 207 194 157 -
-birch_wall_hanging_sign 175 158 111 -
-birch_wall_sign 194 179 132 -
-birch_wood 216 215 210 -
-black_banner 162 130 78 -
-black_bed 162 130 78 -
-black_candle 38 36 57 -
-black_candle_cake 248 222 214 -
-black_carpet 20 21 25 -
-black_concrete 8 10 15 -
-black_concrete_powder 25 26 31 -
-black_glazed_terracotta 67 30 32 -
-black_shulker_box 25 25 29 -
-black_stained_glass 25 25 25 -
-black_stained_glass_pane 25 25 25 -
-black_terracotta 37 22 16 -
-black_wall_banner 162 130 78 -
-black_wool 20 21 25 -
-blackstone 42 36 41 -
-blackstone_slab 42 36 41 -
-blackstone_stairs 42 36 41 -
-blackstone_wall 42 35 40 -
-blast_furnace 80 80 81 -
-blue_banner 162 130 78 -
-blue_bed 162 130 78 -
-blue_candle 57 76 161 -
-blue_candle_cake 248 222 214 -
-blue_carpet 53 57 157 -
-blue_concrete 44 46 143 -
-blue_concrete_powder 70 73 166 -
-blue_glazed_terracotta 47 64 139 -
-blue_ice 116 167 253 -
-blue_orchid 47 162 168 -
-blue_shulker_box 43 45 140 -
-blue_stained_glass 51 76 178 -
-blue_stained_glass_pane 51 76 178 -
-blue_terracotta 74 59 91 -
-blue_wall_banner 162 130 78 -
-blue_wool 53 57 157 -
-bone_block 209 206 179 -
-bookshelf 162 130 78 -
-brain_coral 197 84 152 -
-brain_coral_block 207 91 159 -
-brain_coral_fan 202 84 153 -
-brain_coral_wall_fan 202 84 153 -
-brewing_stand 122 100 80 -
-brick_slab 150 97 83 -
-brick_stairs 150 97 83 -
-brick_wall 150 97 83 -
-bricks 150 97 83 -
-brown_banner 162 130 78 -
-brown_bed 162 130 78 -
-brown_candle 111 70 41 -
-brown_candle_cake 248 222 214 -
-brown_carpet 114 71 40 -
-brown_concrete 96 59 31 -
-brown_concrete_powder 125 84 53 -
-brown_glazed_terracotta 119 106 85 -
-brown_mushroom 153 116 92 -
-brown_mushroom_block 149 111 81 -
-brown_shulker_box 106 66 35 -
-brown_stained_glass 102 76 51 -
-brown_stained_glass_pane 102 76 51 -
-brown_terracotta 77 51 35 -
-brown_wall_banner 162 130 78 -
-brown_wool 114 71 40 -
-bubble_column 177 177 177 W
-bubble_coral 161 23 159 -
-bubble_coral_block 165 26 162 -
-bubble_coral_fan 160 32 159 -
-bubble_coral_wall_fan 160 32 159 -
-budding_amethyst 132 96 186 -
-bush 119 120 119 -
-cactus 85 127 43 -
-cactus_flower 209 120 135 -
-cake 248 222 214 -
-calcite 223 224 220 -
-calibrated_sculk_sensor 27 79 100 -
-campfire 79 74 67 -
-candle 232 200 153 -
-candle_cake 248 222 214 -
-carrots 44 110 39 -
-cartography_table 67 43 20 -
-carved_pumpkin 198 118 24 -
-cauldron 73 72 74 -
-cave_vines 90 109 40 -
-cave_vines_plant 88 101 38 -
-chain_command_block 129 156 144 -
-cherry_button 226 178 172 -
-cherry_door 223 170 164 -
-cherry_fence 226 178 172 -
-cherry_fence_gate 226 178 172 -
-cherry_hanging_sign 189 130 135 -
-cherry_leaves 229 172 194 -
-cherry_log 185 141 137 -
-cherry_planks 226 178 172 -
-cherry_pressure_plate 226 178 172 -
-cherry_sapling 164 117 143 -
-cherry_shelf 202 130 129 -
-cherry_sign 203 158 154 -
-cherry_slab 226 178 172 -
-cherry_stairs 226 178 172 -
-cherry_trapdoor 226 178 172 -
-cherry_wall_hanging_sign 189 130 135 -
-cherry_wall_sign 203 158 154 -
-cherry_wood 54 33 44 -
-chest 162 130 78 -
-chipped_anvil 72 72 72 -
-chiseled_bookshelf 178 144 88 -
-chiseled_cinnabar 146 55 54 -
-chiseled_copper 184 100 73 -
-chiseled_deepslate 54 54 54 -
-chiseled_nether_bricks 45 22 27 -
-chiseled_polished_blackstone 53 48 56 -
-chiseled_quartz_block 231 226 217 -
-chiseled_red_sandstone 181 97 31 -
-chiseled_resin_bricks 200 84 24 -
-chiseled_sandstone 223 214 170 -
-chiseled_stone_bricks 119 118 119 -
-chiseled_sulfur 187 169 91 -
-chiseled_tuff 93 98 91 -
-chiseled_tuff_bricks 110 113 106 -
-chorus_flower 151 120 151 -
-chorus_plant 93 57 93 -
-cinnabar 151 82 78 -
-cinnabar_brick_slab 148 55 53 -
-cinnabar_brick_stairs 148 55 53 -
-cinnabar_brick_wall 148 55 53 -
-cinnabar_bricks 148 55 53 -
-cinnabar_slab 151 82 78 -
-cinnabar_stairs 151 82 78 -
-cinnabar_wall 151 82 78 -
-clay 160 166 179 -
-closed_eyeblossom 108 98 101 -
-coal_block 16 15 15 -
-coal_ore 105 105 105 -
-coarse_dirt 119 85 59 -
-cobbled_deepslate 77 77 80 -
-cobbled_deepslate_slab 77 77 80 -
-cobbled_deepslate_stairs 77 77 80 -
-cobbled_deepslate_wall 77 77 80 -
-cobblestone 127 127 127 -
-cobblestone_slab 127 127 127 -
-cobblestone_stairs 127 127 127 -
-cobblestone_wall 127 127 127 -
-cobweb 228 233 234 -
-cocoa 133 134 62 -
-command_block 173 131 106 -
-comparator 166 161 159 -
-composter 152 98 51 -
-conduit 159 139 113 -
-copper_bars 155 80 55 -
-copper_block 192 107 79 -
-copper_bulb 156 86 57 -
-copper_chain 151 79 54 -
-copper_chest 192 107 79 -
-copper_door 192 109 82 -
-copper_golem_statue 192 107 79 -
-copper_grate 191 107 79 -
-copper_lantern 159 109 77 -
-copper_ore 124 125 120 -
-copper_torch 117 109 73 -
-copper_trapdoor 190 106 79 -
-copper_wall_torch 117 109 73 -
-cornflower 79 121 146 -
-cracked_deepslate_bricks 64 64 65 -
-cracked_deepslate_tiles 52 52 52 -
-cracked_nether_bricks 40 20 23 -
-cracked_polished_blackstone_bricks 44 37 43 -
-cracked_stone_bricks 118 117 118 -
-crafter 112 98 99 -
-crafting_table 129 105 70 -
-creaking_heart 153 84 44 -
-creeper_head 81 62 50 -
-creeper_wall_head 81 62 50 -
-crimson_button 101 48 70 -
-crimson_door 114 54 79 -
-crimson_fence 101 48 70 -
-crimson_fence_gate 101 48 70 -
-crimson_fungus 141 44 29 -
-crimson_hanging_sign 122 57 86 -
-crimson_hyphae 93 26 30 -
-crimson_nylium 130 31 31 -
-crimson_planks 101 48 70 -
-crimson_pressure_plate 101 48 70 -
-crimson_roots 126 8 41 -
-crimson_shelf 129 52 82 -
-crimson_sign 101 46 66 -
-crimson_slab 101 48 70 -
-crimson_stairs 101 48 70 -
-crimson_stem 112 49 70 -
-crimson_trapdoor 103 50 72 -
-crimson_wall_hanging_sign 122 57 86 -
-crimson_wall_sign 101 46 66 -
-crying_obsidian 32 10 60 -
-cut_copper 191 106 80 -
-cut_copper_slab 191 106 80 -
-cut_copper_stairs 191 106 80 -
-cut_red_sandstone 181 97 31 -
-cut_red_sandstone_slab 181 97 31 -
-cut_sandstone 223 214 170 -
-cut_sandstone_slab 223 214 170 -
-cyan_banner 162 130 78 -
-cyan_bed 162 130 78 -
-cyan_candle 17 123 123 -
-cyan_candle_cake 248 222 214 -
-cyan_carpet 21 137 145 -
-cyan_concrete 21 119 136 -
-cyan_concrete_powder 36 147 157 -
-cyan_glazed_terracotta 52 118 125 -
-cyan_shulker_box 20 121 135 -
-cyan_stained_glass 76 127 153 -
-cyan_stained_glass_pane 76 127 153 -
-cyan_terracotta 86 91 91 -
-cyan_wall_banner 162 130 78 -
-cyan_wool 21 137 145 -
-damaged_anvil 72 72 72 -
-dandelion 147 172 43 -
-dark_oak_button 66 43 20 -
-dark_oak_door 76 51 25 -
-dark_oak_fence 66 43 20 -
-dark_oak_fence_gate 66 43 20 -
-dark_oak_hanging_sign 68 56 42 -
-dark_oak_leaves 150 150 150 F
-dark_oak_log 67 45 22 -
-dark_oak_planks 66 43 20 -
-dark_oak_pressure_plate 66 43 20 -
-dark_oak_sapling 61 90 30 -
-dark_oak_shelf 65 51 32 -
-dark_oak_sign 64 42 20 -
-dark_oak_slab 66 43 20 -
-dark_oak_stairs 66 43 20 -
-dark_oak_trapdoor 75 49 23 -
-dark_oak_wall_hanging_sign 68 56 42 -
-dark_oak_wall_sign 64 42 20 -
-dark_oak_wood 60 46 26 -
-dark_prismarine 51 91 75 -
-dark_prismarine_slab 51 91 75 -
-dark_prismarine_stairs 51 91 75 -
-daylight_detector 130 116 94 -
-dead_brain_coral 133 125 120 -
-dead_brain_coral_block 124 117 114 -
-dead_brain_coral_fan 132 125 121 -
-dead_brain_coral_wall_fan 132 125 121 -
-dead_bubble_coral 132 124 120 -
-dead_bubble_coral_block 131 123 119 -
-dead_bubble_coral_fan 140 134 130 -
-dead_bubble_coral_wall_fan 140 134 130 -
-dead_bush 107 78 40 -
-dead_fire_coral 136 128 124 -
-dead_fire_coral_block 131 123 119 -
-dead_fire_coral_fan 124 118 114 -
-dead_fire_coral_wall_fan 124 118 114 -
-dead_horn_coral 142 135 129 -
-dead_horn_coral_block 133 126 122 -
-dead_horn_coral_fan 134 125 121 -
-dead_horn_coral_wall_fan 134 125 121 -
-dead_tube_coral 118 111 107 -
-dead_tube_coral_block 130 123 119 -
-dead_tube_coral_fan 128 122 118 -
-dead_tube_coral_wall_fan 128 122 118 -
-decorated_pot 152 94 67 -
-deepslate 87 87 89 -
-deepslate_brick_slab 70 70 71 -
-deepslate_brick_stairs 70 70 71 -
-deepslate_brick_wall 70 70 71 -
-deepslate_bricks 70 70 71 -
-deepslate_coal_ore 74 74 76 -
-deepslate_copper_ore 92 93 89 -
-deepslate_diamond_ore 83 106 106 -
-deepslate_emerald_ore 78 104 87 -
-deepslate_gold_ore 115 102 78 -
-deepslate_iron_ore 106 99 94 -
-deepslate_lapis_ore 79 90 115 -
-deepslate_redstone_ore 104 73 74 -
-deepslate_tile_slab 54 54 55 -
-deepslate_tile_stairs 54 54 55 -
-deepslate_tile_wall 54 54 55 -
-deepslate_tiles 54 54 55 -
-detector_rail 123 104 90 -
-diamond_block 98 237 228 -
-diamond_ore 121 141 140 -
-diorite 188 188 188 -
-diorite_slab 188 188 188 -
-diorite_stairs 188 188 188 -
-diorite_wall 188 188 188 -
-dirt 134 96 67 -
-dirt_path 148 121 65 -
-dispenser 110 109 109 -
-dragon_egg 12 9 15 -
-dragon_head 81 62 50 -
-dragon_wall_head 81 62 50 -
-dried_ghast 159 145 145 -
-dried_kelp_block 38 48 29 -
-dripstone_block 134 107 92 -
-dropper 110 109 109 -
-emerald_block 42 203 87 -
-emerald_ore 108 136 115 -
-enchanting_table 128 75 85 -
-end_gateway 15 10 24 -
-end_portal 15 10 24 -
-end_portal_frame 91 120 97 -
-end_rod 207 198 187 -
-end_stone 219 222 158 -
-end_stone_brick_slab 218 224 162 -
-end_stone_brick_stairs 218 224 162 -
-end_stone_brick_wall 218 224 162 -
-end_stone_bricks 218 224 162 -
-ender_chest 15 10 24 -
-exposed_chiseled_copper 154 119 100 -
-exposed_copper 161 125 103 -
-exposed_copper_bars 134 107 89 -
-exposed_copper_bulb 135 107 89 -
-exposed_copper_chain 126 101 83 -
-exposed_copper_chest 161 125 103 -
-exposed_copper_door 164 123 106 -
-exposed_copper_golem_statue 161 125 103 -
-exposed_copper_grate 161 125 104 -
-exposed_copper_lantern 149 132 106 -
-exposed_copper_trapdoor 161 125 104 -
-exposed_cut_copper 154 121 101 -
-exposed_cut_copper_slab 154 121 101 -
-exposed_cut_copper_stairs 154 121 101 -
-exposed_lightning_rod 159 120 103 -
-farmland 143 102 70 -
-fern 124 124 124 G
-fire 212 142 52 -
-fire_coral 166 37 46 -
-fire_coral_block 163 35 46 -
-fire_coral_fan 158 34 45 -
-fire_coral_wall_fan 158 34 45 -
-firefly_bush 87 83 43 -
-fletching_table 173 155 111 -
-flower_pot 124 68 53 -
-flowering_azalea 112 121 64 -
-flowering_azalea_leaves 99 111 60 -
-frogspawn 110 95 86 -
-frosted_ice 140 181 252 -
-furnace 110 109 109 -
-gilded_blackstone 55 42 38 -
-glass 175 213 219 -
-glass_pane 175 213 219 -
-glow_item_frame 192 175 121 -
-glow_lichen 112 130 121 -
-glowstone 171 131 84 -
-gold_block 246 208 61 -
-gold_ore 145 133 106 -
-golden_dandelion 159 102 37 -
-granite 149 103 85 -
-granite_slab 149 103 85 -
-granite_stairs 149 103 85 -
-granite_wall 149 103 85 -
-grass_block 147 147 147 G
-gravel 131 127 126 -
-gray_banner 162 130 78 -
-gray_bed 162 130 78 -
-gray_candle 80 94 96 -
-gray_candle_cake 248 222 214 -
-gray_carpet 62 68 71 -
-gray_concrete 54 57 61 -
-gray_concrete_powder 76 81 84 -
-gray_glazed_terracotta 83 90 93 -
-gray_shulker_box 55 58 62 -
-gray_stained_glass 76 76 76 -
-gray_stained_glass_pane 76 76 76 -
-gray_terracotta 57 42 35 -
-gray_wall_banner 162 130 78 -
-gray_wool 62 68 71 -
-green_banner 162 130 78 -
-green_bed 162 130 78 -
-green_candle 72 96 20 -
-green_candle_cake 248 222 214 -
-green_carpet 84 109 27 -
-green_concrete 73 91 36 -
-green_concrete_powder 97 119 44 -
-green_glazed_terracotta 117 142 67 -
-green_shulker_box 79 100 31 -
-green_stained_glass 102 127 51 -
-green_stained_glass_pane 102 127 51 -
-green_terracotta 76 83 42 -
-green_wall_banner 162 130 78 -
-green_wool 84 109 27 -
-grindstone 139 139 139 -
-hanging_roots 161 115 91 -
-hay_block 165 139 12 -
-heavy_core 82 86 94 -
-heavy_weighted_pressure_plate 220 220 220 -
-honey_block 251 185 52 -
-honeycomb_block 229 148 29 -
-hopper 75 74 75 -
-horn_coral 209 186 62 -
-horn_coral_block 216 199 66 -
-horn_coral_fan 205 183 61 -
-horn_coral_wall_fan 205 183 61 -
-ice 145 183 253 -
-infested_chiseled_stone_bricks 119 118 119 -
-infested_cobblestone 127 127 127 -
-infested_cracked_stone_bricks 118 117 118 -
-infested_deepslate 87 87 89 -
-infested_mossy_stone_bricks 115 121 105 -
-infested_stone 125 125 125 -
-infested_stone_bricks 122 121 122 -
-iron_bars 136 139 135 -
-iron_block 220 220 220 -
-iron_chain 51 57 74 -
-iron_door 194 193 193 -
-iron_ore 136 129 122 -
-iron_trapdoor 202 202 202 -
-item_frame 192 175 121 -
-jack_o_lantern 198 118 24 -
-jigsaw 80 69 81 -
-jukebox 93 64 47 -
-jungle_button 160 115 80 -
-jungle_door 163 119 84 -
-jungle_fence 160 115 80 -
-jungle_fence_gate 160 115 80 -
-jungle_hanging_sign 149 119 80 -
-jungle_leaves 156 154 143 F
-jungle_log 149 109 70 -
-jungle_planks 160 115 80 -
-jungle_pressure_plate 160 115 80 -
-jungle_sapling 47 81 16 -
-jungle_shelf 155 121 73 -
-jungle_sign 150 108 72 -
-jungle_slab 160 115 80 -
-jungle_stairs 160 115 80 -
-jungle_trapdoor 152 110 77 -
-jungle_wall_hanging_sign 149 119 80 -
-jungle_wall_sign 150 108 72 -
-jungle_wood 85 67 25 -
-kelp 87 141 45 -
-kelp_plant 86 130 42 -
-ladder 124 96 54 -
-lantern 106 92 84 -
-lapis_block 30 67 140 -
-lapis_ore 107 117 141 -
-large_amethyst_bud 161 126 202 -
-large_fern 131 131 131 G
-lava 207 91 20 -
-lava_cauldron 73 72 74 -
-leaf_litter 170 170 170 -
-lectern 173 137 83 -
-lever 127 127 127 -
-light 136 145 133 -
-light_blue_banner 162 130 78 -
-light_blue_bed 162 130 78 -
-light_blue_candle 34 137 196 -
-light_blue_candle_cake 248 222 214 -
-light_blue_carpet 58 175 217 -
-light_blue_concrete 35 137 198 -
-light_blue_concrete_powder 74 180 213 -
-light_blue_glazed_terracotta 94 164 208 -
-light_blue_shulker_box 49 163 212 -
-light_blue_stained_glass 102 153 216 -
-light_blue_stained_glass_pane 102 153 216 -
-light_blue_terracotta 113 108 137 -
-light_blue_wall_banner 162 130 78 -
-light_blue_wool 58 175 217 -
-light_gray_banner 162 130 78 -
-light_gray_bed 162 130 78 -
-light_gray_candle 118 120 112 -
-light_gray_candle_cake 248 222 214 -
-light_gray_carpet 142 142 134 -
-light_gray_concrete 125 125 115 -
-light_gray_concrete_powder 154 154 148 -
-light_gray_glazed_terracotta 144 166 167 -
-light_gray_shulker_box 124 124 115 -
-light_gray_stained_glass 153 153 153 -
-light_gray_stained_glass_pane 153 153 153 -
-light_gray_terracotta 135 106 97 -
-light_gray_wall_banner 162 130 78 -
-light_gray_wool 142 142 134 -
-light_weighted_pressure_plate 246 208 61 -
-lightning_rod 196 111 83 -
-lilac 137 124 126 -
-lily_of_the_valley 123 174 95 -
-lily_pad 133 133 133 L
-lime_banner 162 130 78 -
-lime_bed 162 130 78 -
-lime_candle 98 171 22 -
-lime_candle_cake 248 222 214 -
-lime_carpet 112 185 25 -
-lime_concrete 94 168 24 -
-lime_concrete_powder 125 189 41 -
-lime_glazed_terracotta 162 197 55 -
-lime_shulker_box 99 172 23 -
-lime_stained_glass 127 204 25 -
-lime_stained_glass_pane 127 204 25 -
-lime_terracotta 103 117 52 -
-lime_wall_banner 162 130 78 -
-lime_wool 112 185 25 -
-lodestone 147 149 152 -
-loom 142 119 91 -
-magenta_banner 162 130 78 -
-magenta_bed 162 130 78 -
-magenta_candle 160 45 153 -
-magenta_candle_cake 248 222 214 -
-magenta_carpet 189 68 179 -
-magenta_concrete 169 48 159 -
-magenta_concrete_powder 192 83 184 -
-magenta_glazed_terracotta 208 100 191 -
-magenta_shulker_box 173 54 163 -
-magenta_stained_glass 178 76 216 -
-magenta_stained_glass_pane 178 76 216 -
-magenta_terracotta 149 88 108 -
-magenta_wall_banner 162 130 78 -
-magenta_wool 189 68 179 -
-magma_block 141 62 30 -
-mangrove_button 117 54 48 -
-mangrove_door 112 48 46 -
-mangrove_fence 117 54 48 -
-mangrove_fence_gate 117 54 48 -
-mangrove_hanging_sign 110 56 53 -
-mangrove_leaves 129 128 128 F
-mangrove_log 102 48 42 -
-mangrove_planks 117 54 48 -
-mangrove_pressure_plate 117 54 48 -
-mangrove_propagule 96 174 83 -
-mangrove_roots 74 59 38 -
-mangrove_shelf 109 45 42 -
-mangrove_sign 112 54 46 -
-mangrove_slab 117 54 48 -
-mangrove_stairs 117 54 48 -
-mangrove_trapdoor 110 46 42 -
-mangrove_wall_hanging_sign 110 56 53 -
-mangrove_wall_sign 112 54 46 -
-mangrove_wood 83 66 41 -
-medium_amethyst_bud 158 120 201 -
-melon 111 144 30 -
-melon_stem 153 153 153 -
-moss_block 89 109 45 -
-moss_carpet 89 109 45 -
-mossy_cobblestone 110 118 94 -
-mossy_cobblestone_slab 110 118 94 -
-mossy_cobblestone_stairs 110 118 94 -
-mossy_cobblestone_wall 110 118 94 -
-mossy_stone_brick_slab 115 121 105 -
-mossy_stone_brick_stairs 115 121 105 -
-mossy_stone_brick_wall 115 121 105 -
-mossy_stone_bricks 115 121 105 -
-moving_piston 109 104 96 -
-mud 60 57 60 -
-mud_brick_slab 137 103 79 -
-mud_brick_stairs 137 103 79 -
-mud_brick_wall 137 103 79 -
-mud_bricks 137 103 79 -
-muddy_mangrove_roots 70 58 45 -
-mushroom_stem 203 196 185 -
-mycelium 111 98 101 -
-nether_brick_fence 44 21 26 -
-nether_brick_slab 44 21 26 -
-nether_brick_stairs 44 21 26 -
-nether_brick_wall 44 21 26 -
-nether_bricks 44 21 26 -
-nether_gold_ore 115 54 42 -
-nether_portal 89 12 192 -
-nether_quartz_ore 117 65 62 -
-nether_sprouts 19 151 133 -
-nether_wart 117 18 21 -
-nether_wart_block 114 2 2 -
-netherite_block 66 61 63 -
-netherrack 97 38 38 -
-note_block 88 58 40 -
-oak_button 162 130 78 -
-oak_door 140 110 66 -
-oak_fence 162 130 78 -
-oak_fence_gate 162 130 78 -
-oak_hanging_sign 156 129 82 -
-oak_leaves 144 144 144 F
-oak_log 151 121 73 -
-oak_planks 162 130 78 -
-oak_pressure_plate 162 130 78 -
-oak_sapling 77 106 40 -
-oak_shelf 144 115 67 -
-oak_sign 154 124 74 -
-oak_slab 162 130 78 -
-oak_stairs 162 130 78 -
-oak_trapdoor 124 99 56 -
-oak_wall_hanging_sign 156 129 82 -
-oak_wall_sign 154 124 74 -
-oak_wood 109 85 50 -
-observer 98 98 98 -
-obsidian 15 10 24 -
-ochre_froglight 250 245 206 -
-open_eyeblossom 133 124 127 -
-orange_banner 162 130 78 -
-orange_bed 162 130 78 -
-orange_candle 219 100 9 -
-orange_candle_cake 248 222 214 -
-orange_carpet 240 118 19 -
-orange_concrete 224 97 0 -
-orange_concrete_powder 227 131 31 -
-orange_glazed_terracotta 154 147 91 -
-orange_shulker_box 234 106 8 -
-orange_stained_glass 216 127 51 -
-orange_stained_glass_pane 216 127 51 -
-orange_terracotta 161 83 37 -
-orange_tulip 93 142 30 -
-orange_wall_banner 162 130 78 -
-orange_wool 240 118 19 -
-oxeye_daisy 179 202 143 -
-oxidized_chiseled_copper 83 161 132 -
-oxidized_copper 82 162 132 -
-oxidized_copper_bars 64 122 100 -
-oxidized_copper_bulb 70 132 109 -
-oxidized_copper_chain 61 118 99 -
-oxidized_copper_chest 82 162 132 -
-oxidized_copper_door 82 160 132 -
-oxidized_copper_golem_statue 82 162 132 -
-oxidized_copper_grate 82 161 131 -
-oxidized_copper_lantern 79 140 112 -
-oxidized_copper_trapdoor 83 161 132 -
-oxidized_cut_copper 79 153 126 -
-oxidized_cut_copper_slab 79 153 126 -
-oxidized_cut_copper_stairs 79 153 126 -
-oxidized_lightning_rod 79 154 127 -
-packed_ice 141 180 250 -
-packed_mud 142 106 79 -
-pale_hanging_moss 98 103 97 -
-pale_moss_block 106 112 104 -
-pale_moss_carpet 106 112 104 -
-pale_oak_button 227 217 216 -
-pale_oak_door 216 208 206 -
-pale_oak_fence 227 217 216 -
-pale_oak_fence_gate 227 217 216 -
-pale_oak_hanging_sign 208 201 203 -
-pale_oak_leaves 116 121 114 -
-pale_oak_log 198 189 187 -
-pale_oak_planks 227 217 216 -
-pale_oak_pressure_plate 227 217 216 -
-pale_oak_sapling 109 105 99 -
-pale_oak_shelf 227 217 216 -
-pale_oak_sign 206 195 194 -
-pale_oak_slab 227 217 216 -
-pale_oak_stairs 227 217 216 -
-pale_oak_trapdoor 229 220 218 -
-pale_oak_wall_hanging_sign 208 201 203 -
-pale_oak_wall_sign 206 195 194 -
-pale_oak_wood 87 77 75 -
-pearlescent_froglight 245 240 239 -
-peony 86 101 93 -
-petrified_oak_slab 162 130 78 -
-piglin_head 81 62 50 -
-piglin_wall_head 81 62 50 -
-pink_banner 162 130 78 -
-pink_bed 162 130 78 -
-pink_candle 208 101 142 -
-pink_candle_cake 248 222 214 -
-pink_carpet 237 141 172 -
-pink_concrete 213 101 142 -
-pink_concrete_powder 228 153 181 -
-pink_glazed_terracotta 235 154 181 -
-pink_petals 246 180 218 -
-pink_shulker_box 230 121 157 -
-pink_stained_glass 242 127 165 -
-pink_stained_glass_pane 242 127 165 -
-pink_terracotta 161 78 78 -
-pink_tulip 99 157 78 -
-pink_wall_banner 162 130 78 -
-pink_wool 237 141 172 -
-piston 109 104 96 -
-piston_head 153 127 85 -
-pitcher_crop 193 165 103 -
-pitcher_plant 104 126 93 -
-player_head 81 62 50 -
-player_wall_head 81 62 50 -
-podzol 91 63 24 -
-pointed_dripstone 129 102 89 -
-polished_andesite 132 134 133 -
-polished_andesite_slab 132 134 133 -
-polished_andesite_stairs 132 134 133 -
-polished_basalt 99 98 100 -
-polished_blackstone 53 48 56 -
-polished_blackstone_brick_slab 48 42 49 -
-polished_blackstone_brick_stairs 48 42 49 -
-polished_blackstone_brick_wall 48 42 49 -
-polished_blackstone_bricks 48 42 49 -
-polished_blackstone_button 53 48 56 -
-polished_blackstone_pressure_plate 53 48 56 -
-polished_blackstone_slab 53 48 56 -
-polished_blackstone_stairs 53 48 56 -
-polished_blackstone_wall 53 48 56 -
-polished_cinnabar 152 57 55 -
-polished_cinnabar_slab 152 57 55 -
-polished_cinnabar_stairs 152 57 55 -
-polished_cinnabar_wall 152 57 55 -
-polished_deepslate 72 72 73 -
-polished_deepslate_slab 72 72 73 -
-polished_deepslate_stairs 72 72 73 -
-polished_deepslate_wall 72 72 73 -
-polished_diorite 192 193 194 -
-polished_diorite_slab 192 193 194 -
-polished_diorite_stairs 192 193 194 -
-polished_granite 154 106 89 -
-polished_granite_slab 154 106 89 -
-polished_granite_stairs 154 106 89 -
-polished_sulfur 188 170 91 -
-polished_sulfur_slab 188 170 91 -
-polished_sulfur_stairs 188 170 91 -
-polished_sulfur_wall 188 170 91 -
-polished_tuff 97 104 99 -
-polished_tuff_slab 97 104 99 -
-polished_tuff_stairs 97 104 99 -
-polished_tuff_wall 97 104 99 -
-poppy 128 64 37 -
-potatoes 58 129 40 -
-potent_sulfur 211 208 97 -
-potted_acacia_sapling 118 117 23 -
-potted_allium 158 137 183 -
-potted_azalea_bush 100 122 47 -
-potted_azure_bluet 169 204 127 -
-potted_bamboo 124 68 53 -
-potted_birch_sapling 127 160 79 -
-potted_blue_orchid 47 162 168 -
-potted_brown_mushroom 153 116 92 -
-potted_cactus 124 68 53 -
-potted_cherry_sapling 164 117 143 -
-potted_closed_eyeblossom 108 98 101 -
-potted_cornflower 79 121 146 -
-potted_crimson_fungus 141 44 29 -
-potted_crimson_roots 127 8 41 -
-potted_dandelion 147 172 43 -
-potted_dark_oak_sapling 61 90 30 -
-potted_dead_bush 107 78 40 -
-potted_fern 124 124 124 -
-potted_flowering_azalea_bush 114 119 70 -
-potted_golden_dandelion 159 102 37 -
-potted_jungle_sapling 47 81 16 -
-potted_lily_of_the_valley 123 174 95 -
-potted_mangrove_propagule 124 68 53 -
-potted_oak_sapling 77 106 40 -
-potted_open_eyeblossom 133 124 127 -
-potted_orange_tulip 93 142 30 -
-potted_oxeye_daisy 179 202 143 -
-potted_pale_oak_sapling 109 105 99 -
-potted_pink_tulip 99 157 78 -
-potted_poppy 128 64 37 -
-potted_red_mushroom 216 75 67 -
-potted_red_tulip 89 128 32 -
-potted_spruce_sapling 44 60 36 -
-potted_torchflower 100 101 77 -
-potted_warped_fungus 74 109 87 -
-potted_warped_roots 20 136 123 -
-potted_white_tulip 93 164 71 -
-potted_wither_rose 41 44 23 -
-powder_snow 248 253 253 -
-powder_snow_cauldron 73 72 74 -
-powered_rail 137 109 74 -
-prismarine 98 162 145 -
-prismarine_brick_slab 99 171 158 -
-prismarine_brick_stairs 99 171 158 -
-prismarine_bricks 99 171 158 -
-prismarine_slab 98 162 145 -
-prismarine_stairs 98 162 145 -
-prismarine_wall 98 162 145 -
-pumpkin 198 118 24 -
-pumpkin_stem 154 154 154 -
-purple_banner 162 130 78 -
-purple_bed 162 130 78 -
-purple_candle 105 34 159 -
-purple_candle_cake 248 222 214 -
-purple_carpet 121 42 172 -
-purple_concrete 100 31 156 -
-purple_concrete_powder 131 55 177 -
-purple_glazed_terracotta 109 47 152 -
-purple_shulker_box 103 32 156 -
-purple_stained_glass 127 63 178 -
-purple_stained_glass_pane 127 63 178 -
-purple_terracotta 118 70 86 -
-purple_wall_banner 162 130 78 -
-purple_wool 121 42 172 -
-purpur_block 169 125 169 -
-purpur_pillar 171 128 171 -
-purpur_slab 169 125 169 -
-purpur_stairs 169 125 169 -
-quartz_block 235 229 222 -
-quartz_bricks 234 229 221 -
-quartz_pillar 235 229 222 -
-quartz_slab 235 229 222 -
-quartz_stairs 235 229 222 -
-rail 125 111 88 -
-raw_copper_block 154 105 79 -
-raw_gold_block 221 169 46 -
-raw_iron_block 166 135 107 -
-red_banner 162 130 78 -
-red_bed 162 130 78 -
-red_candle 153 38 36 -
-red_candle_cake 248 222 214 -
-red_carpet 160 39 34 -
-red_concrete 142 32 32 -
-red_concrete_powder 168 54 50 -
-red_glazed_terracotta 181 59 53 -
-red_mushroom 216 75 67 -
-red_mushroom_block 200 46 45 -
-red_nether_brick_slab 69 7 9 -
-red_nether_brick_stairs 69 7 9 -
-red_nether_brick_wall 69 7 9 -
-red_nether_bricks 69 7 9 -
-red_sand 190 102 33 -
-red_sandstone 181 97 31 -
-red_sandstone_slab 181 97 31 -
-red_sandstone_stairs 181 97 31 -
-red_sandstone_wall 186 99 29 -
-red_shulker_box 140 31 30 -
-red_stained_glass 153 51 51 -
-red_stained_glass_pane 153 51 51 -
-red_terracotta 143 61 46 -
-red_tulip 89 128 32 -
-red_wall_banner 162 130 78 -
-red_wool 160 39 34 -
-redstone_block 175 24 5 -
-redstone_lamp 95 54 30 -
-redstone_ore 140 109 109 -
-redstone_torch 101 69 43 -
-redstone_wall_torch 101 69 43 -
-redstone_wire 240 240 240 -
-reinforced_deepslate 80 82 78 -
-repeater 160 157 156 -
-repeating_command_block 127 109 166 -
-resin_block 217 99 25 -
-resin_brick_slab 205 88 24 -
-resin_brick_stairs 205 88 24 -
-resin_brick_wall 205 88 24 -
-resin_bricks 205 88 24 -
-resin_clump 223 111 27 -
-respawn_anchor 33 21 52 -
-rooted_dirt 144 103 76 -
-rose_bush 97 83 37 -
-sand 219 207 163 -
-sandstone 223 214 170 -
-sandstone_slab 223 214 170 -
-sandstone_stairs 223 214 170 -
-sandstone_wall 216 203 155 -
-scaffolding 170 131 73 -
-sculk 13 27 33 -
-sculk_catalyst 15 31 38 -
-sculk_sensor 7 70 84 -
-sculk_shrieker 198 205 169 -
-sculk_vein 7 49 58 -
-sea_lantern 172 200 190 -
-sea_pickle 90 97 39 -
-seagrass 51 126 8 -
-short_dry_grass 187 158 108 -
-short_grass 145 145 145 G
-shroomlight 240 146 70 -
-shulker_box 139 96 139 -
-skeleton_skull 81 62 50 -
-skeleton_wall_skull 81 62 50 -
-slime_block 111 192 91 -
-small_amethyst_bud 131 99 192 -
-small_dripleaf 91 115 45 -
-smithing_table 56 37 38 -
-smoker 85 83 81 -
-smooth_basalt 72 72 78 -
-smooth_quartz 236 230 223 -
-smooth_quartz_slab 236 230 223 -
-smooth_quartz_stairs 236 230 223 -
-smooth_red_sandstone 181 97 31 -
-smooth_red_sandstone_slab 181 97 31 -
-smooth_red_sandstone_stairs 181 97 31 -
-smooth_sandstone 223 214 170 -
-smooth_sandstone_slab 223 214 170 -
-smooth_sandstone_stairs 223 214 170 -
-smooth_stone 158 158 158 -
-smooth_stone_slab 158 158 158 -
-sniffer_egg 135 105 67 -
-snow 249 254 254 -
-snow_block 249 254 254 -
-soul_campfire 79 74 67 -
-soul_fire 56 204 208 -
-soul_lantern 70 98 114 -
-soul_sand 81 62 50 -
-soul_soil 75 57 46 -
-soul_torch 109 115 89 -
-soul_wall_torch 109 115 89 -
-spawner 36 46 62 -
-sponge 195 192 74 -
-spore_blossom 206 96 158 -
-spruce_button 114 84 48 -
-spruce_door 106 80 48 -
-spruce_fence 114 84 48 -
-spruce_fence_gate 114 84 48 -
-spruce_hanging_sign 107 86 57 -
-spruce_leaves 126 126 126 S
-spruce_log 108 80 46 -
-spruce_planks 114 84 48 -
-spruce_pressure_plate 114 84 48 -
-spruce_sapling 44 60 36 -
-spruce_shelf 104 82 47 -
-spruce_sign 104 76 43 -
-spruce_slab 114 84 48 -
-spruce_stairs 114 84 48 -
-spruce_trapdoor 103 79 47 -
-spruce_wall_hanging_sign 107 86 57 -
-spruce_wall_sign 104 76 43 -
-spruce_wood 58 37 16 -
-sticky_piston 109 104 96 -
-stone 125 125 125 -
-stone_brick_slab 122 121 122 -
-stone_brick_stairs 122 121 122 -
-stone_brick_wall 122 121 122 -
-stone_bricks 122 121 122 -
-stone_button 125 125 125 -
-stone_pressure_plate 125 125 125 -
-stone_slab 125 125 125 -
-stone_stairs 125 125 125 -
-stonecutter 123 118 111 -
-stripped_acacia_log 166 91 51 -
-stripped_acacia_wood 174 92 59 -
-stripped_bamboo_block 178 158 72 -
-stripped_birch_log 191 171 116 -
-stripped_birch_wood 196 176 118 -
-stripped_cherry_log 221 164 157 -
-stripped_cherry_wood 215 145 148 -
-stripped_crimson_hyphae 137 57 90 -
-stripped_crimson_stem 121 56 82 -
-stripped_dark_oak_log 65 44 22 -
-stripped_dark_oak_wood 72 56 36 -
-stripped_jungle_log 165 122 81 -
-stripped_jungle_wood 171 132 84 -
-stripped_mangrove_log 109 43 43 -
-stripped_mangrove_wood 119 54 47 -
-stripped_oak_log 160 129 77 -
-stripped_oak_wood 177 144 86 -
-stripped_pale_oak_log 235 226 225 -
-stripped_pale_oak_wood 245 238 236 -
-stripped_spruce_log 113 86 50 -
-stripped_spruce_wood 115 89 52 -
-stripped_warped_hyphae 57 150 147 -
-stripped_warped_stem 52 128 124 -
-structure_block 68 57 69 -
-structure_void 24 86 93 -
-sugar_cane 148 192 101 G
-sulfur 189 175 101 -
-sulfur_brick_slab 186 167 91 -
-sulfur_brick_stairs 186 167 91 -
-sulfur_brick_wall 186 167 91 -
-sulfur_bricks 186 167 91 -
-sulfur_slab 189 175 101 -
-sulfur_spike 182 169 94 -
-sulfur_stairs 189 175 101 -
-sulfur_wall 189 175 101 -
-sunflower 56 135 30 -
-suspicious_gravel 129 125 124 -
-suspicious_sand 217 204 159 -
-sweet_berry_bush 42 89 56 -
-tall_dry_grass 196 171 122 -
-tall_grass 128 128 128 G
-tall_seagrass 45 118 4 -
-target 226 170 157 -
-terracotta 152 94 67 -
-test_block 131 191 117 -
-test_instance_block 127 120 119 -
-tinted_glass 46 34 52 -
-tnt 142 62 53 -
-torch 138 113 63 -
-torchflower 100 101 77 -
-torchflower_crop 28 97 67 -
-trapped_chest 162 130 78 -
-trial_spawner 62 80 92 -
-tripwire 129 129 129 -
-tripwire_hook 162 130 78 -
-tube_coral 47 83 197 -
-tube_coral_block 49 87 206 -
-tube_coral_fan 50 91 208 -
-tube_coral_wall_fan 50 91 208 -
-tuff 108 109 102 -
-tuff_brick_slab 98 102 95 -
-tuff_brick_stairs 98 102 95 -
-tuff_brick_wall 98 102 95 -
-tuff_bricks 98 102 95 -
-tuff_slab 108 109 102 -
-tuff_stairs 108 109 102 -
-tuff_wall 108 109 102 -
-turtle_egg 228 226 191 -
-twisting_vines 20 143 124 -
-twisting_vines_plant 20 135 122 -
-vault 54 69 79 -
-verdant_froglight 229 244 228 -
-vine 116 116 116 F
-wall_torch 138 113 63 -
-warped_button 43 104 99 -
-warped_door 44 126 120 -
-warped_fence 43 104 99 -
-warped_fence_gate 43 104 99 -
-warped_fungus 74 109 87 -
-warped_hanging_sign 55 135 133 -
-warped_hyphae 57 59 77 -
-warped_nylium 43 114 101 -
-warped_planks 43 104 99 -
-warped_pressure_plate 43 104 99 -
-warped_roots 20 138 124 -
-warped_shelf 51 140 133 -
-warped_sign 42 100 98 -
-warped_slab 43 104 99 -
-warped_stairs 43 104 99 -
-warped_stem 53 109 110 -
-warped_trapdoor 47 119 111 -
-warped_wall_hanging_sign 55 135 133 -
-warped_wall_sign 42 100 98 -
-warped_wart_block 22 119 121 -
-water 63 118 228 W
-water_cauldron 73 72 74 W
-waxed_chiseled_copper 184 100 73 -
-waxed_copper_bars 155 80 55 -
-waxed_copper_block 192 107 79 -
-waxed_copper_bulb 156 86 57 -
-waxed_copper_chain 151 79 54 -
-waxed_copper_chest 192 107 79 -
-waxed_copper_door 192 109 82 -
-waxed_copper_golem_statue 192 107 79 -
-waxed_copper_grate 191 107 79 -
-waxed_copper_lantern 159 109 77 -
-waxed_copper_trapdoor 190 106 79 -
-waxed_cut_copper 191 106 80 -
-waxed_cut_copper_slab 191 106 80 -
-waxed_cut_copper_stairs 191 106 80 -
-waxed_exposed_chiseled_copper 154 119 100 -
-waxed_exposed_copper 161 125 103 -
-waxed_exposed_copper_bars 134 107 89 -
-waxed_exposed_copper_bulb 135 107 89 -
-waxed_exposed_copper_chain 126 101 83 -
-waxed_exposed_copper_chest 161 125 103 -
-waxed_exposed_copper_door 164 123 106 -
-waxed_exposed_copper_golem_statue 161 125 103 -
-waxed_exposed_copper_grate 161 125 104 -
-waxed_exposed_copper_lantern 149 132 106 -
-waxed_exposed_copper_trapdoor 161 125 104 -
-waxed_exposed_cut_copper 154 121 101 -
-waxed_exposed_cut_copper_slab 154 121 101 -
-waxed_exposed_cut_copper_stairs 154 121 101 -
-waxed_exposed_lightning_rod 159 120 103 -
-waxed_lightning_rod 196 111 83 -
-waxed_oxidized_chiseled_copper 83 161 132 -
-waxed_oxidized_copper 82 162 132 -
-waxed_oxidized_copper_bars 64 122 100 -
-waxed_oxidized_copper_bulb 70 132 109 -
-waxed_oxidized_copper_chain 61 118 99 -
-waxed_oxidized_copper_chest 82 162 132 -
-waxed_oxidized_copper_door 82 160 132 -
-waxed_oxidized_copper_golem_statue 82 162 132 -
-waxed_oxidized_copper_grate 82 161 131 -
-waxed_oxidized_copper_lantern 79 140 112 -
-waxed_oxidized_copper_trapdoor 83 161 132 -
-waxed_oxidized_cut_copper 79 153 126 -
-waxed_oxidized_cut_copper_slab 79 153 126 -
-waxed_oxidized_cut_copper_stairs 79 153 126 -
-waxed_oxidized_lightning_rod 79 154 127 -
-waxed_weathered_chiseled_copper 104 150 111 -
-waxed_weathered_copper 108 153 110 -
-waxed_weathered_copper_bars 84 123 94 -
-waxed_weathered_copper_bulb 92 126 99 -
-waxed_weathered_copper_chain 72 108 91 -
-waxed_weathered_copper_chest 108 153 110 -
-waxed_weathered_copper_door 110 150 109 -
-waxed_weathered_copper_golem_statue 108 153 110 -
-waxed_weathered_copper_grate 106 152 110 -
-waxed_weathered_copper_lantern 97 135 101 -
-waxed_weathered_copper_trapdoor 108 153 110 -
-waxed_weathered_cut_copper 109 145 107 -
-waxed_weathered_cut_copper_slab 109 145 107 -
-waxed_weathered_cut_copper_stairs 109 145 107 -
-waxed_weathered_lightning_rod 97 142 105 -
-weathered_chiseled_copper 104 150 111 -
-weathered_copper 108 153 110 -
-weathered_copper_bars 84 123 94 -
-weathered_copper_bulb 92 126 99 -
-weathered_copper_chain 72 108 91 -
-weathered_copper_chest 108 153 110 -
-weathered_copper_door 110 150 109 -
-weathered_copper_golem_statue 108 153 110 -
-weathered_copper_grate 106 152 110 -
-weathered_copper_lantern 97 135 101 -
-weathered_copper_trapdoor 108 153 110 -
-weathered_cut_copper 109 145 107 -
-weathered_cut_copper_slab 109 145 107 -
-weathered_cut_copper_stairs 109 145 107 -
-weathered_lightning_rod 97 142 105 -
-weeping_vines 104 1 0 -
-weeping_vines_plant 132 16 12 -
-wet_sponge 171 181 70 -
-wheat 8 127 15 -
-white_banner 162 130 78 -
-white_bed 162 130 78 -
-white_candle 210 216 217 -
-white_candle_cake 248 222 214 -
-white_carpet 233 236 236 -
-white_concrete 207 213 214 -
-white_concrete_powder 225 227 227 -
-white_glazed_terracotta 188 212 202 -
-white_shulker_box 215 220 221 -
-white_stained_glass 255 255 255 -
-white_stained_glass_pane 255 255 255 -
-white_terracotta 209 178 161 -
-white_tulip 93 164 71 -
-white_wall_banner 162 130 78 -
-white_wool 233 236 236 -
-wildflowers 237 213 117 -
-wither_rose 41 44 23 -
-wither_skeleton_skull 81 62 50 -
-wither_skeleton_wall_skull 81 62 50 -
-yellow_banner 162 130 78 -
-yellow_bed 162 130 78 -
-yellow_candle 209 164 50 -
-yellow_candle_cake 248 222 214 -
-yellow_carpet 248 197 39 -
-yellow_concrete 240 175 21 -
-yellow_concrete_powder 232 199 54 -
-yellow_glazed_terracotta 234 192 88 -
-yellow_shulker_box 248 188 29 -
-yellow_stained_glass 229 229 51 -
-yellow_stained_glass_pane 229 229 51 -
-yellow_terracotta 186 133 35 -
-yellow_wall_banner 162 130 78 -
-yellow_wool 248 197 39 -
-zombie_head 81 62 50 -
-zombie_wall_head 81 62 50 -
+acacia_button 168 90 50 141 74 41 190 104 59 -
+acacia_door 167 95 60 118 68 40 202 118 78 -
+acacia_fence 168 90 50 141 74 41 190 104 59 -
+acacia_fence_gate 168 90 50 141 74 41 190 104 59 -
+acacia_hanging_sign 154 87 62 94 73 70 184 96 62 -
+acacia_leaves 149 148 148 116 113 113 181 181 181 F
+acacia_log 150 88 55 99 76 61 185 99 55 -
+acacia_planks 168 90 50 141 74 41 190 104 59 -
+acacia_pressure_plate 168 90 50 141 74 41 190 104 59 -
+acacia_sapling 118 117 23 113 85 12 122 148 31 -
+acacia_shelf 156 85 53 131 73 43 186 96 62 -
+acacia_sign 157 89 54 128 75 47 184 102 59 -
+acacia_slab 168 90 50 141 74 41 190 104 59 -
+acacia_stairs 168 90 50 141 74 41 190 104 59 -
+acacia_trapdoor 156 87 51 125 71 45 193 109 63 -
+acacia_wall_hanging_sign 154 87 62 94 73 70 184 96 62 -
+acacia_wall_sign 157 89 54 128 75 47 184 102 59 -
+acacia_wood 103 96 86 86 80 70 123 115 104 -
+activator_rail 115 87 74 74 1 1 165 159 148 -
+allium 158 137 183 91 113 90 217 179 248 -
+amethyst_block 133 97 191 98 67 156 185 136 235 -
+amethyst_cluster 163 126 207 110 80 168 229 186 234 -
+ancient_debris 94 66 58 54 25 17 143 125 117 -
+andesite 136 136 136 116 116 116 158 159 155 -
+andesite_slab 136 136 136 116 116 116 158 159 155 -
+andesite_stairs 136 136 136 116 116 116 158 159 155 -
+andesite_wall 136 136 136 116 116 116 158 159 155 -
+anvil 72 72 72 62 62 62 82 82 82 -
+attached_melon_stem 153 153 153 96 96 96 199 199 199 F
+attached_pumpkin_stem 154 154 154 103 102 103 194 195 194 F
+azalea 101 124 47 85 107 45 112 146 45 -
+azalea_leaves 90 114 44 62 81 39 112 146 45 -
+azure_bluet 169 204 127 79 152 44 243 245 245 -
+bamboo 93 144 19 74 116 13 125 179 55 -
+bamboo_block 139 141 62 87 100 31 178 178 86 -
+bamboo_button 193 173 80 152 134 63 223 200 102 -
+bamboo_door 191 171 81 155 137 65 225 202 105 -
+bamboo_fence 206 186 89 179 162 73 230 208 112 -
+bamboo_fence_gate 206 185 86 187 169 75 226 203 106 -
+bamboo_hanging_sign 179 163 85 91 89 71 226 203 106 -
+bamboo_mosaic 190 170 78 149 131 62 220 197 97 -
+bamboo_mosaic_slab 190 170 78 149 131 62 220 197 97 -
+bamboo_mosaic_stairs 190 170 78 149 131 62 220 197 97 -
+bamboo_planks 193 173 80 152 134 63 223 200 102 -
+bamboo_pressure_plate 193 173 80 152 134 63 223 200 102 -
+bamboo_sapling 92 89 35 60 38 16 139 143 74 -
+bamboo_shelf 182 164 75 155 138 64 216 194 94 -
+bamboo_sign 208 187 88 186 169 74 227 204 107 -
+bamboo_slab 193 173 80 152 134 63 223 200 102 -
+bamboo_stairs 193 173 80 152 134 63 223 200 102 -
+bamboo_trapdoor 198 179 85 165 147 68 229 206 110 -
+bamboo_wall_hanging_sign 179 163 85 91 89 71 226 203 106 -
+bamboo_wall_sign 208 187 88 186 169 74 227 204 107 -
+barrel 134 100 58 107 82 48 151 113 66 -
+barrier 212 0 0 179 0 0 227 0 0 -
+basalt 80 81 86 42 47 59 115 115 115 -
+beacon 175 213 219 135 188 199 208 234 233 -
+bedrock 85 85 85 46 46 46 138 138 138 -
+bee_nest 202 160 74 129 84 44 251 220 117 -
+beehive 180 146 90 162 132 76 194 157 98 -
+beetroots 65 137 41 38 99 37 85 171 45 -
+bell 188 148 42 123 94 13 249 206 83 -
+big_dripleaf 111 141 51 76 98 45 135 172 60 -
+big_dripleaf_stem 91 115 45 68 87 44 110 140 46 -
+birch_button 192 175 121 163 145 102 215 198 137 -
+birch_door 220 209 176 172 153 105 250 244 225 -
+birch_fence 192 175 121 163 145 102 215 198 137 -
+birch_fence_gate 192 175 121 163 145 102 215 198 137 -
+birch_hanging_sign 175 158 111 104 99 87 206 187 128 -
+birch_leaves 130 129 130 112 109 112 158 159 158 B
+birch_log 193 179 135 148 139 110 228 217 184 -
+birch_planks 192 175 121 163 145 102 215 198 137 -
+birch_pressure_plate 192 175 121 163 145 102 215 198 137 -
+birch_sapling 127 160 79 85 121 48 200 209 149 -
+birch_shelf 175 155 106 149 129 88 206 187 128 -
+birch_sign 194 179 132 159 142 100 225 216 181 -
+birch_slab 192 175 121 163 145 102 215 198 137 -
+birch_stairs 192 175 121 163 145 102 215 198 137 -
+birch_trapdoor 207 194 157 154 135 93 248 242 225 -
+birch_wall_hanging_sign 175 158 111 104 99 87 206 187 128 -
+birch_wall_sign 194 179 132 159 142 100 225 216 181 -
+birch_wood 216 215 210 150 145 139 255 255 255 -
+black_banner 162 130 78 119 92 51 189 153 96 -
+black_bed 162 130 78 119 92 51 189 153 96 -
+black_candle 38 36 57 26 24 39 60 58 88 -
+black_candle_cake 248 222 214 229 139 127 255 253 254 -
+black_carpet 20 21 25 10 12 17 31 31 35 -
+black_concrete 8 10 15 7 9 14 9 11 16 -
+black_concrete_powder 25 26 31 16 18 25 36 37 41 -
+black_glazed_terracotta 67 30 32 12 12 13 146 32 32 -
+black_shulker_box 25 25 29 15 16 21 31 31 35 -
+black_stained_glass 25 25 25 25 25 25 25 25 25 -
+black_stained_glass_pane 25 25 25 25 25 25 25 25 25 -
+black_terracotta 37 22 16 36 21 15 38 24 17 -
+black_wall_banner 162 130 78 119 92 51 189 153 96 -
+black_wool 20 21 25 10 12 17 31 31 35 -
+blackstone 42 36 41 25 16 20 58 55 68 -
+blackstone_slab 42 36 41 25 16 20 58 55 68 -
+blackstone_stairs 42 36 41 25 16 20 58 55 68 -
+blackstone_wall 42 35 40 27 17 22 60 56 68 -
+blast_furnace 80 80 81 65 64 67 101 101 101 -
+blue_banner 162 130 78 119 92 51 189 153 96 -
+blue_bed 162 130 78 119 92 51 189 153 96 -
+blue_candle 57 76 161 49 63 133 68 94 190 -
+blue_candle_cake 248 222 214 229 139 127 255 253 254 -
+blue_carpet 53 57 157 46 48 146 59 68 170 -
+blue_concrete 44 46 143 44 46 142 45 47 144 -
+blue_concrete_powder 70 73 166 63 65 157 77 81 177 -
+blue_glazed_terracotta 47 64 139 33 28 61 58 124 207 -
+blue_ice 116 167 253 107 157 251 134 180 254 -
+blue_orchid 47 162 168 55 138 46 42 189 251 -
+blue_shulker_box 43 45 140 32 33 115 51 53 155 -
+blue_stained_glass 51 76 178 51 76 178 51 76 178 -
+blue_stained_glass_pane 51 76 178 51 76 178 51 76 178 -
+blue_terracotta 74 59 91 73 57 89 76 61 92 -
+blue_wall_banner 162 130 78 119 92 51 189 153 96 -
+blue_wool 53 57 157 46 48 146 59 68 170 -
+bone_block 209 206 179 195 191 161 228 225 205 -
+bookshelf 162 130 78 119 92 51 189 153 96 -
+brain_coral 197 84 152 157 47 119 230 137 190 -
+brain_coral_block 207 91 159 180 59 136 228 129 186 -
+brain_coral_fan 202 84 153 173 58 131 224 117 178 -
+brain_coral_wall_fan 202 84 153 173 58 131 224 117 178 -
+brewing_stand 122 100 80 53 45 45 207 201 140 -
+brick_slab 150 97 83 124 69 54 170 130 119 -
+brick_stairs 150 97 83 124 69 54 170 130 119 -
+brick_wall 150 97 83 124 69 54 170 130 119 -
+bricks 150 97 83 124 69 54 170 130 119 -
+brown_banner 162 130 78 119 92 51 189 153 96 -
+brown_bed 162 130 78 119 92 51 189 153 96 -
+brown_candle 111 70 41 86 55 36 145 92 54 -
+brown_candle_cake 248 222 214 229 139 127 255 253 254 -
+brown_carpet 114 71 40 101 62 33 127 81 48 -
+brown_concrete 96 59 31 95 59 31 97 60 32 -
+brown_concrete_powder 125 84 53 114 77 48 138 94 61 -
+brown_glazed_terracotta 119 106 85 68 82 74 192 136 108 -
+brown_mushroom 153 116 92 102 78 62 204 153 120 -
+brown_mushroom_block 149 111 81 145 107 81 151 114 81 -
+brown_shulker_box 106 66 35 93 57 29 115 72 40 -
+brown_stained_glass 102 76 51 102 76 51 102 76 51 -
+brown_stained_glass_pane 102 76 51 102 76 51 102 76 51 -
+brown_terracotta 77 51 35 75 49 34 79 53 36 -
+brown_wall_banner 162 130 78 119 92 51 189 153 96 -
+brown_wool 114 71 40 101 62 33 127 81 48 -
+bubble_column 177 177 177 165 165 165 200 200 200 W
+bubble_coral 161 23 159 115 7 124 201 39 187 -
+bubble_coral_block 165 26 162 133 15 137 201 36 187 -
+bubble_coral_fan 160 32 159 117 7 126 205 69 191 -
+bubble_coral_wall_fan 160 32 159 117 7 126 205 69 191 -
+budding_amethyst 132 96 186 86 56 145 199 148 238 -
+bush 119 120 119 89 91 89 160 158 160 -
+cactus 85 127 43 62 95 29 113 156 65 -
+cactus_flower 209 120 135 157 88 117 252 161 157 -
+cake 248 222 214 229 139 127 255 253 254 -
+calcite 223 224 220 198 198 194 243 246 244 -
+calibrated_sculk_sensor 27 79 100 3 62 77 96 116 156 -
+campfire 79 74 67 33 39 47 144 120 82 -
+candle 232 200 153 190 154 122 254 241 185 -
+candle_cake 248 222 214 229 139 127 255 253 254 -
+carrots 44 110 39 38 99 37 58 127 41 -
+cartography_table 67 43 20 45 28 13 86 57 26 -
+carved_pumpkin 198 118 24 159 89 14 227 147 40 -
+cauldron 73 72 74 52 52 56 94 91 91 -
+cave_vines 90 109 40 74 73 31 111 145 45 -
+cave_vines_plant 88 101 38 81 65 23 108 137 46 -
+chain_command_block 129 156 144 82 94 86 180 192 192 -
+cherry_button 226 178 172 214 148 142 231 198 192 -
+cherry_door 223 170 164 207 138 133 231 195 188 -
+cherry_fence 226 178 172 214 148 142 231 198 192 -
+cherry_fence_gate 226 178 172 214 148 142 231 198 192 -
+cherry_hanging_sign 189 130 135 115 90 99 218 149 154 -
+cherry_leaves 229 172 194 182 133 115 247 211 235 -
+cherry_log 185 141 137 60 36 45 230 190 180 -
+cherry_planks 226 178 172 214 148 142 231 198 192 -
+cherry_pressure_plate 226 178 172 214 148 142 231 198 192 -
+cherry_sapling 164 117 143 41 23 34 246 200 228 -
+cherry_shelf 202 130 129 181 106 104 220 156 158 -
+cherry_sign 203 158 154 127 84 87 231 196 189 -
+cherry_slab 226 178 172 214 148 142 231 198 192 -
+cherry_stairs 226 178 172 214 148 142 231 198 192 -
+cherry_trapdoor 226 178 172 216 151 146 230 201 194 -
+cherry_wall_hanging_sign 189 130 135 115 90 99 218 149 154 -
+cherry_wall_sign 203 158 154 127 84 87 231 196 189 -
+cherry_wood 54 33 44 40 23 33 71 44 57 -
+chest 162 130 78 119 92 51 189 153 96 -
+chipped_anvil 72 72 72 57 57 57 92 91 91 -
+chiseled_bookshelf 178 144 88 154 124 71 200 163 105 -
+chiseled_cinnabar 146 55 54 110 34 37 184 79 80 -
+chiseled_copper 184 100 73 148 76 52 218 124 99 -
+chiseled_deepslate 54 54 54 36 36 36 75 76 78 -
+chiseled_nether_bricks 45 22 27 25 13 16 65 33 39 -
+chiseled_polished_blackstone 53 48 56 32 22 26 78 75 84 -
+chiseled_quartz_block 231 226 217 221 217 203 240 236 233 -
+chiseled_red_sandstone 181 97 31 171 90 26 189 103 34 -
+chiseled_resin_bricks 200 84 24 168 55 23 235 130 42 -
+chiseled_sandstone 223 214 170 218 206 161 227 220 177 -
+chiseled_stone_bricks 119 118 119 90 90 90 149 147 149 -
+chiseled_sulfur 187 169 91 158 125 78 212 211 106 -
+chiseled_tuff 93 98 91 71 76 67 125 124 116 -
+chiseled_tuff_bricks 110 113 106 84 92 84 135 133 123 -
+chorus_flower 151 120 151 82 42 82 246 232 248 -
+chorus_plant 93 57 93 65 27 65 132 100 132 -
+cinnabar 151 82 78 129 68 62 172 96 94 -
+cinnabar_brick_slab 148 55 53 115 36 37 175 74 72 -
+cinnabar_brick_stairs 148 55 53 115 36 37 175 74 72 -
+cinnabar_brick_wall 148 55 53 115 36 37 175 74 72 -
+cinnabar_bricks 148 55 53 115 36 37 175 74 72 -
+cinnabar_slab 151 82 78 129 68 62 172 96 94 -
+cinnabar_stairs 151 82 78 129 68 62 172 96 94 -
+cinnabar_wall 151 82 78 129 68 62 172 96 94 -
+clay 160 166 179 154 159 171 171 174 191 -
+closed_eyeblossom 108 98 101 54 50 50 167 154 162 -
+coal_block 16 15 15 5 5 5 25 25 25 -
+coal_ore 105 105 105 61 61 59 133 133 133 -
+coarse_dirt 119 85 59 78 54 36 163 118 81 -
+cobbled_deepslate 77 77 80 55 55 59 107 107 107 -
+cobbled_deepslate_slab 77 77 80 55 55 59 107 107 107 -
+cobbled_deepslate_stairs 77 77 80 55 55 59 107 107 107 -
+cobbled_deepslate_wall 77 77 80 55 55 59 107 107 107 -
+cobblestone 127 127 127 94 94 94 169 169 169 -
+cobblestone_slab 127 127 127 94 94 94 169 169 169 -
+cobblestone_stairs 127 127 127 94 94 94 169 169 169 -
+cobblestone_wall 127 127 127 94 94 94 169 169 169 -
+cobweb 228 233 234 196 206 210 255 255 255 -
+cocoa 133 134 62 105 103 46 173 178 84 -
+command_block 173 131 106 125 76 43 192 183 186 -
+comparator 166 161 159 114 99 97 206 204 197 -
+composter 152 98 51 120 73 31 180 117 62 -
+conduit 159 139 113 100 87 58 189 178 161 -
+copper_bars 155 80 55 128 57 33 189 107 78 -
+copper_block 192 107 79 160 84 59 221 126 100 -
+copper_bulb 156 86 57 100 55 23 213 122 95 -
+copper_chain 151 79 54 132 65 43 170 92 66 -
+copper_chest 192 107 79 160 84 59 221 126 100 -
+copper_door 192 109 82 153 84 61 223 128 103 -
+copper_golem_statue 192 107 79 160 84 59 221 126 100 -
+copper_grate 191 107 79 158 83 58 219 126 98 -
+copper_lantern 159 109 77 140 70 48 167 185 132 -
+copper_ore 124 125 120 92 106 101 152 147 141 -
+copper_torch 117 109 73 65 51 31 166 184 135 -
+copper_trapdoor 190 106 79 153 79 55 224 128 105 -
+copper_wall_torch 117 109 73 65 51 31 166 184 135 -
+cornflower 79 121 146 47 86 111 105 139 217 -
+cracked_deepslate_bricks 64 64 65 37 37 37 95 95 95 -
+cracked_deepslate_tiles 52 52 52 36 36 36 72 73 74 -
+cracked_nether_bricks 40 20 23 22 11 14 59 27 33 -
+cracked_polished_blackstone_bricks 44 37 43 25 16 19 66 63 75 -
+cracked_stone_bricks 118 117 118 94 94 94 142 140 142 -
+crafter 112 98 99 63 17 21 151 151 151 -
+crafting_table 129 105 70 34 24 14 198 174 136 -
+creaking_heart 153 84 44 98 54 41 220 118 36 -
+creeper_head 81 62 50 58 44 36 107 83 69 -
+creeper_wall_head 81 62 50 58 44 36 107 83 69 -
+crimson_button 101 48 70 66 32 48 130 60 88 -
+crimson_door 114 54 79 84 43 61 147 67 97 -
+crimson_fence 101 48 70 66 32 48 130 60 88 -
+crimson_fence_gate 101 48 70 66 32 48 130 60 88 -
+crimson_fungus 141 44 29 97 2 4 221 100 46 -
+crimson_hanging_sign 122 57 86 89 51 74 147 63 98 -
+crimson_hyphae 93 26 30 101 12 8 121 29 36 -
+crimson_nylium 130 31 31 123 0 0 148 51 51 -
+crimson_planks 101 48 70 66 32 48 130 60 88 -
+crimson_pressure_plate 101 48 70 66 32 48 130 60 88 -
+crimson_roots 126 8 41 84 6 41 169 14 31 -
+crimson_shelf 129 52 82 111 41 68 153 64 100 -
+crimson_sign 101 46 66 74 31 43 128 59 86 -
+crimson_slab 101 48 70 66 32 48 130 60 88 -
+crimson_stairs 101 48 70 66 32 48 130 60 88 -
+crimson_stem 112 49 70 87 29 36 134 61 90 -
+crimson_trapdoor 103 50 72 75 39 55 141 63 93 -
+crimson_wall_hanging_sign 122 57 86 89 51 74 147 63 98 -
+crimson_wall_sign 101 46 66 74 31 43 128 59 86 -
+crying_obsidian 32 10 60 1 0 4 82 19 138 -
+cut_copper 191 106 80 160 85 60 225 129 106 -
+cut_copper_slab 191 106 80 160 85 60 225 129 106 -
+cut_copper_stairs 191 106 80 160 85 60 225 129 106 -
+cut_red_sandstone 181 97 31 171 90 26 189 103 34 -
+cut_red_sandstone_slab 181 97 31 171 90 26 189 103 34 -
+cut_sandstone 223 214 170 218 206 161 227 220 177 -
+cut_sandstone_slab 223 214 170 218 206 161 227 220 177 -
+cyan_banner 162 130 78 119 92 51 189 153 96 -
+cyan_bed 162 130 78 119 92 51 189 153 96 -
+cyan_candle 17 123 123 18 90 93 18 160 159 -
+cyan_candle_cake 248 222 214 229 139 127 255 253 254 -
+cyan_carpet 21 137 145 21 124 138 21 151 153 -
+cyan_concrete 21 119 136 21 118 135 22 120 137 -
+cyan_concrete_powder 36 147 157 35 136 149 38 162 167 -
+cyan_glazed_terracotta 52 118 125 55 59 63 91 182 183 -
+cyan_shulker_box 20 121 135 16 98 114 22 135 146 -
+cyan_stained_glass 76 127 153 76 127 153 76 127 153 -
+cyan_stained_glass_pane 76 127 153 76 127 153 76 127 153 -
+cyan_terracotta 86 91 91 84 88 88 89 93 93 -
+cyan_wall_banner 162 130 78 119 92 51 189 153 96 -
+cyan_wool 21 137 145 21 124 138 21 151 153 -
+damaged_anvil 72 72 72 56 56 56 94 93 93 -
+dandelion 147 172 43 23 124 4 255 236 79 -
+dark_oak_button 66 43 20 46 29 13 81 53 25 -
+dark_oak_door 76 51 25 52 33 15 103 72 38 -
+dark_oak_fence 66 43 20 46 29 13 81 53 25 -
+dark_oak_fence_gate 66 43 20 46 29 13 81 53 25 -
+dark_oak_hanging_sign 68 56 42 54 46 37 76 67 59 -
+dark_oak_leaves 150 150 150 113 110 113 183 185 183 F
+dark_oak_log 67 45 22 53 35 17 78 52 25 -
+dark_oak_planks 66 43 20 46 29 13 81 53 25 -
+dark_oak_pressure_plate 66 43 20 46 29 13 81 53 25 -
+dark_oak_sapling 61 90 30 49 64 18 83 135 51 -
+dark_oak_shelf 65 51 32 54 40 24 77 60 37 -
+dark_oak_sign 64 42 20 44 29 13 79 52 25 -
+dark_oak_slab 66 43 20 46 29 13 81 53 25 -
+dark_oak_stairs 66 43 20 46 29 13 81 53 25 -
+dark_oak_trapdoor 75 49 23 51 33 15 97 63 31 -
+dark_oak_wall_hanging_sign 68 56 42 54 46 37 76 67 59 -
+dark_oak_wall_sign 64 42 20 44 29 13 79 52 25 -
+dark_oak_wood 60 46 26 46 35 18 74 57 31 -
+dark_prismarine 51 91 75 40 64 55 60 123 100 -
+dark_prismarine_slab 51 91 75 40 64 55 60 123 100 -
+dark_prismarine_stairs 51 91 75 40 64 55 60 123 100 -
+daylight_detector 130 116 94 60 51 34 214 199 180 -
+dead_brain_coral 133 125 120 116 106 102 161 156 152 -
+dead_brain_coral_block 124 117 114 98 94 93 155 149 143 -
+dead_brain_coral_fan 132 125 121 104 97 95 160 156 151 -
+dead_brain_coral_wall_fan 132 125 121 104 97 95 160 156 151 -
+dead_bubble_coral 132 124 120 105 98 96 156 151 146 -
+dead_bubble_coral_block 131 123 119 109 102 99 155 150 144 -
+dead_bubble_coral_fan 140 134 130 107 100 97 164 160 156 -
+dead_bubble_coral_wall_fan 140 134 130 107 100 97 164 160 156 -
+dead_bush 107 78 40 81 61 36 152 103 42 -
+dead_fire_coral 136 128 124 116 106 102 159 155 150 -
+dead_fire_coral_block 131 123 119 107 101 99 155 149 144 -
+dead_fire_coral_fan 124 118 114 93 90 89 156 151 146 -
+dead_fire_coral_wall_fan 124 118 114 93 90 89 156 151 146 -
+dead_horn_coral 142 135 129 123 114 110 156 151 146 -
+dead_horn_coral_block 133 126 122 106 99 97 162 157 153 -
+dead_horn_coral_fan 134 125 121 110 101 98 157 152 147 -
+dead_horn_coral_wall_fan 134 125 121 110 101 98 157 152 147 -
+dead_tube_coral 118 111 107 93 90 89 146 138 134 -
+dead_tube_coral_block 130 123 119 102 98 97 157 152 147 -
+dead_tube_coral_fan 128 122 118 98 95 94 158 153 148 -
+dead_tube_coral_wall_fan 128 122 118 98 95 94 158 153 148 -
+decorated_pot 152 94 67 149 92 67 154 95 69 -
+deepslate 87 87 89 64 64 70 109 109 109 -
+deepslate_brick_slab 70 70 71 43 43 43 97 97 97 -
+deepslate_brick_stairs 70 70 71 43 43 43 97 97 97 -
+deepslate_brick_wall 70 70 71 43 43 43 97 97 97 -
+deepslate_bricks 70 70 71 43 43 43 97 97 97 -
+deepslate_coal_ore 74 74 76 35 35 37 110 110 110 -
+deepslate_copper_ore 92 93 89 56 56 62 136 126 108 -
+deepslate_diamond_ore 83 106 106 55 59 64 106 171 168 -
+deepslate_emerald_ore 78 104 87 55 55 62 103 169 127 -
+deepslate_gold_ore 115 102 78 58 58 64 188 159 79 -
+deepslate_iron_ore 106 99 94 58 58 64 162 141 127 -
+deepslate_lapis_ore 79 90 115 45 58 93 112 122 146 -
+deepslate_redstone_ore 104 73 74 74 45 49 134 105 105 -
+deepslate_tile_slab 54 54 55 38 38 38 74 74 75 -
+deepslate_tile_stairs 54 54 55 38 38 38 74 74 75 -
+deepslate_tile_wall 54 54 55 38 38 38 74 74 75 -
+deepslate_tiles 54 54 55 38 38 38 74 74 75 -
+detector_rail 123 104 90 86 34 21 162 162 162 -
+diamond_block 98 237 228 40 208 212 164 253 239 -
+diamond_ore 121 141 140 97 115 115 127 189 186 -
+diorite 188 188 188 145 144 144 233 233 233 -
+diorite_slab 188 188 188 145 144 144 233 233 233 -
+diorite_stairs 188 188 188 145 144 144 233 233 233 -
+diorite_wall 188 188 188 145 144 144 233 233 233 -
+dirt 134 96 67 104 72 48 170 124 88 -
+dirt_path 148 121 65 139 112 61 161 134 70 -
+dispenser 110 109 109 73 72 72 142 142 142 -
+dragon_egg 12 9 15 8 8 12 24 11 25 -
+dragon_head 81 62 50 58 44 36 107 83 69 -
+dragon_wall_head 81 62 50 58 44 36 107 83 69 -
+dried_ghast 159 145 145 137 129 129 174 156 156 -
+dried_kelp_block 38 48 29 21 30 19 65 76 52 -
+dripstone_block 134 107 92 109 80 76 155 134 108 -
+dropper 110 109 109 73 72 72 142 142 142 -
+emerald_block 42 203 87 26 164 47 95 244 151 -
+emerald_ore 108 136 115 66 113 72 123 178 144 -
+enchanting_table 128 75 85 97 11 45 139 227 210 -
+end_gateway 15 10 24 0 0 1 40 29 61 -
+end_portal 15 10 24 0 0 1 40 29 61 -
+end_portal_frame 91 120 97 19 44 38 200 210 154 -
+end_rod 207 198 187 128 118 114 255 251 245 -
+end_stone 219 222 158 202 196 139 239 246 181 -
+end_stone_brick_slab 218 224 162 191 186 134 235 247 181 -
+end_stone_brick_stairs 218 224 162 191 186 134 235 247 181 -
+end_stone_brick_wall 218 224 162 191 186 134 235 247 181 -
+end_stone_bricks 218 224 162 191 186 134 235 247 181 -
+ender_chest 15 10 24 0 0 1 40 29 61 -
+exposed_chiseled_copper 154 119 100 120 102 85 193 137 124 -
+exposed_copper 161 125 103 131 112 88 194 134 124 -
+exposed_copper_bars 134 107 89 102 88 73 174 124 107 -
+exposed_copper_bulb 135 107 89 90 80 65 186 136 120 -
+exposed_copper_chain 126 101 83 102 88 73 152 116 94 -
+exposed_copper_chest 161 125 103 131 112 88 194 134 124 -
+exposed_copper_door 164 123 106 122 103 85 200 138 127 -
+exposed_copper_golem_statue 161 125 103 131 112 88 194 134 124 -
+exposed_copper_grate 161 125 104 129 111 88 196 136 125 -
+exposed_copper_lantern 149 132 106 114 102 81 165 192 145 -
+exposed_copper_trapdoor 161 125 104 125 110 86 201 138 128 -
+exposed_cut_copper 154 121 101 121 105 84 193 134 123 -
+exposed_cut_copper_slab 154 121 101 121 105 84 193 134 123 -
+exposed_cut_copper_stairs 154 121 101 121 105 84 193 134 123 -
+exposed_lightning_rod 159 120 103 112 98 80 196 135 125 -
+farmland 143 102 70 103 73 51 184 132 91 -
+fern 124 124 124 91 92 91 160 157 160 G
+fire 212 142 52 184 77 0 248 235 187 -
+fire_coral 166 37 46 121 26 38 215 55 54 -
+fire_coral_block 163 35 46 126 26 39 203 46 54 -
+fire_coral_fan 158 34 45 121 26 38 207 49 54 -
+fire_coral_wall_fan 158 34 45 121 26 38 207 49 54 -
+firefly_bush 87 83 43 45 50 25 144 119 57 -
+fletching_table 173 155 111 101 79 50 223 205 157 -
+flower_pot 124 68 53 110 60 47 137 76 59 -
+flowering_azalea 112 121 64 88 107 45 139 133 100 -
+flowering_azalea_leaves 99 111 60 61 81 39 137 133 97 -
+frogspawn 110 95 86 64 50 41 137 121 113 -
+frosted_ice 140 181 252 125 171 251 160 194 254 -
+furnace 110 109 109 73 72 72 142 142 142 -
+gilded_blackstone 55 42 38 28 17 24 99 79 58 -
+glass 175 213 219 135 188 199 208 234 233 -
+glass_pane 175 213 219 135 188 199 208 234 233 -
+glow_item_frame 192 175 121 163 145 102 215 198 137 -
+glow_lichen 112 130 121 99 117 110 127 148 131 -
+glowstone 171 131 84 111 70 34 253 232 176 -
+gold_block 246 208 61 228 169 40 254 237 95 -
+gold_ore 145 133 106 106 106 106 205 176 95 -
+golden_dandelion 159 102 37 84 18 9 239 225 117 -
+granite 149 103 85 116 78 64 173 127 109 -
+granite_slab 149 103 85 116 78 64 173 127 109 -
+granite_stairs 149 103 85 116 78 64 173 127 109 -
+granite_wall 149 103 85 116 78 64 173 127 109 -
+grass_block 147 147 147 127 127 127 172 172 172 G
+gravel 131 127 126 111 104 102 152 150 149 -
+gray_banner 162 130 78 119 92 51 189 153 96 -
+gray_bed 162 130 78 119 92 51 189 153 96 -
+gray_candle 80 94 96 65 77 82 99 113 116 -
+gray_candle_cake 248 222 214 229 139 127 255 253 254 -
+gray_carpet 62 68 71 56 60 63 69 76 79 -
+gray_concrete 54 57 61 54 57 61 55 58 62 -
+gray_concrete_powder 76 81 84 71 74 78 82 89 92 -
+gray_glazed_terracotta 83 90 93 52 55 59 130 137 139 -
+gray_shulker_box 55 58 62 44 46 50 62 66 70 -
+gray_stained_glass 76 76 76 76 76 76 76 76 76 -
+gray_stained_glass_pane 76 76 76 76 76 76 76 76 76 -
+gray_terracotta 57 42 35 56 40 34 59 43 36 -
+gray_wall_banner 162 130 78 119 92 51 189 153 96 -
+gray_wool 62 68 71 56 60 63 69 76 79 -
+green_banner 162 130 78 119 92 51 189 153 96 -
+green_bed 162 130 78 119 92 51 189 153 96 -
+green_candle 72 96 20 57 72 24 97 130 22 -
+green_candle_cake 248 222 214 229 139 127 255 253 254 -
+green_carpet 84 109 27 76 96 33 94 124 23 -
+green_concrete 73 91 36 72 90 36 74 92 37 -
+green_concrete_powder 97 119 44 90 109 46 105 131 40 -
+green_glazed_terracotta 117 142 67 74 92 36 181 194 166 -
+green_shulker_box 79 100 31 71 89 35 84 109 27 -
+green_stained_glass 102 127 51 102 127 51 102 127 51 -
+green_stained_glass_pane 102 127 51 102 127 51 102 127 51 -
+green_terracotta 76 83 42 74 81 40 77 85 44 -
+green_wall_banner 162 130 78 119 92 51 189 153 96 -
+green_wool 84 109 27 76 96 33 94 124 23 -
+grindstone 139 139 139 114 114 114 170 170 170 -
+hanging_roots 161 115 91 132 86 61 186 149 132 -
+hay_block 165 139 12 142 118 16 191 166 12 -
+heavy_core 82 86 94 41 42 43 135 142 160 -
+heavy_weighted_pressure_plate 220 220 220 192 192 192 236 236 236 -
+honey_block 251 185 52 247 158 14 252 211 102 -
+honeycomb_block 229 148 29 200 106 7 253 205 88 -
+hopper 75 74 75 61 60 64 93 91 91 -
+horn_coral 209 186 62 182 137 48 231 224 74 -
+horn_coral_block 216 199 66 196 162 57 235 232 75 -
+horn_coral_fan 205 183 61 187 154 51 223 217 68 -
+horn_coral_wall_fan 205 183 61 187 154 51 223 217 68 -
+ice 145 183 253 135 175 253 159 193 254 -
+infested_chiseled_stone_bricks 119 118 119 90 90 90 149 147 149 -
+infested_cobblestone 127 127 127 94 94 94 169 169 169 -
+infested_cracked_stone_bricks 118 117 118 94 94 94 142 140 142 -
+infested_deepslate 87 87 89 64 64 70 109 109 109 -
+infested_mossy_stone_bricks 115 121 105 89 97 75 138 141 131 -
+infested_stone 125 125 125 112 112 112 139 139 139 -
+infested_stone_bricks 122 121 122 97 98 97 147 144 147 -
+iron_bars 136 139 135 104 104 104 184 184 184 -
+iron_block 220 220 220 192 192 192 236 236 236 -
+iron_chain 51 57 74 37 44 61 65 72 89 -
+iron_door 194 193 193 159 159 159 217 217 217 -
+iron_ore 136 129 122 112 110 107 171 151 137 -
+iron_trapdoor 202 202 202 187 187 187 216 216 216 -
+item_frame 192 175 121 163 145 102 215 198 137 -
+jack_o_lantern 198 118 24 159 89 14 227 147 40 -
+jigsaw 80 69 81 16 16 16 203 176 203 -
+jukebox 93 64 47 41 38 32 135 86 61 -
+jungle_button 160 115 80 118 81 53 188 139 104 -
+jungle_door 163 119 84 111 80 55 198 151 110 -
+jungle_fence 160 115 80 118 81 53 188 139 104 -
+jungle_fence_gate 160 115 80 118 81 53 188 139 104 -
+jungle_hanging_sign 149 119 80 90 83 72 184 138 94 -
+jungle_leaves 156 154 143 127 125 126 192 187 165 F
+jungle_log 149 109 70 90 73 29 183 134 99 -
+jungle_planks 160 115 80 118 81 53 188 139 104 -
+jungle_pressure_plate 160 115 80 118 81 53 188 139 104 -
+jungle_sapling 47 81 16 45 47 7 51 122 29 -
+jungle_shelf 155 121 73 132 101 57 186 140 96 -
+jungle_sign 150 108 72 96 70 37 185 136 101 -
+jungle_slab 160 115 80 118 81 53 188 139 104 -
+jungle_stairs 160 115 80 118 81 53 188 139 104 -
+jungle_trapdoor 152 110 77 105 75 52 185 136 100 -
+jungle_wall_hanging_sign 149 119 80 90 83 72 184 138 94 -
+jungle_wall_sign 150 108 72 96 70 37 185 136 101 -
+jungle_wood 85 67 25 63 52 18 108 84 33 -
+kelp 87 141 45 79 104 36 89 171 48 -
+kelp_plant 86 130 42 77 96 29 89 171 48 -
+ladder 124 96 54 78 60 35 179 139 79 -
+lantern 106 92 84 54 60 76 218 160 89 -
+lapis_block 30 67 140 26 53 136 35 82 152 -
+lapis_ore 107 117 141 54 81 135 145 150 160 -
+large_amethyst_bud 161 126 202 103 74 161 236 200 230 -
+large_fern 131 131 131 103 105 103 160 157 160 G
+lava 207 91 20 207 91 20 207 91 20 -
+lava_cauldron 73 72 74 52 52 56 94 91 91 -
+leaf_litter 170 170 170 134 134 134 212 212 212 -
+lectern 173 137 83 151 117 67 190 155 102 -
+lever 127 127 127 94 94 94 169 169 169 -
+light 136 145 133 81 88 91 226 194 114 -
+light_blue_banner 162 130 78 119 92 51 189 153 96 -
+light_blue_bed 162 130 78 119 92 51 189 153 96 -
+light_blue_candle 34 137 196 32 112 168 42 163 214 -
+light_blue_candle_cake 248 222 214 229 139 127 255 253 254 -
+light_blue_carpet 58 175 217 41 150 204 74 194 229 -
+light_blue_concrete 35 137 198 35 135 197 36 138 200 -
+light_blue_concrete_powder 74 180 213 61 164 205 88 197 222 -
+light_blue_glazed_terracotta 94 164 208 42 76 159 221 246 250 -
+light_blue_shulker_box 49 163 212 35 139 200 59 180 219 -
+light_blue_stained_glass 102 153 216 102 153 216 102 153 216 -
+light_blue_stained_glass_pane 102 153 216 102 153 216 102 153 216 -
+light_blue_terracotta 113 108 137 111 106 136 115 110 139 -
+light_blue_wall_banner 162 130 78 119 92 51 189 153 96 -
+light_blue_wool 58 175 217 41 150 204 74 194 229 -
+light_gray_banner 162 130 78 119 92 51 189 153 96 -
+light_gray_bed 162 130 78 119 92 51 189 153 96 -
+light_gray_candle 118 120 112 91 93 88 150 151 142 -
+light_gray_candle_cake 248 222 214 229 139 127 255 253 254 -
+light_gray_carpet 142 142 134 129 130 120 154 154 148 -
+light_gray_concrete 125 125 115 124 124 114 126 126 116 -
+light_gray_concrete_powder 154 154 148 143 143 136 167 167 161 -
+light_gray_glazed_terracotta 144 166 167 75 117 121 205 209 211 -
+light_gray_shulker_box 124 124 115 97 97 89 140 140 131 -
+light_gray_stained_glass 153 153 153 153 153 153 153 153 153 -
+light_gray_stained_glass_pane 153 153 153 153 153 153 153 153 153 -
+light_gray_terracotta 135 106 97 133 104 95 137 108 99 -
+light_gray_wall_banner 162 130 78 119 92 51 189 153 96 -
+light_gray_wool 142 142 134 129 130 120 154 154 148 -
+light_weighted_pressure_plate 246 208 61 228 169 40 254 237 95 -
+lightning_rod 196 111 83 162 86 61 220 126 99 -
+lilac 137 124 126 41 130 17 214 133 219 -
+lily_of_the_valley 123 174 95 55 127 19 238 238 238 -
+lily_pad 133 133 133 92 92 92 162 162 162 L
+lime_banner 162 130 78 119 92 51 189 153 96 -
+lime_bed 162 130 78 119 92 51 189 153 96 -
+lime_candle 98 171 22 78 138 23 126 199 27 -
+lime_candle_cake 248 222 214 229 139 127 255 253 254 -
+lime_carpet 112 185 25 99 173 24 127 198 30 -
+lime_concrete 94 168 24 93 167 24 95 170 25 -
+lime_concrete_powder 125 189 41 115 179 39 136 199 46 -
+lime_glazed_terracotta 162 197 55 93 165 23 212 235 135 -
+lime_shulker_box 99 172 23 78 143 19 113 188 24 -
+lime_stained_glass 127 204 25 127 204 25 127 204 25 -
+lime_stained_glass_pane 127 204 25 127 204 25 127 204 25 -
+lime_terracotta 103 117 52 100 115 50 106 120 55 -
+lime_wall_banner 162 130 78 119 92 51 189 153 96 -
+lime_wool 112 185 25 99 173 24 127 198 30 -
+lodestone 147 149 152 118 118 118 171 177 184 -
+loom 142 119 91 68 54 32 197 173 150 -
+magenta_banner 162 130 78 119 92 51 189 153 96 -
+magenta_bed 162 130 78 119 92 51 189 153 96 -
+magenta_candle 160 45 153 131 38 128 190 61 180 -
+magenta_candle_cake 248 222 214 229 139 127 255 253 254 -
+magenta_carpet 189 68 179 174 53 164 206 86 198 -
+magenta_concrete 169 48 159 167 47 157 170 49 160 -
+magenta_concrete_powder 192 83 184 181 71 173 204 98 197 -
+magenta_glazed_terracotta 208 100 191 177 55 167 240 167 199 -
+magenta_shulker_box 173 54 163 153 42 144 186 63 175 -
+magenta_stained_glass 178 76 216 178 76 216 178 76 216 -
+magenta_stained_glass_pane 178 76 216 178 76 216 178 76 216 -
+magenta_terracotta 149 88 108 146 85 106 153 91 110 -
+magenta_wall_banner 162 130 78 119 92 51 189 153 96 -
+magenta_wool 189 68 179 174 53 164 206 86 198 -
+magma_block 141 62 30 72 24 24 238 124 33 -
+mangrove_button 117 54 48 98 33 34 134 72 55 -
+mangrove_door 112 48 46 92 30 31 131 70 56 -
+mangrove_fence 117 54 48 98 33 34 134 72 55 -
+mangrove_fence_gate 117 54 48 98 33 34 134 72 55 -
+mangrove_hanging_sign 110 56 53 84 51 57 117 67 58 -
+mangrove_leaves 129 128 128 85 83 83 172 172 172 F
+mangrove_log 102 48 42 92 31 31 116 62 51 -
+mangrove_planks 117 54 48 98 33 34 134 72 55 -
+mangrove_pressure_plate 117 54 48 98 33 34 134 72 55 -
+mangrove_propagule 96 174 83 83 143 65 112 199 104 -
+mangrove_roots 74 59 38 60 47 35 90 72 44 -
+mangrove_shelf 109 45 42 93 31 31 124 62 49 -
+mangrove_sign 112 54 46 95 35 33 127 70 53 -
+mangrove_slab 117 54 48 98 33 34 134 72 55 -
+mangrove_stairs 117 54 48 98 33 34 134 72 55 -
+mangrove_trapdoor 110 46 42 93 28 30 134 73 56 -
+mangrove_wall_hanging_sign 110 56 53 84 51 57 117 67 58 -
+mangrove_wall_sign 112 54 46 95 35 33 127 70 53 -
+mangrove_wood 83 66 41 68 53 35 99 79 46 -
+medium_amethyst_bud 158 120 201 100 71 158 230 181 236 -
+melon 111 144 30 64 119 27 167 172 29 -
+melon_stem 153 153 153 96 96 96 199 199 199 -
+moss_block 89 109 45 71 91 40 108 132 47 -
+moss_carpet 89 109 45 71 91 40 108 132 47 -
+mossy_cobblestone 110 118 94 83 92 62 145 145 145 -
+mossy_cobblestone_slab 110 118 94 83 92 62 145 145 145 -
+mossy_cobblestone_stairs 110 118 94 83 92 62 145 145 145 -
+mossy_cobblestone_wall 110 118 94 83 92 62 145 145 145 -
+mossy_stone_brick_slab 115 121 105 89 97 75 138 141 131 -
+mossy_stone_brick_stairs 115 121 105 89 97 75 138 141 131 -
+mossy_stone_brick_wall 115 121 105 89 97 75 138 141 131 -
+mossy_stone_bricks 115 121 105 89 97 75 138 141 131 -
+moving_piston 109 104 96 64 64 64 161 146 120 -
+mud 60 57 60 50 48 57 68 67 67 -
+mud_brick_slab 137 103 79 105 80 68 159 122 91 -
+mud_brick_stairs 137 103 79 105 80 68 159 122 91 -
+mud_brick_wall 137 103 79 105 80 68 159 122 91 -
+mud_bricks 137 103 79 105 80 68 159 122 91 -
+muddy_mangrove_roots 70 58 45 58 47 38 84 70 51 -
+mushroom_stem 203 196 185 195 189 173 211 204 196 -
+mycelium 111 98 101 100 91 92 125 107 111 -
+nether_brick_fence 44 21 26 26 13 16 61 29 35 -
+nether_brick_slab 44 21 26 26 13 16 61 29 35 -
+nether_brick_stairs 44 21 26 26 13 16 61 29 35 -
+nether_brick_wall 44 21 26 26 13 16 61 29 35 -
+nether_bricks 44 21 26 26 13 16 61 29 35 -
+nether_gold_ore 115 54 42 78 24 24 174 109 57 -
+nether_portal 89 12 192 59 0 169 129 36 215 -
+nether_quartz_ore 117 65 62 78 25 25 176 146 132 -
+nether_sprouts 19 151 133 22 126 134 20 180 133 -
+nether_wart 117 18 21 72 0 0 158 35 40 -
+nether_wart_block 114 2 2 91 0 0 134 8 8 -
+netherite_block 66 61 63 47 39 40 81 78 81 -
+netherrack 97 38 38 77 23 23 118 53 53 -
+note_block 88 58 40 42 40 31 139 88 62 -
+oak_button 162 130 78 119 92 51 189 153 96 -
+oak_door 140 110 66 98 75 42 173 139 89 -
+oak_fence 162 130 78 119 92 51 189 153 96 -
+oak_fence_gate 162 130 78 119 92 51 189 153 96 -
+oak_hanging_sign 156 129 82 92 85 75 191 157 97 -
+oak_leaves 144 144 144 107 103 107 185 188 185 F
+oak_log 151 121 73 93 73 43 184 148 94 -
+oak_planks 162 130 78 119 92 51 189 153 96 -
+oak_pressure_plate 162 130 78 119 92 51 189 153 96 -
+oak_sapling 77 106 40 63 64 22 80 164 58 -
+oak_shelf 144 115 67 106 82 46 188 154 94 -
+oak_sign 154 124 74 107 83 47 188 154 96 -
+oak_slab 162 130 78 119 92 51 189 153 96 -
+oak_stairs 162 130 78 119 92 51 189 153 96 -
+oak_trapdoor 124 99 56 79 64 33 164 127 76 -
+oak_wall_hanging_sign 156 129 82 92 85 75 191 157 97 -
+oak_wall_sign 154 124 74 107 83 47 188 154 96 -
+oak_wood 109 85 50 72 57 34 141 110 65 -
+observer 98 98 98 50 50 50 146 146 146 -
+obsidian 15 10 24 0 0 1 40 29 61 -
+ochre_froglight 250 245 206 243 222 152 254 255 236 -
+open_eyeblossom 133 124 127 55 50 50 240 235 240 -
+orange_banner 162 130 78 119 92 51 189 153 96 -
+orange_bed 162 130 78 119 92 51 189 153 96 -
+orange_candle 219 100 9 177 77 10 255 133 27 -
+orange_candle_cake 248 222 214 229 139 127 255 253 254 -
+orange_carpet 240 118 19 230 102 5 249 137 35 -
+orange_concrete 224 97 0 222 96 0 225 98 2 -
+orange_concrete_powder 227 131 31 219 120 20 234 146 45 -
+orange_glazed_terracotta 154 147 91 37 144 141 249 170 82 -
+orange_shulker_box 234 106 8 212 90 0 245 116 16 -
+orange_stained_glass 216 127 51 216 127 51 216 127 51 -
+orange_stained_glass_pane 216 127 51 216 127 51 216 127 51 -
+orange_terracotta 161 83 37 158 81 35 164 87 40 -
+orange_tulip 93 142 30 23 124 4 172 156 42 -
+orange_wall_banner 162 130 78 119 92 51 189 153 96 -
+orange_wool 240 118 19 230 102 5 249 137 35 -
+oxeye_daisy 179 202 143 48 139 21 247 247 247 -
+oxidized_chiseled_copper 83 161 132 60 121 99 104 191 155 -
+oxidized_copper 82 162 132 66 127 109 97 185 151 -
+oxidized_copper_bars 64 122 100 59 102 85 79 154 125 -
+oxidized_copper_bulb 70 132 109 51 89 74 97 186 151 -
+oxidized_copper_chain 61 118 99 59 102 85 67 135 115 -
+oxidized_copper_chest 82 162 132 66 127 109 97 185 151 -
+oxidized_copper_door 82 160 132 63 117 98 104 191 155 -
+oxidized_copper_golem_statue 82 162 132 66 127 109 97 185 151 -
+oxidized_copper_grate 82 161 131 63 119 101 99 187 152 -
+oxidized_copper_lantern 79 140 112 58 102 85 132 199 147 -
+oxidized_copper_trapdoor 83 161 132 64 122 104 104 192 155 -
+oxidized_cut_copper 79 153 126 58 112 93 100 186 149 -
+oxidized_cut_copper_slab 79 153 126 58 112 93 100 186 149 -
+oxidized_cut_copper_stairs 79 153 126 58 112 93 100 186 149 -
+oxidized_lightning_rod 79 154 127 57 111 92 101 189 153 -
+packed_ice 141 180 250 126 166 244 160 194 254 -
+packed_mud 142 106 79 129 94 72 156 120 90 -
+pale_hanging_moss 98 103 97 81 85 81 119 125 116 -
+pale_moss_block 106 112 104 87 91 86 129 137 127 -
+pale_moss_carpet 106 112 104 87 91 86 129 137 127 -
+pale_oak_button 227 217 216 197 183 183 252 246 243 -
+pale_oak_door 216 208 206 142 135 135 253 248 245 -
+pale_oak_fence 227 217 216 197 183 183 252 246 243 -
+pale_oak_fence_gate 227 217 216 197 183 183 252 246 243 -
+pale_oak_hanging_sign 208 201 203 120 118 129 248 241 239 -
+pale_oak_leaves 116 121 114 78 82 78 157 163 153 -
+pale_oak_log 198 189 187 101 90 87 248 239 237 -
+pale_oak_planks 227 217 216 197 183 183 252 246 243 -
+pale_oak_pressure_plate 227 217 216 197 183 183 252 246 243 -
+pale_oak_sapling 109 105 99 74 66 64 134 142 131 -
+pale_oak_shelf 227 217 216 201 186 186 251 246 244 -
+pale_oak_sign 206 195 194 137 125 123 248 239 238 -
+pale_oak_slab 227 217 216 197 183 183 252 246 243 -
+pale_oak_stairs 227 217 216 197 183 183 252 246 243 -
+pale_oak_trapdoor 229 220 218 190 177 176 255 251 248 -
+pale_oak_wall_hanging_sign 208 201 203 120 118 129 248 241 239 -
+pale_oak_wall_sign 206 195 194 137 125 123 248 239 238 -
+pale_oak_wood 87 77 75 64 56 54 108 98 95 -
+pearlescent_froglight 245 240 239 225 210 212 255 254 253 -
+peony 86 101 93 26 56 31 230 178 247 -
+petrified_oak_slab 162 130 78 119 92 51 189 153 96 -
+piglin_head 81 62 50 58 44 36 107 83 69 -
+piglin_wall_head 81 62 50 58 44 36 107 83 69 -
+pink_banner 162 130 78 119 92 51 189 153 96 -
+pink_bed 162 130 78 119 92 51 189 153 96 -
+pink_candle 208 101 142 164 77 115 246 140 173 -
+pink_candle_cake 248 222 214 229 139 127 255 253 254 -
+pink_carpet 237 141 172 224 113 151 244 170 194 -
+pink_concrete 213 101 142 212 100 141 214 102 144 -
+pink_concrete_powder 228 153 181 220 134 167 236 176 198 -
+pink_glazed_terracotta 235 154 181 220 113 152 244 181 203 -
+pink_petals 246 180 218 239 129 188 247 212 236 -
+pink_shulker_box 230 121 157 208 97 138 243 139 170 -
+pink_stained_glass 242 127 165 242 127 165 242 127 165 -
+pink_stained_glass_pane 242 127 165 242 127 165 242 127 165 -
+pink_terracotta 161 78 78 159 75 76 165 81 81 -
+pink_tulip 99 157 78 23 124 4 220 193 229 -
+pink_wall_banner 162 130 78 119 92 51 189 153 96 -
+pink_wool 237 141 172 224 113 151 244 170 194 -
+piston 109 104 96 64 64 64 161 146 120 -
+piston_head 153 127 85 103 80 44 200 180 150 -
+pitcher_crop 193 165 103 171 150 94 203 175 108 -
+pitcher_plant 104 126 93 64 87 62 147 166 108 -
+player_head 81 62 50 58 44 36 107 83 69 -
+player_wall_head 81 62 50 58 44 36 107 83 69 -
+podzol 91 63 24 75 49 24 119 75 26 -
+pointed_dripstone 129 102 89 100 75 72 156 135 109 -
+polished_andesite 132 134 133 107 110 110 158 160 156 -
+polished_andesite_slab 132 134 133 107 110 110 158 160 156 -
+polished_andesite_stairs 132 134 133 107 110 110 158 160 156 -
+polished_basalt 99 98 100 71 68 76 128 128 128 -
+polished_blackstone 53 48 56 36 29 27 69 66 77 -
+polished_blackstone_brick_slab 48 42 49 30 20 25 66 63 75 -
+polished_blackstone_brick_stairs 48 42 49 30 20 25 66 63 75 -
+polished_blackstone_brick_wall 48 42 49 30 20 25 66 63 75 -
+polished_blackstone_bricks 48 42 49 30 20 25 66 63 75 -
+polished_blackstone_button 53 48 56 36 29 27 69 66 77 -
+polished_blackstone_pressure_plate 53 48 56 36 29 27 69 66 77 -
+polished_blackstone_slab 53 48 56 36 29 27 69 66 77 -
+polished_blackstone_stairs 53 48 56 36 29 27 69 66 77 -
+polished_blackstone_wall 53 48 56 36 29 27 69 66 77 -
+polished_cinnabar 152 57 55 124 40 39 178 74 73 -
+polished_cinnabar_slab 152 57 55 124 40 39 178 74 73 -
+polished_cinnabar_stairs 152 57 55 124 40 39 178 74 73 -
+polished_cinnabar_wall 152 57 55 124 40 39 178 74 73 -
+polished_deepslate 72 72 73 45 45 45 95 95 95 -
+polished_deepslate_slab 72 72 73 45 45 45 95 95 95 -
+polished_deepslate_stairs 72 72 73 45 45 45 95 95 95 -
+polished_deepslate_wall 72 72 73 45 45 45 95 95 95 -
+polished_diorite 192 193 194 145 147 148 225 222 225 -
+polished_diorite_slab 192 193 194 145 147 148 225 222 225 -
+polished_diorite_stairs 192 193 194 145 147 148 225 222 225 -
+polished_granite 154 106 89 123 83 68 178 132 114 -
+polished_granite_slab 154 106 89 123 83 68 178 132 114 -
+polished_granite_stairs 154 106 89 123 83 68 178 132 114 -
+polished_sulfur 188 170 91 165 135 80 207 205 101 -
+polished_sulfur_slab 188 170 91 165 135 80 207 205 101 -
+polished_sulfur_stairs 188 170 91 165 135 80 207 205 101 -
+polished_sulfur_wall 188 170 91 165 135 80 207 205 101 -
+polished_tuff 97 104 99 82 89 81 115 118 111 -
+polished_tuff_slab 97 104 99 82 89 81 115 118 111 -
+polished_tuff_stairs 97 104 99 82 89 81 115 118 111 -
+polished_tuff_wall 97 104 99 82 89 81 115 118 111 -
+poppy 128 64 37 42 65 33 175 83 42 -
+potatoes 58 129 40 38 99 37 85 171 45 -
+potent_sulfur 211 208 97 201 192 86 222 222 103 -
+potted_acacia_sapling 118 117 23 113 85 12 122 148 31 -
+potted_allium 158 137 183 91 113 90 217 179 248 -
+potted_azalea_bush 100 122 47 85 107 45 111 144 45 -
+potted_azure_bluet 169 204 127 79 152 44 243 245 245 -
+potted_bamboo 124 68 53 110 60 47 137 76 59 -
+potted_birch_sapling 127 160 79 85 121 48 200 209 149 -
+potted_blue_orchid 47 162 168 55 138 46 42 189 251 -
+potted_brown_mushroom 153 116 92 102 78 62 204 153 120 -
+potted_cactus 124 68 53 110 60 47 137 76 59 -
+potted_cherry_sapling 164 117 143 41 23 34 246 200 228 -
+potted_closed_eyeblossom 108 98 101 54 50 50 167 154 162 -
+potted_cornflower 79 121 146 47 86 111 105 139 217 -
+potted_crimson_fungus 141 44 29 97 2 4 221 100 46 -
+potted_crimson_roots 127 8 41 85 6 41 171 15 29 -
+potted_dandelion 147 172 43 23 124 4 255 236 79 -
+potted_dark_oak_sapling 61 90 30 49 64 18 83 135 51 -
+potted_dead_bush 107 78 40 81 61 36 152 103 42 -
+potted_fern 124 124 124 91 92 91 160 157 160 -
+potted_flowering_azalea_bush 114 119 70 90 107 46 148 129 119 -
+potted_golden_dandelion 159 102 37 84 18 9 239 225 117 -
+potted_jungle_sapling 47 81 16 45 47 7 51 122 29 -
+potted_lily_of_the_valley 123 174 95 55 127 19 238 238 238 -
+potted_mangrove_propagule 124 68 53 110 60 47 137 76 59 -
+potted_oak_sapling 77 106 40 63 64 22 80 164 58 -
+potted_open_eyeblossom 133 124 127 55 50 50 240 235 240 -
+potted_orange_tulip 93 142 30 23 124 4 172 156 42 -
+potted_oxeye_daisy 179 202 143 48 139 21 247 247 247 -
+potted_pale_oak_sapling 109 105 99 74 66 64 134 142 131 -
+potted_pink_tulip 99 157 78 23 124 4 220 193 229 -
+potted_poppy 128 64 37 42 65 33 175 83 42 -
+potted_red_mushroom 216 75 67 200 22 27 194 201 173 -
+potted_red_tulip 89 128 32 45 109 7 85 171 45 -
+potted_spruce_sapling 44 60 36 35 30 15 55 87 55 -
+potted_torchflower 100 101 77 53 59 75 219 167 75 -
+potted_warped_fungus 74 109 87 67 48 61 137 145 75 -
+potted_warped_roots 20 136 123 22 97 91 19 177 133 -
+potted_white_tulip 93 164 71 27 125 7 183 213 190 -
+potted_wither_rose 41 44 23 25 21 16 57 67 28 -
+powder_snow 248 253 253 237 251 251 255 255 255 -
+powder_snow_cauldron 73 72 74 52 52 56 94 91 91 -
+powered_rail 137 109 74 79 25 16 196 173 104 -
+prismarine 98 162 145 66 131 109 140 194 182 -
+prismarine_brick_slab 99 171 158 73 140 119 129 195 186 -
+prismarine_brick_stairs 99 171 158 73 140 119 129 195 186 -
+prismarine_bricks 99 171 158 73 140 119 129 195 186 -
+prismarine_slab 98 162 145 66 131 109 140 194 182 -
+prismarine_stairs 98 162 145 66 131 109 140 194 182 -
+prismarine_wall 98 162 145 66 131 109 140 194 182 -
+pumpkin 198 118 24 159 89 14 227 147 40 -
+pumpkin_stem 154 154 154 103 102 103 194 195 194 -
+purple_banner 162 130 78 119 92 51 189 153 96 -
+purple_bed 162 130 78 119 92 51 189 153 96 -
+purple_candle 105 34 159 85 28 135 132 44 181 -
+purple_candle_cake 248 222 214 229 139 127 255 253 254 -
+purple_carpet 121 42 172 106 33 160 139 54 188 -
+purple_concrete 100 31 156 99 31 155 101 32 157 -
+purple_concrete_powder 131 55 177 121 49 168 143 62 186 -
+purple_glazed_terracotta 109 47 152 51 43 63 153 67 209 -
+purple_shulker_box 103 32 156 84 24 135 116 38 169 -
+purple_stained_glass 127 63 178 127 63 178 127 63 178 -
+purple_stained_glass_pane 127 63 178 127 63 178 127 63 178 -
+purple_terracotta 118 70 86 115 67 83 122 72 88 -
+purple_wall_banner 162 130 78 119 92 51 189 153 96 -
+purple_wool 121 42 172 106 33 160 139 54 188 -
+purpur_block 169 125 169 148 104 148 188 152 188 -
+purpur_pillar 171 128 171 152 107 151 190 154 190 -
+purpur_slab 169 125 169 148 104 148 188 152 188 -
+purpur_stairs 169 125 169 148 104 148 188 152 188 -
+quartz_block 235 229 222 229 222 212 239 236 232 -
+quartz_bricks 234 229 221 225 220 207 240 237 234 -
+quartz_pillar 235 229 222 227 222 209 242 239 237 -
+quartz_slab 235 229 222 229 222 212 239 236 232 -
+quartz_stairs 235 229 222 229 222 212 239 236 232 -
+rail 125 111 88 92 71 40 162 158 152 -
+raw_copper_block 154 105 79 111 85 64 200 138 108 -
+raw_gold_block 221 169 46 182 118 34 251 230 86 -
+raw_iron_block 166 135 107 117 93 60 224 186 160 -
+red_banner 162 130 78 119 92 51 189 153 96 -
+red_bed 162 130 78 119 92 51 189 153 96 -
+red_candle 153 38 36 121 32 36 183 51 43 -
+red_candle_cake 248 222 214 229 139 127 255 253 254 -
+red_carpet 160 39 34 147 33 32 176 46 38 -
+red_concrete 142 32 32 141 32 32 143 34 34 -
+red_concrete_powder 168 54 50 158 49 47 180 60 54 -
+red_glazed_terracotta 181 59 53 147 33 32 206 93 84 -
+red_mushroom 216 75 67 200 22 27 194 201 173 -
+red_mushroom_block 200 46 45 191 36 34 213 67 66 -
+red_nether_brick_slab 69 7 9 47 0 1 101 18 21 -
+red_nether_brick_stairs 69 7 9 47 0 1 101 18 21 -
+red_nether_brick_wall 69 7 9 47 0 1 101 18 21 -
+red_nether_bricks 69 7 9 47 0 1 101 18 21 -
+red_sand 190 102 33 177 94 28 204 111 37 -
+red_sandstone 181 97 31 171 90 26 189 103 34 -
+red_sandstone_slab 181 97 31 171 90 26 189 103 34 -
+red_sandstone_stairs 181 97 31 171 90 26 189 103 34 -
+red_sandstone_wall 186 99 29 164 81 13 208 115 41 -
+red_shulker_box 140 31 30 116 21 22 156 37 34 -
+red_stained_glass 153 51 51 153 51 51 153 51 51 -
+red_stained_glass_pane 153 51 51 153 51 51 153 51 51 -
+red_terracotta 143 61 46 140 58 45 146 63 49 -
+red_tulip 89 128 32 45 109 7 85 171 45 -
+red_wall_banner 162 130 78 119 92 51 189 153 96 -
+red_wool 160 39 34 147 33 32 176 46 38 -
+redstone_block 175 24 5 123 14 0 230 32 8 -
+redstone_lamp 95 54 30 49 26 17 153 91 50 -
+redstone_ore 140 109 109 151 57 57 165 135 135 -
+redstone_torch 101 69 43 65 8 4 157 125 78 -
+redstone_wall_torch 101 69 43 65 8 4 157 125 78 -
+redstone_wire 240 240 240 217 217 217 254 254 254 -
+reinforced_deepslate 80 82 78 47 47 47 133 143 125 -
+repeater 160 157 156 114 99 97 194 197 194 -
+repeating_command_block 127 109 166 78 58 109 184 180 193 -
+resin_block 217 99 25 187 66 15 238 141 49 -
+resin_brick_slab 205 88 24 172 57 22 237 134 44 -
+resin_brick_stairs 205 88 24 172 57 22 237 134 44 -
+resin_brick_wall 205 88 24 172 57 22 237 134 44 -
+resin_bricks 205 88 24 172 57 22 237 134 44 -
+resin_clump 223 111 27 187 68 8 246 166 42 -
+respawn_anchor 33 21 52 6 3 11 77 51 116 -
+rooted_dirt 144 103 76 109 76 51 182 137 109 -
+rose_bush 97 83 37 41 66 34 107 132 43 -
+sand 219 207 163 212 194 148 228 221 179 -
+sandstone 223 214 170 218 206 161 227 220 177 -
+sandstone_slab 223 214 170 218 206 161 227 220 177 -
+sandstone_stairs 223 214 170 218 206 161 227 220 177 -
+sandstone_wall 216 203 155 202 178 122 230 226 185 -
+scaffolding 170 131 73 130 94 61 205 183 83 -
+sculk 13 27 33 13 18 23 7 46 53 -
+sculk_catalyst 15 31 38 13 18 23 17 62 71 -
+sculk_sensor 7 70 84 3 62 76 16 82 95 -
+sculk_shrieker 198 205 169 187 195 155 209 214 182 -
+sculk_vein 7 49 58 15 23 29 4 81 94 -
+sea_lantern 172 200 190 80 133 120 225 234 226 -
+sea_pickle 90 97 39 60 63 22 127 141 75 -
+seagrass 51 126 8 34 93 0 73 148 31 -
+short_dry_grass 187 158 108 163 125 72 215 200 154 -
+short_grass 145 145 145 118 118 118 173 172 173 G
+shroomlight 240 146 70 214 85 9 254 209 142 -
+shulker_box 139 96 139 120 84 120 151 105 151 -
+skeleton_skull 81 62 50 58 44 36 107 83 69 -
+skeleton_wall_skull 81 62 50 58 44 36 107 83 69 -
+slime_block 111 192 91 95 178 71 122 202 100 -
+small_amethyst_bud 131 99 192 100 71 158 174 137 238 -
+small_dripleaf 91 115 45 68 87 44 110 140 46 -
+smithing_table 56 37 38 29 22 23 81 57 62 -
+smoker 85 83 81 39 39 39 125 125 125 -
+smooth_basalt 72 72 78 48 51 62 93 93 93 -
+smooth_quartz 236 230 223 234 226 218 238 234 230 -
+smooth_quartz_slab 236 230 223 234 226 218 238 234 230 -
+smooth_quartz_stairs 236 230 223 234 226 218 238 234 230 -
+smooth_red_sandstone 181 97 31 171 90 26 189 103 34 -
+smooth_red_sandstone_slab 181 97 31 171 90 26 189 103 34 -
+smooth_red_sandstone_stairs 181 97 31 171 90 26 189 103 34 -
+smooth_sandstone 223 214 170 218 206 161 227 220 177 -
+smooth_sandstone_slab 223 214 170 218 206 161 227 220 177 -
+smooth_sandstone_stairs 223 214 170 218 206 161 227 220 177 -
+smooth_stone 158 158 158 130 130 130 174 174 174 -
+smooth_stone_slab 158 158 158 130 130 130 174 174 174 -
+sniffer_egg 135 105 67 166 58 38 79 164 100 -
+snow 249 254 254 240 253 253 255 255 255 -
+snow_block 249 254 254 240 253 253 255 255 255 -
+soul_campfire 79 74 67 33 39 47 144 120 82 -
+soul_fire 56 204 208 1 149 154 185 251 253 -
+soul_lantern 70 98 114 54 60 76 93 186 194 -
+soul_sand 81 62 50 58 44 36 107 83 69 -
+soul_soil 75 57 46 57 43 35 96 74 60 -
+soul_torch 109 115 89 65 51 31 149 198 181 -
+soul_wall_torch 109 115 89 65 51 31 149 198 181 -
+spawner 36 46 62 29 24 39 50 79 98 -
+sponge 195 192 74 172 160 68 214 216 77 -
+spore_blossom 206 96 158 134 60 105 250 133 197 -
+spruce_button 114 84 48 88 64 35 133 99 57 -
+spruce_door 106 80 48 79 58 35 131 101 65 -
+spruce_fence 114 84 48 88 64 35 133 99 57 -
+spruce_fence_gate 114 84 48 88 64 35 133 99 57 -
+spruce_hanging_sign 107 86 57 73 70 65 129 95 56 -
+spruce_leaves 126 126 126 73 73 73 153 153 153 S
+spruce_log 108 80 46 81 57 32 129 96 57 -
+spruce_planks 114 84 48 88 64 35 133 99 57 -
+spruce_pressure_plate 114 84 48 88 64 35 133 99 57 -
+spruce_sapling 44 60 36 35 30 15 55 87 55 -
+spruce_shelf 104 82 47 90 70 38 123 93 56 -
+spruce_sign 104 76 43 67 46 24 131 97 57 -
+spruce_slab 114 84 48 88 64 35 133 99 57 -
+spruce_stairs 114 84 48 88 64 35 133 99 57 -
+spruce_trapdoor 103 79 47 81 62 39 122 94 61 -
+spruce_wall_hanging_sign 107 86 57 73 70 65 129 95 56 -
+spruce_wall_sign 104 76 43 67 46 24 131 97 57 -
+spruce_wood 58 37 16 46 26 9 75 50 23 -
+sticky_piston 109 104 96 64 64 64 161 146 120 -
+stone 125 125 125 112 112 112 139 139 139 -
+stone_brick_slab 122 121 122 97 98 97 147 144 147 -
+stone_brick_stairs 122 121 122 97 98 97 147 144 147 -
+stone_brick_wall 122 121 122 97 98 97 147 144 147 -
+stone_bricks 122 121 122 97 98 97 147 144 147 -
+stone_button 125 125 125 112 112 112 139 139 139 -
+stone_pressure_plate 125 125 125 112 112 112 139 139 139 -
+stone_slab 125 125 125 112 112 112 139 139 139 -
+stone_stairs 125 125 125 112 112 112 139 139 139 -
+stonecutter 123 118 111 101 91 75 141 141 141 -
+stripped_acacia_log 166 91 51 150 81 46 185 99 55 -
+stripped_acacia_wood 174 92 59 159 88 56 187 96 62 -
+stripped_bamboo_block 178 158 72 121 104 40 223 200 101 -
+stripped_birch_log 191 171 116 173 148 93 213 193 132 -
+stripped_birch_wood 196 176 118 183 160 105 207 190 129 -
+stripped_cherry_log 221 164 157 203 129 125 230 190 180 -
+stripped_cherry_wood 215 145 148 207 134 134 220 152 158 -
+stripped_crimson_hyphae 137 57 90 125 51 80 152 63 99 -
+stripped_crimson_stem 121 56 82 95 48 68 137 62 91 -
+stripped_dark_oak_log 65 44 22 54 37 19 78 50 24 -
+stripped_dark_oak_wood 72 56 36 64 51 33 81 62 38 -
+stripped_jungle_log 165 122 81 153 108 69 182 135 98 -
+stripped_jungle_wood 171 132 84 152 125 70 187 141 97 -
+stripped_mangrove_log 109 43 43 95 30 31 119 57 51 -
+stripped_mangrove_wood 119 54 47 113 47 47 122 61 47 -
+stripped_oak_log 160 129 77 127 105 59 184 148 94 -
+stripped_oak_wood 177 144 86 157 125 71 192 157 98 -
+stripped_pale_oak_log 235 226 225 212 199 199 252 246 244 -
+stripped_pale_oak_wood 245 238 236 236 226 225 255 251 248 -
+stripped_spruce_log 113 86 50 96 76 44 129 96 57 -
+stripped_spruce_wood 115 89 52 100 84 47 130 96 55 -
+stripped_warped_hyphae 57 150 147 48 138 132 66 162 160 -
+stripped_warped_stem 52 128 124 42 99 88 57 146 142 -
+structure_block 68 57 69 16 16 16 166 138 166 -
+structure_void 24 86 93 15 72 78 51 105 110 -
+sugar_cane 148 192 101 124 160 84 183 223 139 G
+sulfur 189 175 101 174 155 95 201 196 101 -
+sulfur_brick_slab 186 167 91 158 126 78 210 208 104 -
+sulfur_brick_stairs 186 167 91 158 126 78 210 208 104 -
+sulfur_brick_wall 186 167 91 158 126 78 210 208 104 -
+sulfur_bricks 186 167 91 158 126 78 210 208 104 -
+sulfur_slab 189 175 101 174 155 95 201 196 101 -
+sulfur_spike 182 169 94 155 138 81 208 200 105 -
+sulfur_stairs 189 175 101 174 155 95 201 196 101 -
+sulfur_wall 189 175 101 174 155 95 201 196 101 -
+sunflower 56 135 30 31 109 22 82 157 45 -
+suspicious_gravel 129 125 124 108 100 99 153 152 152 -
+suspicious_sand 217 204 159 207 185 135 229 223 182 -
+sweet_berry_bush 42 89 56 29 56 34 62 118 74 -
+tall_dry_grass 196 171 122 170 134 81 218 207 163 -
+tall_grass 128 128 128 103 105 103 160 157 160 G
+tall_seagrass 45 118 4 33 88 0 62 142 17 -
+target 226 170 157 192 49 49 245 238 228 -
+terracotta 152 94 67 149 92 67 154 95 69 -
+test_block 131 191 117 88 150 72 209 237 204 -
+test_instance_block 127 120 119 79 72 70 222 221 220 -
+tinted_glass 46 34 52 41 27 46 53 40 59 -
+tnt 142 62 53 72 18 33 173 116 101 -
+torch 138 113 63 65 51 31 235 199 97 -
+torchflower 100 101 77 53 59 75 219 167 75 -
+torchflower_crop 28 97 67 19 69 50 39 132 93 -
+trapped_chest 162 130 78 119 92 51 189 153 96 -
+trial_spawner 62 80 92 32 44 59 118 120 115 -
+tripwire 129 129 129 92 92 92 166 166 166 -
+tripwire_hook 162 130 78 119 92 51 189 153 96 -
+tube_coral 47 83 197 28 55 137 61 116 229 -
+tube_coral_block 49 87 206 32 64 159 61 118 229 -
+tube_coral_fan 50 91 208 31 64 158 61 122 229 -
+tube_coral_wall_fan 50 91 208 31 64 158 61 122 229 -
+tuff 108 109 102 85 86 76 136 135 126 -
+tuff_brick_slab 98 102 95 68 74 63 129 128 119 -
+tuff_brick_stairs 98 102 95 68 74 63 129 128 119 -
+tuff_brick_wall 98 102 95 68 74 63 129 128 119 -
+tuff_bricks 98 102 95 68 74 63 129 128 119 -
+tuff_slab 108 109 102 85 86 76 136 135 126 -
+tuff_stairs 108 109 102 85 86 76 136 135 126 -
+tuff_wall 108 109 102 85 86 76 136 135 126 -
+turtle_egg 228 226 191 177 199 156 247 241 217 -
+twisting_vines 20 143 124 22 100 96 20 180 133 -
+twisting_vines_plant 20 135 122 22 97 91 19 172 133 -
+vault 54 69 79 19 34 44 100 111 108 -
+verdant_froglight 229 244 228 188 224 184 248 253 248 -
+vine 116 116 116 84 84 84 152 152 152 F
+wall_torch 138 113 63 65 51 31 235 199 97 -
+warped_button 43 104 99 24 65 62 57 137 135 -
+warped_door 44 126 120 36 88 80 38 168 158 -
+warped_fence 43 104 99 24 65 62 57 137 135 -
+warped_fence_gate 43 104 99 24 65 62 57 137 135 -
+warped_fungus 74 109 87 67 48 61 137 145 75 -
+warped_hanging_sign 55 135 133 52 90 96 63 160 158 -
+warped_hyphae 57 59 77 70 34 50 19 111 98 -
+warped_nylium 43 114 101 22 97 91 49 143 110 -
+warped_planks 43 104 99 24 65 62 57 137 135 -
+warped_pressure_plate 43 104 99 24 65 62 57 137 135 -
+warped_roots 20 138 124 22 100 96 19 175 133 -
+warped_shelf 51 140 133 42 119 109 62 162 160 -
+warped_sign 42 100 98 42 59 69 49 135 132 -
+warped_slab 43 104 99 24 65 62 57 137 135 -
+warped_stairs 43 104 99 24 65 62 57 137 135 -
+warped_stem 53 109 110 60 56 71 55 143 139 -
+warped_trapdoor 47 119 111 34 88 81 54 154 144 -
+warped_wall_hanging_sign 55 135 133 52 90 96 63 160 158 -
+warped_wall_sign 42 100 98 42 59 69 49 135 132 -
+warped_wart_block 22 119 121 24 99 103 20 138 133 -
+water 63 118 228 63 118 228 63 118 228 W
+water_cauldron 73 72 74 52 52 56 94 91 91 W
+waxed_chiseled_copper 184 100 73 148 76 52 218 124 99 -
+waxed_copper_bars 155 80 55 128 57 33 189 107 78 -
+waxed_copper_block 192 107 79 160 84 59 221 126 100 -
+waxed_copper_bulb 156 86 57 100 55 23 213 122 95 -
+waxed_copper_chain 151 79 54 132 65 43 170 92 66 -
+waxed_copper_chest 192 107 79 160 84 59 221 126 100 -
+waxed_copper_door 192 109 82 153 84 61 223 128 103 -
+waxed_copper_golem_statue 192 107 79 160 84 59 221 126 100 -
+waxed_copper_grate 191 107 79 158 83 58 219 126 98 -
+waxed_copper_lantern 159 109 77 140 70 48 167 185 132 -
+waxed_copper_trapdoor 190 106 79 153 79 55 224 128 105 -
+waxed_cut_copper 191 106 80 160 85 60 225 129 106 -
+waxed_cut_copper_slab 191 106 80 160 85 60 225 129 106 -
+waxed_cut_copper_stairs 191 106 80 160 85 60 225 129 106 -
+waxed_exposed_chiseled_copper 154 119 100 120 102 85 193 137 124 -
+waxed_exposed_copper 161 125 103 131 112 88 194 134 124 -
+waxed_exposed_copper_bars 134 107 89 102 88 73 174 124 107 -
+waxed_exposed_copper_bulb 135 107 89 90 80 65 186 136 120 -
+waxed_exposed_copper_chain 126 101 83 102 88 73 152 116 94 -
+waxed_exposed_copper_chest 161 125 103 131 112 88 194 134 124 -
+waxed_exposed_copper_door 164 123 106 122 103 85 200 138 127 -
+waxed_exposed_copper_golem_statue 161 125 103 131 112 88 194 134 124 -
+waxed_exposed_copper_grate 161 125 104 129 111 88 196 136 125 -
+waxed_exposed_copper_lantern 149 132 106 114 102 81 165 192 145 -
+waxed_exposed_copper_trapdoor 161 125 104 125 110 86 201 138 128 -
+waxed_exposed_cut_copper 154 121 101 121 105 84 193 134 123 -
+waxed_exposed_cut_copper_slab 154 121 101 121 105 84 193 134 123 -
+waxed_exposed_cut_copper_stairs 154 121 101 121 105 84 193 134 123 -
+waxed_exposed_lightning_rod 159 120 103 112 98 80 196 135 125 -
+waxed_lightning_rod 196 111 83 162 86 61 220 126 99 -
+waxed_oxidized_chiseled_copper 83 161 132 60 121 99 104 191 155 -
+waxed_oxidized_copper 82 162 132 66 127 109 97 185 151 -
+waxed_oxidized_copper_bars 64 122 100 59 102 85 79 154 125 -
+waxed_oxidized_copper_bulb 70 132 109 51 89 74 97 186 151 -
+waxed_oxidized_copper_chain 61 118 99 59 102 85 67 135 115 -
+waxed_oxidized_copper_chest 82 162 132 66 127 109 97 185 151 -
+waxed_oxidized_copper_door 82 160 132 63 117 98 104 191 155 -
+waxed_oxidized_copper_golem_statue 82 162 132 66 127 109 97 185 151 -
+waxed_oxidized_copper_grate 82 161 131 63 119 101 99 187 152 -
+waxed_oxidized_copper_lantern 79 140 112 58 102 85 132 199 147 -
+waxed_oxidized_copper_trapdoor 83 161 132 64 122 104 104 192 155 -
+waxed_oxidized_cut_copper 79 153 126 58 112 93 100 186 149 -
+waxed_oxidized_cut_copper_slab 79 153 126 58 112 93 100 186 149 -
+waxed_oxidized_cut_copper_stairs 79 153 126 58 112 93 100 186 149 -
+waxed_oxidized_lightning_rod 79 154 127 57 111 92 101 189 153 -
+waxed_weathered_chiseled_copper 104 150 111 87 113 87 117 180 145 -
+waxed_weathered_copper 108 153 110 103 127 85 112 176 136 -
+waxed_weathered_copper_bars 84 123 94 62 94 84 106 159 106 -
+waxed_weathered_copper_bulb 92 126 99 74 87 76 110 172 134 -
+waxed_weathered_copper_chain 72 108 91 62 94 84 92 130 97 -
+waxed_weathered_copper_chest 108 153 110 103 127 85 112 176 136 -
+waxed_weathered_copper_door 110 150 109 102 117 78 116 179 143 -
+waxed_weathered_copper_golem_statue 108 153 110 103 127 85 112 176 136 -
+waxed_weathered_copper_grate 106 152 110 98 123 86 112 176 137 -
+waxed_weathered_copper_lantern 97 135 101 62 95 85 144 196 139 -
+waxed_weathered_copper_trapdoor 108 153 110 100 123 84 118 180 146 -
+waxed_weathered_cut_copper 109 145 107 91 114 85 110 173 134 -
+waxed_weathered_cut_copper_slab 109 145 107 91 114 85 110 173 134 -
+waxed_weathered_cut_copper_stairs 109 145 107 91 114 85 110 173 134 -
+waxed_weathered_lightning_rod 97 142 105 66 102 90 112 176 136 -
+weathered_chiseled_copper 104 150 111 87 113 87 117 180 145 -
+weathered_copper 108 153 110 103 127 85 112 176 136 -
+weathered_copper_bars 84 123 94 62 94 84 106 159 106 -
+weathered_copper_bulb 92 126 99 74 87 76 110 172 134 -
+weathered_copper_chain 72 108 91 62 94 84 92 130 97 -
+weathered_copper_chest 108 153 110 103 127 85 112 176 136 -
+weathered_copper_door 110 150 109 102 117 78 116 179 143 -
+weathered_copper_golem_statue 108 153 110 103 127 85 112 176 136 -
+weathered_copper_grate 106 152 110 98 123 86 112 176 137 -
+weathered_copper_lantern 97 135 101 62 95 85 144 196 139 -
+weathered_copper_trapdoor 108 153 110 100 123 84 118 180 146 -
+weathered_cut_copper 109 145 107 91 114 85 110 173 134 -
+weathered_cut_copper_slab 109 145 107 91 114 85 110 173 134 -
+weathered_cut_copper_stairs 109 145 107 91 114 85 110 173 134 -
+weathered_lightning_rod 97 142 105 66 102 90 112 176 136 -
+weeping_vines 104 1 0 90 0 0 123 0 0 -
+weeping_vines_plant 132 16 12 93 0 0 197 56 42 -
+wet_sponge 171 181 70 145 151 59 202 204 74 -
+wheat 8 127 15 5 106 5 0 174 25 -
+white_banner 162 130 78 119 92 51 189 153 96 -
+white_bed 162 130 78 119 92 51 189 153 96 -
+white_candle 210 216 217 165 175 179 249 249 249 -
+white_candle_cake 248 222 214 229 139 127 255 253 254 -
+white_carpet 233 236 236 215 220 221 251 251 251 -
+white_concrete 207 213 214 206 211 212 208 214 215 -
+white_concrete_powder 225 227 227 215 217 217 237 238 238 -
+white_glazed_terracotta 188 212 202 47 139 204 249 255 254 -
+white_shulker_box 215 220 221 191 197 198 230 234 234 -
+white_stained_glass 255 255 255 255 255 255 255 255 255 -
+white_stained_glass_pane 255 255 255 255 255 255 255 255 255 -
+white_terracotta 209 178 161 207 174 159 211 181 163 -
+white_tulip 93 164 71 27 125 7 183 213 190 -
+white_wall_banner 162 130 78 119 92 51 189 153 96 -
+white_wool 233 236 236 215 220 221 251 251 251 -
+wildflowers 237 213 117 238 180 48 229 241 241 -
+wither_rose 41 44 23 25 21 16 57 67 28 -
+wither_skeleton_skull 81 62 50 58 44 36 107 83 69 -
+wither_skeleton_wall_skull 81 62 50 58 44 36 107 83 69 -
+yellow_banner 162 130 78 119 92 51 189 153 96 -
+yellow_bed 162 130 78 119 92 51 189 153 96 -
+yellow_candle 209 164 50 164 128 40 255 206 71 -
+yellow_candle_cake 248 222 214 229 139 127 255 253 254 -
+yellow_carpet 248 197 39 244 182 25 253 213 56 -
+yellow_concrete 240 175 21 239 174 21 242 176 22 -
+yellow_concrete_powder 232 199 54 226 188 45 239 212 69 -
+yellow_glazed_terracotta 234 192 88 187 134 56 255 238 171 -
+yellow_shulker_box 248 188 29 240 174 20 252 199 36 -
+yellow_stained_glass 229 229 51 229 229 51 229 229 51 -
+yellow_stained_glass_pane 229 229 51 229 229 51 229 229 51 -
+yellow_terracotta 186 133 35 183 130 33 189 136 37 -
+yellow_wall_banner 162 130 78 119 92 51 189 153 96 -
+yellow_wool 248 197 39 244 182 25 253 213 56 -
+zombie_head 81 62 50 58 44 36 107 83 69 -
+zombie_wall_head 81 62 50 58 44 36 107 83 69 -

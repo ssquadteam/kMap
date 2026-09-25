@@ -67,17 +67,10 @@ object TileData {
         return (r shl 16) or (g shl 8) or bl
     }
 
-    fun finalRgb(s: ChunkSurface, i: Int, north: Int, west: Int, brightness: Double = 1.0): Int {
-        val h = s.heights[i].toInt()
+    fun finalRgb(s: ChunkSurface, i: Int, north: Int, west: Int, northWest: Int, farNorthWest: Int, shore: Boolean, brightness: Double = 1.0): Int {
         val depth = s.water[i].toInt()
-        var f = 1.0 + ((h - north) * 0.09 + (h - west) * 0.05).coerceIn(-0.28, 0.22)
-        f *= brightness
-        val base = shadeRgb(s.rgb[i], f)
-        if (depth > 0) {
-            val t = (0.42 + depth * 0.055).coerceAtMost(0.88)
-            return mix(base, shadeRgb(s.waterRgb[i], 1.0 - (depth * 0.012).coerceAtMost(0.25)), t)
-        }
-        return base
+        if (depth > 0) return Shading.water(s.rgb[i], s.waterRgb[i], depth, shore, brightness)
+        return Shading.land(s.rgb[i], s.heights[i].toInt(), north, west, northWest, farNorthWest, brightness)
     }
 
     fun paletteByte(s: ChunkSurface, i: Int, north: Int, wx: Int, wz: Int): Byte {

@@ -21,7 +21,6 @@ class EntityMarkerConfig(s: ConfigurationSection?) {
 class BindConfig(val gesture: Gesture, val sneaking: Boolean?, val hand: HandFilter, val command: String?, val material: String?, val customModelData: Int?, val nbtKey: String?, val nbtValue: String?)
 
 class GuiSwitches(s: ConfigurationSection?) {
-    val admin = s?.getBoolean("admin", true) ?: true
     val settings = s?.getBoolean("settings", true) ?: true
     val faq = s?.getBoolean("faq", true) ?: true
     val waypoints = s?.getBoolean("waypoints", true) ?: true
@@ -29,34 +28,26 @@ class GuiSwitches(s: ConfigurationSection?) {
     val search = s?.getBoolean("search", true) ?: true
     val zoomButtons = s?.getBoolean("zoomButtons", true) ?: true
     val resetView = s?.getBoolean("resetView", true) ?: true
-    val fonts = s?.getBoolean("fonts", true) ?: true
 }
 
 class KMapConfig(val yaml: YamlConfiguration) {
-    val renderMode = RenderMode.parse(yaml.getString("render.mode")) ?: RenderMode.WORLD_VIEW
-    val defaultModule = MapModule.parse(yaml.getString("render.defaultModule")) ?: MapModule.MINIMAP_AND_BIG
+    val defaultModule = MapModule.parse(yaml.getString("render.defaultModule")) ?: MapModule.MINIMAP_AND_SCREEN
     val defaultShape = runCatching { MinimapShape.valueOf(yaml.getString("render.defaultMinimapShape", "SQUARE")!!.uppercase()) }.getOrDefault(MinimapShape.SQUARE)
     val defaultCorner = runCatching { Corner.valueOf(yaml.getString("render.defaultMinimapPlacement", "TOP_LEFT")!!.uppercase()) }.getOrDefault(Corner.TOP_LEFT)
     val coordinatesEnabled = yaml.getBoolean("render.coordinatesEnabled", true)
     val openMapOnJoin = yaml.getBoolean("render.openMapOnJoin", true)
     val joinOpenDelayTicks = yaml.getInt("render.joinOpenDelayTicks", 20).coerceAtLeast(0)
-    val screenMapGlideTicks = yaml.getInt("render.screenMapGlideTicks", 2).coerceIn(0, 10)
     val screenPanRadiusBlocks = yaml.getInt("render.screenPanRadiusBlocks", 768).coerceIn(64, 30000)
     val largeWorldThreshold = yaml.getInt("render.largeWorldThreshold", 8192)
     val largeWorldMode = RenderMode.parse(yaml.getString("render.largeWorldMode")) ?: RenderMode.DEEP_EXPLORER
-    val rgbTextured = yaml.getBoolean("render.rgbTextured", false)
+    val rgbTextured = yaml.getBoolean("render.rgbTextured", true)
     val discoverRadiusChunks = yaml.getInt("render.discoverRadiusChunks", 6).coerceIn(1, 32)
     val tilesPerFlush = yaml.getInt("render.tilesPerFlush", 4).coerceIn(1, 64)
     val flushIntervalTicks = yaml.getInt("render.flushIntervalTicks", 2).coerceIn(1, 40)
-    val prewarmRadiusChunks = yaml.getInt("render.prewarmRadiusChunks", 3).coerceIn(0, 16)
     val minimapSize = yaml.getInt("render.minimapSizePx", 64).coerceIn(32, 160)
     val minimapBlocks = yaml.getInt("render.minimapBlocks", 88).coerceIn(16, 512)
     val bigMapSize = yaml.getInt("render.bigMapSizePx", 300).coerceIn(96, 352)
     val bigMapBlocks = yaml.getInt("render.bigMapBlocks", 360).coerceIn(32, 2048)
-    val tabMapEnabled = yaml.getBoolean("render.tabMap.enabled", true)
-    val tabMapWidth = yaml.getInt("render.tabMap.widthPx", 300).coerceIn(96, 600)
-    val tabMapHeight = yaml.getInt("render.tabMap.heightPx", 170).coerceIn(64, 320)
-    val tabMapUpdateTicks = yaml.getInt("render.tabMap.updateTicks", 10).coerceIn(2, 100)
     val caveLayerHeight = yaml.getInt("render.cave.layerHeight", 8).coerceIn(1, 64)
     val caveComputeRadiusChunks = yaml.getInt("render.cave.computeRadiusChunks", 6).coerceIn(1, 16)
     val caveSnapshotsPerTick = yaml.getInt("render.cave.snapshotsPerTick", 24).coerceIn(1, 256)
@@ -101,9 +92,9 @@ class KMapConfig(val yaml: YamlConfiguration) {
     val selfHostPort = yaml.getInt("resourcepack.hosting.selfHost.port", 8163)
     val selfHostPublicAddress = yaml.getString("resourcepack.hosting.selfHost.publicAddress", "auto")!!
     val externalUrl = yaml.getString("resourcepack.hosting.external.url", "")!!
-    val mergeTarget = runCatching { MergeTarget.valueOf(yaml.getString("resourcepack.merge.target", "NONE")!!.uppercase()) }.getOrDefault(MergeTarget.NONE)
+    val mergeTarget = runCatching { MergeTarget.valueOf(yaml.getString("resourcepack.merge.target", "AUTO")!!.uppercase()) }.getOrDefault(MergeTarget.AUTO)
     val mergePacks: List<String> = yaml.getStringList("resourcepack.merge.packs")
-    val mergeBakes = yaml.getBoolean("resourcepack.merge.bakes", false)
+    val mergeBakes = yaml.getBoolean("resourcepack.merge.bakes", true)
 
     val language = yaml.getString("language", "en")!!
     val debug = yaml.getBoolean("debug.logs", false)

@@ -1,5 +1,7 @@
 package com.github.ssquadteam.kmap.render
 
+import java.util.Locale
+
 enum class Tint(val rgb: Int) {
     NONE(0xFFFFFF),
     CREAM(0xF6E4C4),
@@ -64,7 +66,7 @@ enum class Tint(val rgb: Int) {
             for (i in 0 until 64) {
                 val rgb = values.getOrNull(i)?.rgb ?: 0xFFFFFF
                 if (i > 0) sb.append(',')
-                sb.append("vec3(%.4f,%.4f,%.4f)".format(java.util.Locale.ROOT, (rgb shr 16 and 255) / 255f, (rgb shr 8 and 255) / 255f, (rgb and 255) / 255f))
+                sb.append("vec3(%.4f,%.4f,%.4f)".format(Locale.ROOT, (rgb shr 16 and 255) / 255f, (rgb shr 8 and 255) / 255f, (rgb and 255) / 255f))
             }
             return sb.append(");").toString()
         }

@@ -1,5 +1,6 @@
 package com.github.ssquadteam.kmap.nms
 
+import net.minecraft.core.Direction
 import net.minecraft.network.chat.Component
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.world.entity.Display
@@ -38,5 +39,5 @@ object EntityDataKeys {
     val TEXT_FLAGS: EntityDataAccessor<Byte> = field(Display.TextDisplay::class.java, "DATA_STYLE_FLAGS_ID")
     val FRAME_ITEM: EntityDataAccessor<ItemStack> = field(ItemFrame::class.java, "DATA_ITEM")
     val FRAME_ROTATION: EntityDataAccessor<Int> = field(ItemFrame::class.java, "DATA_ROTATION")
-    val HANGING_DIRECTION: EntityDataAccessor<net.minecraft.core.Direction> = field(HangingEntity::class.java, "DATA_DIRECTION")
+    val HANGING_DIRECTION: EntityDataAccessor<Direction> = field(HangingEntity::class.java, "DATA_DIRECTION")
 }

@@ -1,10 +1,11 @@
 package com.github.ssquadteam.kmap.waypoints
 
-import org.bukkit.configuration.file.YamlConfiguration
+import com.github.ssquadteam.kmap.storage.AsyncFiles
 import java.io.File
 import java.util.UUID
+import org.bukkit.configuration.file.YamlConfiguration
 
-class WaypointStore(private val file: File, private val persist: Boolean, private val files: com.github.ssquadteam.kmap.storage.AsyncFiles) {
+class WaypointStore(private val file: File, private val persist: Boolean, private val files: AsyncFiles) {
     val all = ArrayList<Waypoint>()
 
     fun inWorld(world: String): List<Waypoint> = all.filter { it.world == world }

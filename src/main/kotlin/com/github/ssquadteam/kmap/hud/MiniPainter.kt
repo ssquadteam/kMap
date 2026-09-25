@@ -6,13 +6,15 @@ import com.github.ssquadteam.kmap.render.Codes
 import com.github.ssquadteam.kmap.render.Fx
 import com.github.ssquadteam.kmap.render.Glyphs
 import com.github.ssquadteam.kmap.render.Tint
+import com.github.ssquadteam.kmap.world.BakedMap
+import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 
 object MiniPainter {
-    fun frame(glyphs: Glyphs, shape: MinimapShape, size: Int, bakes: List<com.github.ssquadteam.kmap.world.BakedMap>): Component {
+    fun frame(glyphs: Glyphs, shape: MinimapShape, size: Int, bakes: List<BakedMap>): Component {
         val c = Canvas(glyphs)
         c.glyph("mini_bg_square", 0.0, 0, Codes.glyph(0, Tint.NONE, 0, Fx.MAP_CLIP))
-        for (b in bakes) c.sprite(net.kyori.adventure.key.Key.key("minecraft", "map_decorations"), net.kyori.adventure.key.Key.key("kmap", b.sprite), 0.0, Codes.terrainMini())
+        for (b in bakes) c.sprite(Key.key("minecraft", "map_decorations"), Key.key("kmap", b.sprite), 0.0, Codes.terrainMini())
         val frame = if (shape == MinimapShape.CIRCLE) "mini_circle" else "mini_square"
         c.glyph(frame, -3.0, -3, Codes.glyph(-3, Tint.NONE, 3))
         c.glyph("arrow", size / 2.0 - 4.5, size / 2 - 4, Codes.arrow(size / 2 - 4))

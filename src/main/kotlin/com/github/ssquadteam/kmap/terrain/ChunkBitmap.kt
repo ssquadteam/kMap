@@ -70,7 +70,7 @@ class ChunkBitmap {
                 val v = input.readLong()
                 val added = v and words.get(i).inv()
                 words.set(i, words.get(i) or v)
-                count.addAndGet(java.lang.Long.bitCount(added))
+                count.addAndGet(added.countOneBits())
             }
         }
         mods.incrementAndGet()

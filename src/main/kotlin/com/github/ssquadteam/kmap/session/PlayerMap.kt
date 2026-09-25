@@ -23,6 +23,14 @@ import com.github.ssquadteam.kmap.terrain.TileMeta
 import com.github.ssquadteam.kmap.waypoints.WaypointStore
 import com.github.ssquadteam.kmap.world.WorldMap
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask
+import java.io.File
+import java.util.Collections
+import java.util.IdentityHashMap
+import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicLong
+import java.util.logging.Level
 import net.minecraft.network.protocol.Packet
 import net.minecraft.network.protocol.game.ClientGamePacketListener
 import net.minecraft.network.protocol.game.ClientboundBlockChangedAckPacket
@@ -46,23 +54,26 @@ import net.minecraft.network.protocol.game.ServerboundSwingPacket
 import net.minecraft.network.protocol.game.ServerboundUseItemOnPacket
 import net.minecraft.network.protocol.game.ServerboundUseItemPacket
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.LightLayer
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.phys.Vec3
 import org.bukkit.GameMode
 import org.bukkit.craftbukkit.entity.CraftPlayer
 import org.bukkit.entity.Player
-import java.io.File
-import java.util.UUID
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.atomic.AtomicBoolean
-import java.util.concurrent.atomic.AtomicLong
+import org.bukkit.event.inventory.InventoryType
 
 class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: PlayerSettings) : PacketListener {
-    private class TileSlot(val key: Long, val frame: TileFrame, val originX: Int, val originZ: Int, val kind: Int, val layer: Int) {
+    private class TileSlot(val key: Long, val frame: TileFrame, val originX: Int, val originZ: Int, val kind: Int, val layer: Int, val tx: Int, val tz: Int) {
         var sentVersion = -1L
         var sentMeta: ByteArray? = null
         var spawned = false
+        var sigs: LongArray? = null
+        var mods = -1L
+        var discMod = -1L
+        var missing = false
     }
+
+    private class Want(val key: Long, val tx: Int, val tz: Int, val originX: Int, val originZ: Int)
 
     @Volatile
     var band = 0
@@ -94,6 +105,16 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
     private var realPassengers = IntArray(0)
     private var caveLayer = Int.MIN_VALUE
     private val assembler = TileAssembler()
+    private val rangeScratch = IntArray(8)
+    private val lastRange = IntArray(8) { Int.MIN_VALUE }
+    private var orderedAt = 0
+    private var ordered: List<Want> = emptyList()
+    private val sigScratch = LongArray(12 * 12)
+    private var lastStreamError = -1200
+    private var fogMinX = Int.MAX_VALUE
+    private var fogMinZ = Int.MAX_VALUE
+    private var fogMaxX = Int.MIN_VALUE
+    private var fogMaxZ = Int.MIN_VALUE
     private val markers = EntityMarkers(plugin, player)
     val hudMarkers = HudMarkers(plugin, this)
     val worldMarkers = WorldMarkers(plugin, this)
@@ -136,7 +157,7 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
         despawnAll()
     }
 
-    private val own = java.util.Collections.synchronizedSet(java.util.Collections.newSetFromMap(java.util.IdentityHashMap<Packet<*>, Boolean>()))
+    private val own = Collections.synchronizedSet(Collections.newSetFromMap(IdentityHashMap<Packet<*>, Boolean>()))
 
     fun send(packet: Packet<in ClientGamePacketListener>) {
         if (screen != null) {
@@ -145,6 +166,8 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
         }
         (player as CraftPlayer).handle.connection.send(packet)
     }
+
+    fun clearOwn() = own.clear()
 
     fun sendAll(packets: List<Packet<in ClientGamePacketListener>>) {
         if (packets.isEmpty()) return
@@ -161,6 +184,7 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
         carriers.clear()
         for (t in tiles.values) freeMapIds.add(t.frame.mapId)
         tiles.clear()
+        lastRange[0] = Int.MIN_VALUE
         if (ids.isNotEmpty()) send(Packets.remove(*ids.toIntArray()))
         ridersDirty = true
     }
@@ -274,7 +298,7 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
 
     fun toggleFromCommand() {
         player.scheduler.run(plugin, {
-            if (player.openInventory.topInventory.type != org.bukkit.event.inventory.InventoryType.CRAFTING) player.closeInventory()
+            if (player.openInventory.topInventory.type != InventoryType.CRAFTING) player.closeInventory()
             if (!active) start()
             toggle()
         }, null)
@@ -338,12 +362,12 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
                 if (!packet.hasRotation()) return packet
                 val yaw = packet.getYRot(0f)
                 val pitch = packet.getXRot(0f)
-                pendingRotation.set((java.lang.Float.floatToIntBits(yaw).toLong() shl 32) or (java.lang.Float.floatToIntBits(pitch).toLong() and 0xFFFFFFFFL))
+                pendingRotation.set((yaw.toRawBits().toLong() shl 32) or (pitch.toRawBits().toLong() and 0xFFFFFFFFL))
                 if (rotationScheduled.compareAndSet(false, true)) {
                     onEntity {
                         rotationScheduled.set(false)
                         val v = pendingRotation.get()
-                        screen?.onRotate(java.lang.Float.intBitsToFloat((v shr 32).toInt()), java.lang.Float.intBitsToFloat(v.toInt()))
+                        screen?.onRotate(Float.fromBits((v shr 32).toInt()), Float.fromBits(v.toInt()))
                     }
                 }
                 if (!packet.hasPosition()) return null
@@ -420,8 +444,8 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
                 return packet
             }
         }
-        if (own.remove(packet)) return packet
         val s = screen ?: return packet
+        if (own.remove(packet)) return packet
         when (packet) {
             is ClientboundContainerSetSlotPacket -> {
                 if (packet.containerId == 0 && packet.slot in 36..45) {
@@ -489,11 +513,11 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
     private fun tick() {
         if (!active || !player.isOnline) return
         ticks++
-        val loc = player.location
-        val bx = loc.blockX
-        val by = loc.blockY
-        val bz = loc.blockZ
-        if (Triple(bx, by, bz) != lastBlock) {
+        val handle = (player as CraftPlayer).handle
+        val bx = handle.blockX
+        val by = handle.blockY
+        val bz = handle.blockZ
+        if (bx != lastBlock.first || by != lastBlock.second || bz != lastBlock.third) {
             lastBlock = Triple(bx, by, bz)
             carriers["plate"]?.setText(MiniPainter.plate(plugin.packs.glyphs, plugin.cfg.minimapSize, bx, by, bz, settings.coords))?.let { send(it) }
         }
@@ -503,12 +527,21 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
             discover(bx shr 4, bz shr 4)
             hudMarkers.markDirty()
         }
-        if (ticks % plugin.cfg.flushIntervalTicks == 0) stream(bx, by, bz)
+        if (ticks % plugin.cfg.flushIntervalTicks == 0) {
+            try {
+                stream(bx, by, bz)
+            } catch (t: Throwable) {
+                if (ticks - lastStreamError > 1200) {
+                    lastStreamError = ticks
+                    plugin.logger.log(Level.WARNING, "Map streaming failed for ${player.name}", t)
+                }
+            }
+        }
         val out = ArrayList<Packet<in ClientGamePacketListener>>()
         if ((ticks + markerOffset) % plugin.cfg.entities.updateTicks == 0 && band <= 1) {
             markers.update(miniParam(), settings.showPlayers, settings.showMobs, settings.module.big, out)
         }
-        if (ticks % 10 == 0 || hudMarkers.dirty) hudMarkers.update(out)
+        if (hudMarkers.dirty) hudMarkers.update(out)
         if (ticks % 2 == 0) worldMarkers.update(out, ticks)
         sendAll(out)
         screen?.tick()
@@ -518,7 +551,12 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
     private fun discover(cx: Int, cz: Int) {
         val r = plugin.worldsConfig.entry(player.world.name)?.discoverRadiusChunks ?: plugin.cfg.discoverRadiusChunks
         for (dx in -r..r) for (dz in -r..r) {
-            if (dx * dx + dz * dz <= r * r + r) discovered.add(cx + dx, cz + dz)
+            if (dx * dx + dz * dz <= r * r + r && discovered.add(cx + dx, cz + dz)) {
+                if (cx + dx < fogMinX) fogMinX = cx + dx
+                if (cx + dx > fogMaxX) fogMaxX = cx + dx
+                if (cz + dz < fogMinZ) fogMinZ = cz + dz
+                if (cz + dz > fogMaxZ) fogMaxZ = cz + dz
+            }
         }
     }
 
@@ -534,11 +572,13 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
     private fun wantedLayer(by: Int): Int {
         val wm = world ?: return Int.MIN_VALUE
         if (!wm.mode.caves || wm.ceiling != null) return Int.MIN_VALUE
-        val loc = player.location
-        val surface = wm.cache.get(loc.blockX shr 4, loc.blockZ shr 4) ?: return Int.MIN_VALUE
-        val i = (loc.blockZ and 15) * 16 + (loc.blockX and 15)
-        val top = surface.heights[i].toInt()
-        val sky = loc.block.lightFromSky.toInt()
+        val handle = (player as CraftPlayer).handle
+        val x = handle.blockX
+        val z = handle.blockZ
+        val surface = wm.cache.get(x shr 4, z shr 4) ?: return Int.MIN_VALUE
+        val top = surface.heights[(z and 15) * 16 + (x and 15)].toInt()
+        if (by >= top - 6) return Int.MIN_VALUE
+        val sky = handle.level().getBrightness(LightLayer.SKY, handle.blockPosition())
         return if (by < top - 6 && sky == 0) Math.floorDiv(by + 2, plugin.cfg.caveLayerHeight) else Int.MIN_VALUE
     }
 
@@ -549,7 +589,7 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
         return Triple(px, pz, (s.zoom and 15) or (if (drag) 16 else 0))
     }
 
-    private fun sendTile(slot: TileSlot, data: ByteArray, meta: TileMeta, version: Long) {
+    private fun sendTile(slot: TileSlot, data: ByteArray, meta: TileMeta, version: Long = 0L) {
         TileData.writeMeta(data, meta)
         slot.sentMeta = TileData.meta(meta)
         slot.sentVersion = version
@@ -605,54 +645,142 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
         }
         val kind = if (wm.rgb) TileData.RGB else TileData.PALETTE
         val wide = if (kind == TileData.RGB) 64 else 128
-        val want = HashMap<Long, Pair<Int, Int>>()
-        fun addRange(x0: Int, x1: Int, z0: Int, z1: Int) {
-            for (tx in TileAssembler.tileX(x0, wide)..TileAssembler.tileX(x1, wide)) {
-                for (tz in TileAssembler.tileZ(z0)..TileAssembler.tileZ(z1)) {
-                    want[TerrainCache.key(tx, tz)] = tx * wide to tz * TileData.STRIDE_Z
-                }
-            }
-        }
         val radius = tileRadiusBlocks()
-        addRange(bx - radius, bx + radius, bz - radius, bz + radius)
+        val range = rangeScratch
+        range[0] = TileAssembler.tileX(bx - radius, wide)
+        range[1] = TileAssembler.tileX(bx + radius, wide)
+        range[2] = TileAssembler.tileZ(bz - radius)
+        range[3] = TileAssembler.tileZ(bz + radius)
         if (s != null) {
             val hw = (320 / s.scale).toInt() + 16
             val hh = (180 / s.scale).toInt() + 16
             val r = cfg.screenPanRadiusBlocks + 64
-            addRange(maxOf(panX - hw, bx - r), minOf(panX + hw, bx + r), maxOf(panZ - hh, bz - r), minOf(panZ + hh, bz + r))
+            range[4] = TileAssembler.tileX(maxOf(panX - hw, bx - r), wide)
+            range[5] = TileAssembler.tileX(minOf(panX + hw, bx + r), wide)
+            range[6] = TileAssembler.tileZ(maxOf(panZ - hh, bz - r))
+            range[7] = TileAssembler.tileZ(minOf(panZ + hh, bz + r))
+        } else {
+            range[4] = 0
+            range[5] = -1
+            range[6] = 0
+            range[7] = -1
         }
-        val ordered = want.entries.sortedBy { (_, o) ->
-            val ox = o.first + wide / 2 - (if (s != null) panX else bx)
-            val oz = o.second + 64 - (if (s != null) panZ else bz)
-            ox.toLong() * ox + oz.toLong() * oz
-        }.take(MAX_TILES)
-        val keep = ordered.map { it.key }.toHashSet()
-        val drop = tiles.keys.filter { it !in keep }
-        if (drop.isNotEmpty()) {
-            val ids = drop.flatMap { k -> tiles.remove(k)?.also { freeMapIds.add(it.frame.mapId) }?.frame?.ids?.toList() ?: emptyList() }
-            send(Packets.remove(*ids.toIntArray()))
-            ridersDirty = true
+        if (!range.contentEquals(lastRange) || ticks - orderedAt >= 40) {
+            range.copyInto(lastRange)
+            orderedAt = ticks
+            val want = HashMap<Long, Want>()
+            fun addRange(tx0: Int, tx1: Int, tz0: Int, tz1: Int) {
+                for (tx in tx0..tx1) for (tz in tz0..tz1) {
+                    val k = TerrainCache.key(tx, tz)
+                    if (k !in want) want[k] = Want(k, tx, tz, tx * wide, tz * TileData.STRIDE_Z)
+                }
+            }
+            addRange(range[0], range[1], range[2], range[3])
+            addRange(range[4], range[5], range[6], range[7])
+            val cxw = if (s != null) panX else bx
+            val czw = if (s != null) panZ else bz
+            ordered = want.values.sortedBy { w ->
+                val ox = (w.originX + wide / 2 - cxw).toLong()
+                val oz = (w.originZ + 64 - czw).toLong()
+                ox * ox + oz * oz
+            }.take(MAX_TILES)
+            val keep = ordered.mapTo(HashSet()) { it.key }
+            val drop = tiles.keys.filter { it !in keep }
+            if (drop.isNotEmpty()) {
+                val ids = drop.flatMap { k -> tiles.remove(k)?.also { freeMapIds.add(it.frame.mapId) }?.frame?.ids?.toList() ?: emptyList() }
+                send(Packets.remove(*ids.toIntArray()))
+                ridersDirty = true
+            }
         }
         var budget = cfg.tilesPerFlush * (if (s != null) 2 else 1)
-        for ((key, origin) in ordered) {
-            var slot = tiles[key]
+        val discMod = discovered.modCount
+        for (w in ordered) {
+            var slot = tiles[w.key]
             if (slot == null) {
                 val id = freeMapIds.removeFirstOrNull() ?: continue
-                slot = TileSlot(key, TileFrame(id), origin.first, origin.second, kind, layer)
-                tiles[key] = slot
+                slot = TileSlot(w.key, TileFrame(id), w.originX, w.originZ, kind, layer, w.tx, w.tz)
+                tiles[w.key] = slot
             }
-            val meta = TileMeta(kind, slot.originX, slot.originZ, flags, miniParam(), panX, panZ, screenByte, Codes.sensParam(settings.sensitivity))
-            val latest = latestVersion(cache, slot, layer)
-            if (latest != slot.sentVersion) {
-                if (budget <= 0) continue
-                budget--
-                val source = if (layer == Int.MIN_VALUE) TileAssembler.Source { x, z -> cache.get(x, z) } else TileAssembler.Source { x, z -> cache.slice(x, z, layer) }
-                val known = TileAssembler.Discovered { x, z -> discovered.contains(x, z) }
+            val mods = cache.tileMod(wide, slot.tx, slot.tz)
+            if (slot.sigs != null && mods == slot.mods && discMod == slot.discMod && !(slot.missing && (ticks + slot.tx + slot.tz) % 20 == 0)) {
+                if (metaForce) refreshMeta(slot, TileMeta(kind, slot.originX, slot.originZ, flags, miniParam(), panX, panZ, screenByte, Codes.sensParam(settings.sensitivity)), true)
+                continue
+            }
+            val cx0 = (slot.originX shr 4) - 1
+            val cx1 = ((slot.originX + wide - 1) shr 4) + 1
+            val cz0 = (slot.originZ shr 4) - 1
+            val cz1 = ((slot.originZ + 127) shr 4) + 1
+            val nx = cx1 - cx0 + 1
+            val nz = cz1 - cz0 + 1
+            val prev = slot.sigs
+            val sig = sigScratch
+            var minX = Int.MAX_VALUE
+            var minZ = Int.MAX_VALUE
+            var maxX = Int.MIN_VALUE
+            var maxZ = Int.MIN_VALUE
+            var missing = false
+            for (z in 0 until nz) {
+                for (x in 0 until nx) {
+                    val wx = cx0 + x
+                    val wz = cz0 + z
+                    val i = z * nx + x
+                    val old = prev?.get(i) ?: -1L
+                    val v = if (!discovered.contains(wx, wz)) {
+                        0L
+                    } else {
+                        val su = if (layer == Int.MIN_VALUE) cache.get(wx, wz) else cache.slice(wx, wz, layer)
+                        if (su != null) {
+                            su.version * 2 + 2
+                        } else {
+                            if (layer == Int.MIN_VALUE) cache.request(wx, wz)
+                            missing = true
+                            if (old >= 2) old else 1L
+                        }
+                    }
+                    sig[i] = v
+                    if (v != old) {
+                        if (wx < minX) minX = wx
+                        if (wx > maxX) maxX = wx
+                        if (wz < minZ) minZ = wz
+                        if (wz > maxZ) maxZ = wz
+                    }
+                }
+            }
+            val n = nx * nz
+            slot.missing = missing
+            if (minX == Int.MAX_VALUE) {
+                slot.mods = mods
+                slot.discMod = discMod
+                if (metaForce || slot.sentMeta == null) refreshMeta(slot, TileMeta(kind, slot.originX, slot.originZ, flags, miniParam(), panX, panZ, screenByte, Codes.sensParam(settings.sensitivity)), metaForce)
+                continue
+            }
+            if (budget <= 0) continue
+            budget--
+            val source = if (layer == Int.MIN_VALUE) TileAssembler.Source { x, z -> cache.get(x, z) } else TileAssembler.Source { x, z -> cache.slice(x, z, layer) }
+            val known = TileAssembler.Discovered { x, z -> discovered.contains(x, z) }
+            val scale = if (kind == TileData.RGB) 2 else 1
+            var x0 = ((minX shl 4) - 1 - slot.originX).coerceAtLeast(0) * scale
+            var x1 = (((maxX shl 4) + 17 - slot.originX) * scale + scale - 1).coerceAtMost(127)
+            val y0 = ((minZ shl 4) - 1 - slot.originZ).coerceAtLeast(0)
+            val y1 = ((maxZ shl 4) + 17 - slot.originZ).coerceAtMost(127)
+            if (scale == 2) {
+                x0 = x0 and 1.inv()
+                x1 = x1 or 1
+            }
+            val w = x1 - x0 + 1
+            val h = y1 - y0 + 1
+            val sentMeta = slot.sentMeta
+            if (prev == null || sentMeta == null || w <= 0 || h <= 0 || w * h > 128 * 128 * 3 / 5) {
                 val data = if (kind == TileData.RGB) assembler.rgb(slot.originX, slot.originZ, source, known, wm.brightness) else assembler.palette(slot.originX, slot.originZ, source, known)
-                sendTile(slot, data, meta, latest)
+                sendTile(slot, data, TileMeta(kind, slot.originX, slot.originZ, flags, miniParam(), panX, panZ, screenByte, Codes.sensParam(settings.sensitivity)))
             } else {
-                refreshMeta(slot, meta, metaForce)
+                val data = if (kind == TileData.RGB) assembler.rgb(slot.originX, slot.originZ, source, known, wm.brightness, x0, y0, w, h) else assembler.palette(slot.originX, slot.originZ, source, known, x0, y0, w, h)
+                if (y0 == 0) for (c in x0 until minOf(x0 + w, TileData.META_WIDTH)) data[c - x0] = sentMeta[c]
+                send(slot.frame.patch(x0, y0, w, h, data))
             }
+            slot.sigs = if (prev != null && prev.size == n) sig.copyInto(prev, 0, 0, n) else sig.copyOf(n)
+            slot.mods = mods
+            slot.discMod = discMod
         }
     }
 
@@ -671,12 +799,12 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
                 var slot = tiles[key]
                 if (slot == null) {
                     val id = freeMapIds.removeFirstOrNull() ?: continue
-                    slot = TileSlot(key, TileFrame(id), ocx * 16, ocz * 16, TileData.FOG, Int.MIN_VALUE)
+                    slot = TileSlot(key, TileFrame(id), ocx * 16, ocz * 16, TileData.FOG, Int.MIN_VALUE, fx, fz)
                     tiles[key] = slot
                 }
                 val meta = TileMeta(TileData.FOG, slot.originX, slot.originZ, flags, miniParam(), panX, panZ, screenByte, Codes.sensParam(settings.sensitivity))
-                val version = discovered.size.toLong()
-                if (version != slot.sentVersion) {
+                val sentMeta = slot.sentMeta
+                if (slot.sentVersion < 0 || sentMeta == null) {
                     if (budget-- <= 0) continue
                     val data = ByteArray(128 * 128)
                     for (r in 0 until 128) {
@@ -684,31 +812,32 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
                             if (!discovered.contains(ocx + c, ocz + r)) data[r * 128 + c] = MapPalette.UNKNOWN
                         }
                     }
-                    sendTile(slot, data, meta, version)
+                    sendTile(slot, data, meta, 1L)
                 } else {
+                    if (fogMinX != Int.MAX_VALUE) {
+                        val x0 = (fogMinX - ocx).coerceAtLeast(0)
+                        val x1 = (fogMaxX - ocx).coerceAtMost(127)
+                        val y0 = (fogMinZ - ocz).coerceAtLeast(0)
+                        val y1 = (fogMaxZ - ocz).coerceAtMost(127)
+                        if (x0 <= x1 && y0 <= y1) {
+                            val w = x1 - x0 + 1
+                            val h = y1 - y0 + 1
+                            val data = ByteArray(w * h)
+                            for (r in 0 until h) for (c in 0 until w) {
+                                if (!discovered.contains(ocx + x0 + c, ocz + y0 + r)) data[r * w + c] = MapPalette.UNKNOWN
+                            }
+                            if (y0 == 0) for (c in x0 until minOf(x0 + w, TileData.META_WIDTH)) data[c - x0] = sentMeta[c]
+                            send(slot.frame.patch(x0, y0, w, h, data))
+                        }
+                    }
                     refreshMeta(slot, meta, metaForce)
                 }
             }
         }
-    }
-
-    private fun latestVersion(cache: TerrainCache, slot: TileSlot, layer: Int): Long {
-        var v = 0L
-        var known = 0L
-        val wide = if (slot.kind == TileData.RGB) 64 else 128
-        val cx0 = slot.originX shr 4
-        val cx1 = (slot.originX + wide - 1) shr 4
-        val cz0 = slot.originZ shr 4
-        val cz1 = (slot.originZ + 127) shr 4
-        for (x in cx0 - 1..cx1) {
-            for (z in cz0 - 1..cz1) {
-                val d = discovered.contains(x, z)
-                if (d) known++
-                val s = if (layer == Int.MIN_VALUE) cache.get(x, z) else cache.slice(x, z, layer)
-                if (s != null) v += s.version * 31 + x * 7 + z else if (d && layer == Int.MIN_VALUE) cache.request(x, z)
-            }
-        }
-        return v + (known shl 40)
+        fogMinX = Int.MAX_VALUE
+        fogMinZ = Int.MAX_VALUE
+        fogMaxX = Int.MIN_VALUE
+        fogMaxZ = Int.MIN_VALUE
     }
 
     private fun tileRadiusBlocks(): Int {
@@ -719,6 +848,7 @@ class PlayerMap(val plugin: KMapPlugin, val player: Player, val settings: Player
     }
 
     private fun dropAllTiles() {
+        lastRange[0] = Int.MIN_VALUE
         if (tiles.isEmpty()) return
         val ids = tiles.values.flatMap { freeMapIds.add(it.frame.mapId); it.frame.ids.toList() }
         tiles.clear()

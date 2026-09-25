@@ -4,6 +4,7 @@ import com.github.ssquadteam.kmap.KMapPlugin
 import com.github.ssquadteam.kmap.config.PinLabel
 import com.github.ssquadteam.kmap.locations.MapLocation
 import com.github.ssquadteam.kmap.pack.ShaderDefines
+import com.github.ssquadteam.kmap.render.Canvas
 import com.github.ssquadteam.kmap.render.Carrier
 import com.github.ssquadteam.kmap.render.Codes
 import com.github.ssquadteam.kmap.render.Fx
@@ -11,6 +12,10 @@ import com.github.ssquadteam.kmap.render.Surface
 import com.github.ssquadteam.kmap.render.Tint
 import com.github.ssquadteam.kmap.session.PlayerMap
 import com.github.ssquadteam.kmap.waypoints.Waypoint
+import java.util.LinkedHashSet
+import java.util.UUID
+import kotlin.math.abs
+import kotlin.math.floor
 import net.minecraft.core.BlockPos
 import net.minecraft.core.component.DataComponents
 import net.minecraft.network.chat.Component
@@ -21,6 +26,7 @@ import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket
 import net.minecraft.network.protocol.game.ClientboundGameEventPacket
 import net.minecraft.network.protocol.game.ClientboundPlayerAbilitiesPacket
 import net.minecraft.network.protocol.game.ClientboundPlayerRotationPacket
+import net.minecraft.network.protocol.game.ClientboundSetExperiencePacket
 import net.minecraft.network.protocol.game.ClientboundSetHeldSlotPacket
 import net.minecraft.resources.Identifier
 import net.minecraft.world.entity.player.Abilities
@@ -30,9 +36,8 @@ import net.minecraft.world.item.component.TooltipDisplay
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
 import org.bukkit.GameMode
+import org.bukkit.Sound
 import org.bukkit.craftbukkit.entity.CraftPlayer
-import kotlin.math.abs
-import kotlin.math.floor
 
 class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
     val player get() = map.player
@@ -67,7 +72,8 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
     private var lastPlate = ""
     private var dirtyMap = true
     private var dirtyUi = true
-    private var ticks = 0
+    var ticks = 0
+        private set
 
     val scale get() = ShaderDefines.SCREEN_ZOOMS[zoom]
 
@@ -102,7 +108,7 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
         for (i in 0 until 9) out.add(ClientboundContainerSetSlotPacket(0, 0, 36 + i, fakeItem()))
         out.add(ClientboundContainerSetSlotPacket(0, 0, 45, ItemStack.EMPTY))
         out.add(ClientboundSetHeldSlotPacket(4))
-        out.add(net.minecraft.network.protocol.game.ClientboundSetExperiencePacket(0f, 0, 0))
+        out.add(ClientboundSetExperiencePacket(0f, 0, 0))
         buildShell()
         for ((pos, _) in shell) out.add(ClientboundBlockUpdatePacket(pos, Blocks.BARRIER.defaultBlockState()))
         val sens = Codes.sensParam(map.settings.sensitivity)
@@ -120,6 +126,7 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
 
     fun close() {
         val p = player
+        map.clearOwn()
         textField = null
         panel?.onClose(this)
         panel = null
@@ -135,7 +142,7 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
         for ((pos, _) in shell) out.add(ClientboundBlockUpdatePacket(level, pos))
         shell.clear()
         out.add(ClientboundSetHeldSlotPacket(p.inventory.heldItemSlot))
-        out.add(net.minecraft.network.protocol.game.ClientboundSetExperiencePacket(p.exp, p.totalExperience, p.level))
+        out.add(ClientboundSetExperiencePacket(p.exp, p.totalExperience, p.level))
         map.sendAll(out)
         p.updateInventory()
         map.removeCarrier("screen_map")
@@ -156,7 +163,7 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
     }
 
     fun refreshCursor() {
-        cursorCarrier?.setText(com.github.ssquadteam.kmap.render.Canvas(glyphs).glyph("cursor_${map.settings.cursor}", 0.0, 0, Codes.cursor()).build())?.let { map.send(it) }
+        cursorCarrier?.setText(Canvas(glyphs).glyph("cursor_${map.settings.cursor}", 0.0, 0, Codes.cursor()).build())?.let { map.send(it) }
     }
 
     fun updateSensitivity() {
@@ -201,7 +208,7 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
         val s = ItemStack(Items.PAPER)
         s.set(DataComponents.ITEM_MODEL, Identifier.fromNamespaceAndPath("kmap", "empty"))
         s.set(DataComponents.ITEM_NAME, Component.literal(""))
-        s.set(DataComponents.TOOLTIP_DISPLAY, TooltipDisplay(true, java.util.LinkedHashSet()))
+        s.set(DataComponents.TOOLTIP_DISPLAY, TooltipDisplay(true, LinkedHashSet()))
         return s
     }
 
@@ -219,6 +226,10 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
     }
 
     fun setPanel(p: Panel?) {
+        if (hoveredWaypoint != null) {
+            hoveredWaypoint = null
+            dirtyMap = true
+        }
         panel?.onClose(this)
         panel = p
         textField = null
@@ -261,12 +272,24 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
         updateHover()
     }
 
+    var hoveredWaypoint: UUID? = null
+        private set
+    var ping: Pair<Double, Double>? = null
+        private set
+    private var pingUntil = 0
+
     private fun updateHover() {
         val h = hits.lastOrNull { it.contains(cursorX, cursorY) && (it.action != null || it.drag != null) }?.id
         if (h != hovered) {
             hovered = h
             dirtyUi = true
             if (h?.startsWith("pin:") == true || hovered?.startsWith("pin:") == true) dirtyMap = true
+        }
+        val wp = if (h == null && drag == null && panel?.modal != true) waypointAt(cursorX, cursorY)?.id else null
+        if (wp != hoveredWaypoint) {
+            hoveredWaypoint = wp
+            dirtyMap = true
+            dirtyUi = true
         }
     }
 
@@ -314,6 +337,11 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
     }
 
     private fun clickMap() {
+        val wp = waypointAt(cursorX, cursorY)
+        if (wp != null) {
+            setPanel(WaypointEditPanel(wp.id, null))
+            return
+        }
         val pin = pinAt(cursorX, cursorY)
         if (pin != null) {
             plugin.pins.activate(player, pin, this)
@@ -371,6 +399,8 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
     }
 
     fun flyTo(x: Double, z: Double) {
+        ping = x to z
+        pingUntil = ticks + PING_TICKS
         panX = x
         panZ = z
         if (zoom < 6) zoom = 7
@@ -381,7 +411,7 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
     }
 
     fun click() {
-        player.playSound(player.location, org.bukkit.Sound.UI_BUTTON_CLICK, 0.25f, 1.4f)
+        player.playSound(player.location, Sound.UI_BUTTON_CLICK, 0.25f, 1.4f)
     }
 
     fun dragState(): Triple<Boolean, Double, Double> {
@@ -402,6 +432,10 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
         ticks++
         if (ticks % 2 == 0) updatePlate()
         if (ticks % cfg.entities.updateTicks == 0 && drag == null) dirtyMap = true
+        if (ping != null) {
+            if (ticks >= pingUntil) ping = null
+            if (ticks % 5 == 0) dirtyMap = true
+        }
         panel?.tick(this)
         render()
     }
@@ -454,7 +488,7 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
 
     fun waypointAt(cx: Double, cy: Double): Waypoint? {
         return map.waypoints.inWorld(player.world.name).filter { it.visible }.lastOrNull { w ->
-            abs(cx - canvasX(w.x + 0.5)) <= 6.5 && abs(cy - canvasY(w.z + 0.5)) <= 6.5
+            abs(cx - canvasX(w.x + 0.5)) <= 8.5 && abs(cy - canvasY(w.z + 0.5)) <= 8.5
         }
     }
 
@@ -492,6 +526,7 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
     }
 
     companion object {
+        const val PING_TICKS = 60
         const val W = 640.0
         const val H = 360.0
 

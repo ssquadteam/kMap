@@ -4,13 +4,15 @@ import com.github.ssquadteam.kmap.render.Canvas
 import com.github.ssquadteam.kmap.render.Codes
 import com.github.ssquadteam.kmap.render.Glyphs
 import com.github.ssquadteam.kmap.render.Tint
+import com.github.ssquadteam.kmap.world.BakedMap
+import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 
 object BigPainter {
-    fun frame(glyphs: Glyphs, size: Int, bakes: List<com.github.ssquadteam.kmap.world.BakedMap>): Component {
+    fun frame(glyphs: Glyphs, size: Int, bakes: List<BakedMap>): Component {
         val c = Canvas(glyphs)
         c.glyph("fill", 0.0, 0, Codes.fill(Tint.VOID))
-        for (b in bakes) c.sprite(net.kyori.adventure.key.Key.key("minecraft", "map_decorations"), net.kyori.adventure.key.Key.key("kmap", b.sprite), 0.0, Codes.terrainMini())
+        for (b in bakes) c.sprite(Key.key("minecraft", "map_decorations"), Key.key("kmap", b.sprite), 0.0, Codes.terrainMini())
         val seg = 32
         val n = (size + 12 + seg - 1) / seg
         for (i in 0 until n) {
