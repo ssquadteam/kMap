@@ -16,6 +16,7 @@ import java.util.zip.InflaterInputStream
 class TerrainStore(private val dir: File, private val files: AsyncFiles, private val signature: Int) {
     private val index = ConcurrentHashMap<Long, AtomicIntegerArray>()
     private val dirty = ConcurrentHashMap<Long, ConcurrentHashMap<Int, ChunkSurface>>()
+    private val thumbDirty = ConcurrentHashMap<Long, ConcurrentHashMap<Int, ShortArray>>()
     private val regionCache = object : LinkedHashMap<Long, HashMap<Int, ByteArray>>(16, 0.75f, true) {
         override fun removeEldestEntry(eldest: MutableMap.MutableEntry<Long, HashMap<Int, ByteArray>>?) = size > REGION_CACHE
     }
@@ -26,6 +27,69 @@ class TerrainStore(private val dir: File, private val files: AsyncFiles, private
     private val indexFile get() = File(dir, "index.kmi")
 
     private fun regionFile(rk: Long) = File(dir, "r.${(rk shr 32).toInt()}.${rk.toInt()}.kmt")
+
+    private fun thumbFile(rk: Long) = File(dir, "h.${(rk shr 32).toInt()}.${rk.toInt()}.kmh")
+
+    fun regionHasChunks(rk: Long): Boolean {
+        val arr = index[rk] ?: return false
+        for (i in 0 until 1024) if (arr.get(i) != 0) return true
+        return false
+    }
+
+    fun markThumb(cx: Int, cz: Int, thumb: ShortArray) {
+        thumbDirty.computeIfAbsent(rk(cx, cz)) { ConcurrentHashMap() }[idx(cx, cz)] = thumb
+    }
+
+    fun loadThumbs(rk: Long, compute: (ChunkSurface) -> ShortArray, done: (Map<Int, ShortArray>) -> Unit) = files.submit {
+        val out = HashMap<Int, ShortArray>(decodeThumbs(files.read(thumbFile(rk))))
+        thumbDirty[rk]?.let { out.putAll(it) }
+        val arr = index[rk]
+        if (arr != null) {
+            val missing = (0 until 1024).filter { arr.get(it) != 0 && it !in out }
+            if (missing.isNotEmpty()) {
+                val region = region(rk)
+                val rx = (rk shr 32).toInt()
+                val rz = rk.toInt()
+                for (i in missing) {
+                    val s = dirty[rk]?.get(i)
+                        ?: region[i]?.let { b -> runCatching { decodeChunk((rx shl 5) + (i and 31), (rz shl 5) + (i shr 5), b) }.getOrNull() }
+                        ?: continue
+                    val t = compute(s)
+                    out[i] = t
+                    thumbDirty.computeIfAbsent(rk) { ConcurrentHashMap() }[i] = t
+                }
+            }
+        }
+        done(out)
+    }
+
+    private fun decodeThumbs(bytes: ByteArray?): Map<Int, ShortArray> {
+        val map = HashMap<Int, ShortArray>()
+        if (bytes == null) return map
+        runCatching {
+            DataInputStream(InflaterInputStream(ByteArrayInputStream(bytes))).use { input ->
+                if (input.readInt() != THUMB_MAGIC) return map
+                repeat(input.readInt()) {
+                    val i = input.readUnsignedShort()
+                    map[i] = ShortArray(64) { input.readShort() }
+                }
+            }
+        }
+        return map
+    }
+
+    private fun encodeThumbs(thumbs: Map<Int, ShortArray>): ByteArray {
+        val bos = ByteArrayOutputStream()
+        DataOutputStream(DeflaterOutputStream(bos, Deflater(6))).use { out ->
+            out.writeInt(THUMB_MAGIC)
+            out.writeInt(thumbs.size)
+            for ((i, t) in thumbs) {
+                out.writeShort(i)
+                for (v in t) out.writeShort(v.toInt())
+            }
+        }
+        return bos.toByteArray()
+    }
 
     private fun rk(cx: Int, cz: Int) = TerrainCache.key(cx shr 5, cz shr 5)
 
@@ -91,6 +155,12 @@ class TerrainStore(private val dir: File, private val files: AsyncFiles, private
             val region = region(rk)
             for ((i, s) in changes) region[i] = encodeChunk(s)
             files.writeNow(regionFile(rk), encodeRegion(region))
+        }
+        for (rk in thumbDirty.keys.toList()) {
+            val changes = thumbDirty.remove(rk) ?: continue
+            val all = HashMap(decodeThumbs(files.read(thumbFile(rk))))
+            all.putAll(changes)
+            files.writeNow(thumbFile(rk), encodeThumbs(all))
         }
         if (indexDirty) {
             indexDirty = false
@@ -209,6 +279,7 @@ class TerrainStore(private val dir: File, private val files: AsyncFiles, private
     companion object {
         private const val INDEX_MAGIC = 0x4B4D4931
         private const val REGION_MAGIC = 0x4B4D5431
+        private const val THUMB_MAGIC = 0x4B4D4831
         private const val REGION_CACHE = 12
         const val FORMAT = 3
     }

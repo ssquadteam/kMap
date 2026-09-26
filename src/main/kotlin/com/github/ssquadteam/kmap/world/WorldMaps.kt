@@ -1,7 +1,6 @@
 package com.github.ssquadteam.kmap.world
 
 import com.github.ssquadteam.kmap.KMapPlugin
-import com.github.ssquadteam.kmap.config.RenderMode
 import com.github.ssquadteam.kmap.storage.TerrainStore
 import com.github.ssquadteam.kmap.terrain.SampleOptions
 import com.github.ssquadteam.kmap.terrain.TerrainCache
@@ -28,25 +27,20 @@ class WorldMaps(private val plugin: KMapPlugin) : Listener {
     private fun create(world: World): WorldMap {
         val entry = plugin.worldsConfig.entry(world.name)
         val cfg = plugin.cfg
-        var mode = entry?.mode ?: cfg.largeWorldMode
-        if (mode.baked && entry != null && (entry.sizeX > cfg.largeWorldThreshold || entry.sizeZ > cfg.largeWorldThreshold) && cfg.largeWorldThreshold > 0) {
-            plugin.logger.warning("World '${world.name}' is ${entry.sizeX}x${entry.sizeZ}, past the ${cfg.largeWorldThreshold} block cap for one baked image; streaming it as ${cfg.largeWorldMode}.")
-            mode = cfg.largeWorldMode
-        }
         val ceiling = entry?.ceiling ?: if (world.environment == World.Environment.NETHER) 123 else null
         val skip = entry?.skipBlocks ?: emptySet()
-        val rgb = entry?.rgbTextured ?: (cfg.rgbTextured || mode.baked)
+        val rgb = entry?.rgbTextured ?: cfg.rgbTextured
         val options = SampleOptions(ceiling, entry?.skipDecoration ?: true, skip, entry?.biomeTint ?: true, rgb = rgb)
-        val persist = !mode.baked && (entry?.saveWorldColors ?: cfg.saveWorldColors)
+        val persist = entry?.saveWorldColors ?: cfg.saveWorldColors
         val store = if (persist) {
             val signature = listOf(TerrainStore.FORMAT, rgb, ceiling, options.skipDecoration, options.skipBlocks.map { it.toString() }.sorted(), options.biomeTint).hashCode()
             TerrainStore(File(plugin.dataFolder, "data/terrain/${world.name}"), plugin.files, signature).also { it.open() }
         } else {
             null
         }
-        val cache = TerrainCache(plugin, world, plugin.sampler, store) { options }
         val brightness = 1.0 + (entry?.surfaceBrightness ?: 0) / 100.0
-        return WorldMap(world, mode, cache, ceiling, rgb, brightness)
+        val cache = TerrainCache(plugin, world, plugin.sampler, store, brightness) { options }
+        return WorldMap(world, cache, ceiling, rgb, brightness)
     }
 
     fun pump() {
@@ -84,12 +78,8 @@ class WorldMaps(private val plugin: KMapPlugin) : Listener {
         val cache = maps[e.world.name]?.cache ?: return
         val cx = e.chunk.x
         val cz = e.chunk.z
-        if (cache.store == null || !cache.known(cx, cz)) return
+        if (cache.store == null) return
         val nms = (e.world as CraftWorld).handle.getChunkIfLoaded(cx, cz) ?: return
-        if (nms.isUnsaved || plugin.blocks.consume(e.world, cx, cz)) cache.sampleNow(nms)
-    }
-
-    companion object {
-        fun modeLabel(mode: RenderMode): String = mode.name
+        if (!cache.known(cx, cz) || nms.isUnsaved || plugin.blocks.consume(e.world, cx, cz)) cache.sampleNow(nms)
     }
 }

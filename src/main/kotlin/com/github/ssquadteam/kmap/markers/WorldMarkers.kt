@@ -56,7 +56,7 @@ class WorldMarkers(private val plugin: KMapPlugin, private val map: PlayerMap) {
             targets.add(Target("w:" + w.id, w.x + 0.5, w.y + 1.2, w.z + 0.5, w.name, Tint.nearest(Waypoint.COLORS[w.color.coerceIn(0, 7)]), w.icon, w.letter(), if (w.color == 7) Tint.CREAM else Tint.DARK))
         }
         val tracked = map.trackedPin
-        val trackedLoc = tracked?.let { idx -> plugin.locations.all.getOrNull(idx) }?.takeIf { it.world == null || it.world == world }
+        val trackedLoc = tracked?.let { idx -> plugin.locations.find(p, idx) }?.takeIf { it.world == null || it.world == world }
         if (trackedLoc != null) {
             targets.add(Target("p:" + trackedLoc.index, trackedLoc.x + 0.5, (trackedLoc.y ?: loc.y) + 1.2, trackedLoc.z + 0.5, trackedLoc.name, Tint.GOLD, trackedLoc.icon ?: "waypoint", "", Tint.DARK))
         }
@@ -90,7 +90,7 @@ class WorldMarkers(private val plugin: KMapPlugin, private val map: PlayerMap) {
         }
         val gone = markers.keys.filter { it !in keep }
         if (gone.isNotEmpty()) out.add(Packets.remove(*gone.map { markers.remove(it)!!.id }.toIntArray()))
-        updateBeam(trackedLoc?.takeIf { it.beam }?.let { Triple(it.x + 0.5, it.y ?: 70.0, it.z + 0.5) } ?: map.waypoints.all.firstOrNull { it.tracked && it.world == world }?.let { Triple(it.x + 0.5, it.y.toDouble(), it.z + 0.5) }, out)
+        updateBeam(trackedLoc?.takeIf { it.beam }?.let { Triple(it.x + 0.5, it.y ?: 70.0, it.z + 0.5) } ?: map.waypoints.every().firstOrNull { it.tracked && it.world == world }?.let { Triple(it.x + 0.5, it.y.toDouble(), it.z + 0.5) }, out)
         dirty = false
     }
 
@@ -110,10 +110,15 @@ class WorldMarkers(private val plugin: KMapPlugin, private val map: PlayerMap) {
                 b.id,
                 listOf(
                     Packets.value(EntityDataKeys.TEXT, PaperAdventure.asVanilla(text)),
+                    Packets.value(EntityDataKeys.LINE_WIDTH, 1_000_000),
                     Packets.value(EntityDataKeys.BACKGROUND, 0),
                     Packets.value(EntityDataKeys.TEXT_OPACITY, (-1).toByte()),
-                    Packets.value(EntityDataKeys.BILLBOARD, 2.toByte()),
-                    Packets.value(EntityDataKeys.SCALE, Vector3f(3f, 40f, 3f) as Vector3fc),
+                    Packets.value(EntityDataKeys.TEXT_FLAGS, 2.toByte()),
+                    Packets.value(EntityDataKeys.BILLBOARD, 1.toByte()),
+                    Packets.value(EntityDataKeys.SCALE, Vector3f(1.2f, 10f, 1.2f) as Vector3fc),
+                    Packets.value(EntityDataKeys.TRANSLATION, Vector3f(0f, 16f, 0f) as Vector3fc),
+                    Packets.value(EntityDataKeys.LEFT_ROTATION, IDENTITY),
+                    Packets.value(EntityDataKeys.RIGHT_ROTATION, IDENTITY),
                     Packets.value(EntityDataKeys.VIEW_RANGE, 16f),
                     Packets.value(EntityDataKeys.WIDTH, 0f),
                     Packets.value(EntityDataKeys.HEIGHT, 0f),

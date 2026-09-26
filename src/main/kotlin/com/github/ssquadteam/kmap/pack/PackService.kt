@@ -79,7 +79,16 @@ class PackService(private val plugin: KMapPlugin) {
         art.add("mini_circle", GeneratedArt.circleFrame(cfg.minimapSize))
         art.add("mini_bg_square", GeneratedArt.rect(cfg.minimapSize, cfg.minimapSize, 0xFF141418.toInt()))
         for ((n, img) in GeneratedArt.bigFrameSegments()) art.add(n, img)
-        plugin.contentIcons().forEach { (name, img) -> art.add("user_$name", img, 33) }
+        for ((name, img) in plugin.contentIcons()) {
+            val pin = GeneratedArt.pinOutline(img)
+            art.add("user_$name", img, 33)
+            art.add("user_${name}_pin", pin, 33)
+            art.scaled("user_${name}_pin_big", "kmap:gen/user_${name}_pin.png", art.glyphs["user_${name}_pin"]!!, pin.height + PIN_GROW)
+        }
+        for (n in baseGlyphs.names().filter { it.startsWith("loc_") && it.endsWith("_outline") }) {
+            val g = baseGlyphs[n]
+            art.scaled(n + "_big", "kmap:ui/$n.png", g, g.height + PIN_GROW)
+        }
         art.write(builder, spaceProvider())
         glyphs = baseGlyphs.withExtra(art.glyphs)
 
@@ -88,7 +97,6 @@ class PackService(private val plugin: KMapPlugin) {
             "{\"pack\":{\"description\":${JsonPrimitive(cfg.packDescription)},\"min_format\":88,\"max_format\":88}}",
         )
         for (entry in cfg.mergePacks) mergeExternal(builder, File(plugin.dataFolder, entry))
-        if (cfg.mergeBakes) plugin.bakes.allBakeFiles(builder)
         builder.addDirectory(File(plugin.dataFolder, "contents/pack_overlay"))
         builder.addDirectory(File(plugin.dataFolder, "dev-pack"))
         for (path in listOf("assets/minecraft/shaders/core/text.vsh")) {
@@ -198,3 +206,5 @@ class PackService(private val plugin: KMapPlugin) {
         )
     }
 }
+
+private const val PIN_GROW = 4

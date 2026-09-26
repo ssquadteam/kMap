@@ -18,6 +18,19 @@ class EntityMarkerConfig(s: ConfigurationSection?) {
     val mobImage = s?.getString("mobImage") ?: "mob_yellow.png"
 }
 
+class GuildsConfig(s: ConfigurationSection?) {
+    val enabled = s?.getBoolean("enabled", true) ?: true
+    val members = s?.getBoolean("members", true) ?: true
+    val allies = s?.getBoolean("allies", true) ?: true
+    val memberColor = color(s?.getString("memberColor"), 0x96C446)
+    val allyColor = color(s?.getString("allyColor"), 0x78C8DC)
+    val home = s?.getBoolean("home", true) ?: true
+    val homeIcon = s?.getString("homeIcon") ?: "house"
+    val sharedWaypoints = s?.getBoolean("sharedWaypoints", true) ?: true
+
+    private fun color(v: String?, def: Int) = v?.trim()?.removePrefix("#")?.toIntOrNull(16) ?: def
+}
+
 class BindConfig(val gesture: Gesture, val sneaking: Boolean?, val hand: HandFilter, val command: String?, val material: String?, val customModelData: Int?, val nbtKey: String?, val nbtValue: String?)
 
 class GuiSwitches(s: ConfigurationSection?) {
@@ -37,10 +50,8 @@ class KMapConfig(val yaml: YamlConfiguration) {
     val coordinatesEnabled = yaml.getBoolean("render.coordinatesEnabled", true)
     val openMapOnJoin = yaml.getBoolean("render.openMapOnJoin", true)
     val joinOpenDelayTicks = yaml.getInt("render.joinOpenDelayTicks", 20).coerceAtLeast(0)
-    val screenPanRadiusBlocks = yaml.getInt("render.screenPanRadiusBlocks", 768).coerceIn(64, 30000)
-    val largeWorldThreshold = yaml.getInt("render.largeWorldThreshold", 8192)
-    val largeWorldMode = RenderMode.parse(yaml.getString("render.largeWorldMode")) ?: RenderMode.DEEP_EXPLORER
     val rgbTextured = yaml.getBoolean("render.rgbTextured", true)
+    val shaderHint = yaml.getBoolean("render.shaderHint", true)
     val discoverRadiusChunks = yaml.getInt("render.discoverRadiusChunks", 6).coerceIn(1, 32)
     val tilesPerFlush = yaml.getInt("render.tilesPerFlush", 4).coerceIn(1, 64)
     val flushIntervalTicks = yaml.getInt("render.flushIntervalTicks", 2).coerceIn(1, 40)
@@ -57,6 +68,7 @@ class KMapConfig(val yaml: YamlConfiguration) {
 
     val markerDistanceUpdateTicks = yaml.getInt("markers.distanceUpdateTicks", 20).coerceIn(1, 200)
     val entities = EntityMarkerConfig(yaml.getConfigurationSection("markers.entities"))
+    val guilds = GuildsConfig(yaml.getConfigurationSection("guilds"))
 
     val guis = GuiSwitches(yaml.getConfigurationSection("guis"))
 
@@ -94,7 +106,6 @@ class KMapConfig(val yaml: YamlConfiguration) {
     val externalUrl = yaml.getString("resourcepack.hosting.external.url", "")!!
     val mergeTarget = runCatching { MergeTarget.valueOf(yaml.getString("resourcepack.merge.target", "AUTO")!!.uppercase()) }.getOrDefault(MergeTarget.AUTO)
     val mergePacks: List<String> = yaml.getStringList("resourcepack.merge.packs")
-    val mergeBakes = yaml.getBoolean("resourcepack.merge.bakes", true)
 
     val language = yaml.getString("language", "en")!!
     val debug = yaml.getBoolean("debug.logs", false)

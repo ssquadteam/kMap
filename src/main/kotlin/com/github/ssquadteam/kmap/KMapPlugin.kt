@@ -5,6 +5,7 @@ import com.github.ssquadteam.kmap.commands.KMapCommand
 import com.github.ssquadteam.kmap.commands.SensitivityCommand
 import com.github.ssquadteam.kmap.config.KMapConfig
 import com.github.ssquadteam.kmap.config.WorldsConfig
+import com.github.ssquadteam.kmap.hooks.GuildsHook
 import com.github.ssquadteam.kmap.lang.Lang
 import com.github.ssquadteam.kmap.locations.LocationService
 import com.github.ssquadteam.kmap.locations.PinService
@@ -19,8 +20,6 @@ import com.github.ssquadteam.kmap.terrain.BlockColors
 import com.github.ssquadteam.kmap.terrain.Colormaps
 import com.github.ssquadteam.kmap.terrain.MapPalette
 import com.github.ssquadteam.kmap.terrain.SurfaceSampler
-import com.github.ssquadteam.kmap.world.AreaService
-import com.github.ssquadteam.kmap.world.BakeService
 import com.github.ssquadteam.kmap.world.BlockChangeListener
 import com.github.ssquadteam.kmap.world.WorldMaps
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents
@@ -60,13 +59,11 @@ class KMapPlugin : JavaPlugin() {
         private set
     lateinit var screens: ScreenService
         private set
-    lateinit var bakes: BakeService
-        private set
-    lateinit var areas: AreaService
-        private set
     lateinit var files: AsyncFiles
         private set
     lateinit var blocks: BlockChangeListener
+        private set
+    var guilds: GuildsHook? = null
         private set
     private val tasks = ArrayList<ScheduledTask>()
 
@@ -88,8 +85,6 @@ class KMapPlugin : JavaPlugin() {
         textInput = TextInput(this)
         binds = BindService(this)
         screens = ScreenService(this)
-        bakes = BakeService(this)
-        areas = AreaService(this)
         worlds = WorldMaps(this)
         packs = PackService(this)
         packs.setClips(listOf(Win.LIST_CLIP, Win.SEARCH_CLIP))
@@ -101,10 +96,10 @@ class KMapPlugin : JavaPlugin() {
         server.pluginManager.registerEvents(worlds, this)
         server.pluginManager.registerEvents(binds, this)
         server.pluginManager.registerEvents(screens, this)
-        server.pluginManager.registerEvents(bakes, this)
-        bakes.start()
+        if (server.pluginManager.isPluginEnabled("Guilds")) guilds = GuildsHook.install(this)
         tasks += Bukkit.getGlobalRegionScheduler().runAtFixedRate(this, { worlds.pump() }, 1L, 1L)
         tasks += Bukkit.getGlobalRegionScheduler().runAtFixedRate(this, { blocks.flush() }, 20L, 20L)
+        tasks += Bukkit.getGlobalRegionScheduler().runAtFixedRate(this, { maps.watchdog() }, 40L, 40L)
         tasks += Bukkit.getAsyncScheduler().runAtFixedRate(this, { worlds.evict() }, 30L, 30L, TimeUnit.SECONDS)
         val autosave = cfg.autosaveSeconds.toLong()
         tasks += Bukkit.getAsyncScheduler().runAtFixedRate(this, { autosave() }, autosave, autosave, TimeUnit.SECONDS)
@@ -151,7 +146,7 @@ class KMapPlugin : JavaPlugin() {
         val defaults = YamlConfiguration.loadConfiguration(getResource("config.yml")!!.reader())
         cfg = KMapConfig.load(File(dataFolder, "config.yml"), defaults)
         worldsConfig = WorldsConfig(File(dataFolder, "worlds.yml"))
-        worldsConfig.load { logger.warning(it) }
+        worldsConfig.load()
     }
 
     fun contentIcons(): List<Pair<String, BufferedImage>> {

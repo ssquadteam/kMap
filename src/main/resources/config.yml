@@ -10,13 +10,12 @@ render:
   coordinatesEnabled: true
   openMapOnJoin: true
   joinOpenDelayTicks: 20
-  screenPanRadiusBlocks: 768
-  largeWorldThreshold: 8192
-  # Unregistered worlds stream as this mode.
-  largeWorldMode: "DEEP_EXPLORER"
   # Full-colour streamed maps: biome tints, block texture tones, shadows, contour lines and water depth.
   # false uses the 62 vanilla map colours instead (half the map tiles per player, flatter look).
   rgbTextured: true
+  # Shader packs (Iris, OptiFine) replace the shaders kMap draws with, so the map cannot show for them.
+  # While the map is open, only players with a shader pack see the lang line shaders.hint.
+  shaderHint: true
   discoverRadiusChunks: 6
   tilesPerFlush: 4
   flushIntervalTicks: 2
@@ -48,6 +47,22 @@ markers:
     maxPerPlayer: 24
     playerImage: "player_red.png"
     mobImage: "mob_yellow.png"
+
+# Guilds plugin integration, ignored when Guilds is not installed.
+guilds:
+  enabled: true
+  # Guildmates and allied guilds show on every map in the same world at any distance,
+  # as a coloured square clamped to the minimap edge when far away. Hover one on the full map for its guild.
+  members: true
+  allies: true
+  memberColor: "#96C446"
+  allyColor: "#78C8DC"
+  # The guild home (/guild sethome) shows as a pin only its members see. Searchable, click to track.
+  home: true
+  homeIcon: "house"
+  # "Share with guild" in the waypoint editor. Every member sees shared waypoints;
+  # the creator and the guild master can edit or delete them.
+  sharedWaypoints: true
 
 guis:
   settings: true
@@ -102,8 +117,6 @@ resourcepack:
     target: "AUTO"
     # Extra packs (zip files or folders inside plugins/kMap) merged into the kMap pack.
     packs: []
-    # Put baked world maps inside the main pack instead of sending them as separate packs.
-    bakes: true
 
 debug:
   logs: false

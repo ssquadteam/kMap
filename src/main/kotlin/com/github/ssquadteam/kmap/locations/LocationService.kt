@@ -72,7 +72,12 @@ class LocationService(private val file: File, private val log: (String) -> Unit)
         return player.hasPermission(perm)
     }
 
-    fun visible(player: Player, world: String): List<MapLocation> = all.filter { (it.world == null || it.world == world) && canSee(player, it) }
+    @Volatile
+    var extras: (Player) -> List<MapLocation> = { emptyList() }
+
+    fun visible(player: Player, world: String): List<MapLocation> = (all + extras(player)).filter { (it.world == null || it.world == world) && canSee(player, it) }
+
+    fun find(player: Player, index: Int): MapLocation? = if (index >= 0) all.getOrNull(index) else extras(player).firstOrNull { it.index == index }
 
     fun setOverride(player: Player, node: String, value: Boolean?) {
         val map = overrides.computeIfAbsent(player.uniqueId) { ConcurrentHashMap() }
@@ -83,27 +88,27 @@ class LocationService(private val file: File, private val log: (String) -> Unit)
         overrides.remove(player)
     }
 
-    fun search(player: Player, world: String, query: String): List<MapLocation> {
+    fun search(player: Player, world: String, query: String): List<Pair<Int, MapLocation>> {
         val q = query.trim().lowercase()
         val pool = visible(player, world).filter { it.searchable }
-        if (q.isEmpty()) return pool.sortedBy { it.name.lowercase() }
-        return pool.mapNotNull { l ->
-            val n = l.name.lowercase()
-            val d = l.description?.lowercase() ?: ""
-            val score = when {
+        if (q.isEmpty()) return pool.sortedBy { it.name.lowercase() }.map { 6 to it }
+        return pool.mapNotNull { l -> matchScore(q, l.name, l.description, l.tag)?.let { it to l } }
+    }
+
+    companion object {
+        fun matchScore(q: String, name: String, description: String?, tag: String?): Int? {
+            val n = name.lowercase()
+            return when {
                 n == q -> 0
                 n.startsWith(q) -> 1
                 n.split(' ', '-', '_').any { it.startsWith(q) } -> 2
                 n.contains(q) -> 3
-                d.contains(q) -> 4
-                (l.tag?.lowercase() ?: "").contains(q) -> 5
-                else -> return@mapNotNull null
+                description?.lowercase()?.contains(q) == true -> 4
+                tag?.lowercase()?.contains(q) == true -> 5
+                else -> null
             }
-            score to l
-        }.sortedWith(compareBy({ it.first }, { it.second.name.length }, { it.second.name.lowercase() })).map { it.second }
-    }
+        }
 
-    companion object {
         val TEMPLATE = """
             |# locations.yml - the places players can search for from the map, and optional map pins.
             |#

@@ -14,8 +14,15 @@ class Hit(val x: Double, val y: Double, val w: Double, val h: Double, val id: St
 class Ui(val glyphs: Glyphs, val hovered: String?) {
     val canvas = Canvas(glyphs)
     val hits = ArrayList<Hit>()
+    private var edge = false
 
-    fun code(y: Int, tint: Tint = Tint.NONE, layer: Int = 1, fx: Fx = Fx.NONE) = Codes.glyph(y, tint, layer, fx)
+    fun code(y: Int, tint: Tint = Tint.NONE, layer: Int = 1, fx: Fx = Fx.NONE) = Codes.glyph(y, tint, layer, fx, edge)
+
+    fun edge(block: () -> Unit) {
+        edge = true
+        block()
+        edge = false
+    }
 
     fun glyph(name: String, x: Double, y: Int, tint: Tint = Tint.NONE, layer: Int = 1, fx: Fx = Fx.NONE) {
         canvas.glyph(name, x, y, code(y, tint, layer, fx))
@@ -84,13 +91,13 @@ class Ui(val glyphs: Glyphs, val hovered: String?) {
         val w = font.width(label).toInt() + 8
         val x = Math.round(cx - w / 2.0).toDouble()
         threeSlice("key", x, y, w, Tint.NONE, layer)
-        text(font, x + 4, y + 3, label, Tint.INK, layer + 1)
+        text(font, x + 4, y + 2, label, Tint.INK, layer + 1)
     }
 
     fun cbutton(style: String, width: Int, x: Double, y: Int, label: String, id: String, action: () -> Unit) {
         val name = "cbtn_${style}_$width"
         glyph(name, x, y, Tint.NONE, 2, Fx.HOVER)
-        centered(glyphs.small, x + width / 2.0, y + 5, label, if (style == "red") Tint.CREAM else Tint.INK, 3, max = width - 6.0)
+        centered(glyphs.small, x + width / 2.0, y + 4, label, if (style == "red") Tint.CREAM else Tint.INK, 3, max = width - 6.0)
         hit(x, y.toDouble(), width.toDouble(), 15.0, id, action)
     }
 

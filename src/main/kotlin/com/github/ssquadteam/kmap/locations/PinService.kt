@@ -22,7 +22,8 @@ class PinService(private val plugin: KMapPlugin) {
         val base = l.pinIcon ?: l.icon ?: "waypoint"
         val n = base.removeSuffix(".png").lowercase()
         glyphs.find("loc_${n}_outline")?.let { return it.name }
-        return iconGlyphName(n, glyphs) ?: "loc_waypoint_outline"
+        val icon = iconGlyphName(n, glyphs) ?: return "loc_waypoint_outline"
+        return glyphs.find(icon + "_pin")?.name ?: icon
     }
 
     fun activate(player: Player, l: MapLocation, screen: ScreenSession?) {

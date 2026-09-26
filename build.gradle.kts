@@ -10,12 +10,23 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.nexomc.com/releases")
     maven("https://repo.nexomc.com/snapshots")
+    maven("https://repo.glaremasters.me/repository/public/")
+}
+
+val guildsJar by configurations.creating { isTransitive = false }
+
+val guildsApi by tasks.registering(Jar::class) {
+    from({ zipTree(guildsJar.singleFile) }) { include("me/glaremasters/**") }
+    archiveFileName = "guilds-api.jar"
+    destinationDirectory = layout.buildDirectory.dir("deps")
 }
 
 dependencies {
     paperweight.paperDevBundle(libs.versions.paper.dev.bundle.get())
     compileOnly(libs.kotlin.stdlib)
     compileOnly(libs.nexo) { isTransitive = false }
+    guildsJar(libs.guilds)
+    compileOnly(files(guildsApi))
 }
 
 paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION

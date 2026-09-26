@@ -23,7 +23,7 @@ class TileFrame(val mapId: Int) {
         val stack = ItemStack(Items.FILLED_MAP)
         stack.set(DataComponents.MAP_ID, MapId(mapId))
         return listOf(
-            Packets.spawn(id, EntityTypes.ITEM_FRAME, x, y, z, data = 1),
+            Packets.spawn(id, EntityTypes.GLOW_ITEM_FRAME, x, y, z, data = 1),
             Packets.data(id, listOf(Packets.value(EntityDataKeys.FRAME_ITEM, stack), Packets.value(EntityDataKeys.SHARED_FLAGS, 0x20.toByte()))),
             Packets.spawn(id2, EntityTypes.ITEM_FRAME, x, y, z, data = 0),
             Packets.data(id2, listOf(Packets.value(EntityDataKeys.FRAME_ITEM, stack.copy()), Packets.value(EntityDataKeys.SHARED_FLAGS, 0x20.toByte()))),
@@ -34,4 +34,14 @@ class TileFrame(val mapId: Int) {
 
     fun patch(x: Int, y: Int, w: Int, h: Int, colors: ByteArray): ClientboundMapItemDataPacket =
         ClientboundMapItemDataPacket(MapId(mapId), 0, true, Optional.empty(), Optional.of(MapItemSavedData.MapPatch(x, y, w, h, colors)))
+
+    companion object {
+        const val LIFT_UP = 0.815f
+        const val LIFT_DOWN = -1.225f
+
+        fun liftPackets(id: Int, height: Float, x: Double, y: Double, z: Double): List<Packet<in ClientGamePacketListener>> = listOf(
+            Packets.spawn(id, EntityTypes.INTERACTION, x, y, z),
+            Packets.data(id, listOf(Packets.value(EntityDataKeys.INTERACTION_WIDTH, 0f), Packets.value(EntityDataKeys.INTERACTION_HEIGHT, height))),
+        )
+    }
 }

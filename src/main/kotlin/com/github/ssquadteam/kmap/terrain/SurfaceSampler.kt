@@ -127,8 +127,10 @@ class SurfaceSampler(private val colors: BlockColors) {
     }
 
     private fun tone(entry: BlockColor, wx: Int, wz: Int): Int {
-        val h = (wx * 73856093) xor (wz * 19349663)
-        return when ((h ushr 13) and 7) {
+        var h = wx * -0x61c88647 + wz * 0x27d4eb2f
+        h = (h xor (h ushr 15)) * 0x2c1b3c6d
+        h = h xor (h ushr 12)
+        return when (h and 7) {
             0, 1 -> mix(entry.rgb, entry.dark, 0.7)
             2 -> mix(entry.rgb, entry.light, 0.7)
             else -> entry.rgb

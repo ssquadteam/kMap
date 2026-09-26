@@ -2,6 +2,7 @@ package com.github.ssquadteam.kmap.session
 
 import com.github.ssquadteam.kmap.KMapPlugin
 import com.github.ssquadteam.kmap.nms.PacketInterceptor
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -11,6 +12,7 @@ import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.player.PlayerResourcePackStatusEvent
 import org.bukkit.event.player.PlayerRespawnEvent
+import org.bukkit.event.player.PlayerTeleportEvent
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 
@@ -22,7 +24,9 @@ class MapService(private val plugin: KMapPlugin) : Listener {
     fun all(): Collection<PlayerMap> = sessions.values
 
     fun attach(player: Player) {
-        if (sessions.containsKey(player.uniqueId)) return
+        val existing = sessions[player.uniqueId]
+        if (existing != null && existing.player === player) return
+        if (existing != null) detach(existing.player)
         val session = PlayerMap(plugin, player, plugin.storage.loadSettings(player))
         sessions[player.uniqueId] = session
         PacketInterceptor.inject(player, session)
@@ -33,7 +37,7 @@ class MapService(private val plugin: KMapPlugin) : Listener {
         s.stop()
         plugin.storage.saveSettings(player, s.settings)
         s.discoveryWorld()?.let { plugin.storage.saveDiscovery(player.uniqueId, it, s.discovered) }
-        PacketInterceptor.eject(player)
+        PacketInterceptor.eject(s.player)
     }
 
     fun open(player: Player) {
@@ -70,7 +74,6 @@ class MapService(private val plugin: KMapPlugin) : Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     fun onQuit(e: PlayerQuitEvent) {
         plugin.packs.markLoaded(e.player, false)
-        plugin.areas.forget(e.player)
         detach(e.player)
     }
 
@@ -81,11 +84,35 @@ class MapService(private val plugin: KMapPlugin) : Listener {
         if (s.active) e.player.scheduler.run(plugin, { s.enterWorld() }, null)
     }
 
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    fun onTeleport(e: PlayerTeleportEvent) {
+        val to = e.to
+        if (to.world != e.from.world) return
+        val s = sessions[e.player.uniqueId] ?: return
+        val far = (e.player.viewDistance + 2) * 16.0
+        if (e.from.distanceSquared(to) < far * far) return
+        Bukkit.getGlobalRegionScheduler().runDelayed(plugin, {
+            if (s.active && e.player.isOnline) e.player.scheduler.run(plugin, { s.enterWorld() }, null)
+        }, 5L)
+    }
+
+    fun watchdog() {
+        val now = System.nanoTime()
+        for (s in sessions.values) {
+            if (!s.active || !s.player.isOnline || now - s.lastTickNanos < STALL_NANOS) continue
+            s.player.scheduler.run(plugin, { s.enterWorld() }, null)
+        }
+    }
+
     @EventHandler(priority = EventPriority.MONITOR)
     fun onRespawn(e: PlayerRespawnEvent) {
         val s = sessions[e.player.uniqueId] ?: return
         e.player.scheduler.runDelayed(plugin, {
             if (s.active) s.enterWorld() else if (plugin.cfg.openMapOnJoin) s.start()
         }, null, 2L)
+    }
+
+    companion object {
+        private const val STALL_NANOS = 3_000_000_000L
     }
 }

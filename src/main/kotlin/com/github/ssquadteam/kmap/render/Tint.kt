@@ -29,7 +29,6 @@ enum class Tint(val rgb: Int) {
     LIGHT_GREY(0xD0D0D0),
     SELECTION(0x8CE070),
     VOID(0x141418),
-    FOG(0x1E2024),
     HINT(0x9C7A58),
     WARN(0xE05A4A),
     OFF(0x7A6A5A),
@@ -40,14 +39,15 @@ enum class Tint(val rgb: Int) {
     companion object {
         private val values = entries
 
-        fun nearest(rgb: Int): Tint {
+        fun nearest(rgb: Int, limit: Int = values.size): Tint {
             if (rgb == 0xFFFFFF) return NONE
             var best = CREAM
             var bestD = Int.MAX_VALUE
             val r = rgb shr 16 and 255
             val g = rgb shr 8 and 255
             val b = rgb and 255
-            for (t in values) {
+            for (i in 0 until minOf(limit, values.size)) {
+                val t = values[i]
                 if (t == NONE) continue
                 val dr = (t.rgb shr 16 and 255) - r
                 val dg = (t.rgb shr 8 and 255) - g

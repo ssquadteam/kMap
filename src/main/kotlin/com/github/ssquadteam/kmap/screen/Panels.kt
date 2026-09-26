@@ -2,6 +2,7 @@ package com.github.ssquadteam.kmap.screen
 
 import com.github.ssquadteam.kmap.config.Corner
 import com.github.ssquadteam.kmap.config.MinimapShape
+import com.github.ssquadteam.kmap.locations.LocationService
 import com.github.ssquadteam.kmap.render.Codes
 import com.github.ssquadteam.kmap.render.Fx
 import com.github.ssquadteam.kmap.render.Tint
@@ -50,6 +51,7 @@ class WaypointEditPanel(private val editing: UUID?, private val at: Triple<Int, 
     private var color = 0
     private var icon: String? = null
     private var focus: String? = null
+    private var share = false
 
     override fun onOpen(s: ScreenSession) {
         val w = editing?.let { s.map.waypoints.get(it) }
@@ -60,12 +62,17 @@ class WaypointEditPanel(private val editing: UUID?, private val at: Triple<Int, 
             z = w.z
             color = w.color
             icon = w.icon
+            share = w.guild != null
         } else if (at != null) {
             x = at.first
             y = at.second
             z = at.third
             color = s.map.waypoints.all.size % 8
         }
+    }
+
+    override fun tick(s: ScreenSession) {
+        if (focus != null && s.ticks % 10 == 0) s.invalidateUi()
     }
 
     private fun edit(s: ScreenSession, key: String, value: String, max: Int) {
@@ -93,7 +100,7 @@ class WaypointEditPanel(private val editing: UUID?, private val at: Triple<Int, 
             ui.text(text, X + 65, Y + 40, lang.get(p, "waypoint.name_placeholder"), Tint.MUTED, 2)
         } else {
             val w = ui.text(text, X + 65, Y + 40, shown, Tint.CREAM, 2, max = 140.0)
-            if (focus == "name") ui.text(text, X + 66 + w, Y + 40, "_", Tint.GOLD, 2)
+            if (focus == "name" && (s.ticks / 10) % 2 == 0) ui.text(text, X + 66 + w, Y + 40, "_", Tint.GOLD, 2)
         }
         ui.hit(X + 62, Y + 40.0, 149.0, 12.0, "field:name", { edit(s, "name", name, 32) })
         ui.text(ui.glyphs.small, X + 63, Y + 53, lang.get(p, "waypoint.type_hint").uppercase(), Tint.HINT, 2, max = 150.0)
@@ -102,9 +109,13 @@ class WaypointEditPanel(private val editing: UUID?, private val at: Triple<Int, 
         for ((i, pair) in listOf("x" to x, "y" to y, "z" to z).withIndex()) {
             val fx = X + 76 + i * 46
             ui.text(ui.glyphs.small, fx - 9, Y + 72, pair.first.uppercase(), Tint.INK, 2)
-            val v = if (focus == pair.first) s.textField?.value ?: pair.second.toString() else pair.second.toString()
-            ui.text(text, fx + 3, Y + 69, v, Tint.CREAM, 2, max = 28.0)
-            ui.hit(fx, Y + 70.0, 33.0, 11.0, "field:" + pair.first, { edit(s, pair.first, pair.second.toString(), 9) })
+            val focused = focus == pair.first
+            val id = "field:" + pair.first
+            val v = if (focused) s.textField?.value ?: pair.second.toString() else pair.second.toString()
+            val tw = ui.text(text, fx + 3, Y + 69, v, if (focused) Tint.GOLD else Tint.CREAM, 2, max = 26.0)
+            if (focused && (s.ticks / 10) % 2 == 0) ui.text(text, fx + 4 + tw, Y + 69, "_", Tint.GOLD, 2)
+            ui.glyph(if (focused || ui.isHovered(id)) "uline_gold" else "uline_dim", fx, Y + 81, Tint.NONE, 3)
+            ui.hit(fx, Y + 70.0, 33.0, 12.0, id, { edit(s, pair.first, pair.second.toString(), 9) })
         }
 
         ui.tag(X + 12, Y + 95, lang.get(p, "waypoint.marker").uppercase())
@@ -139,25 +150,43 @@ class WaypointEditPanel(private val editing: UUID?, private val at: Triple<Int, 
         }
         ui.centered(ui.glyphs.small, X + 193, Y + 126, lang.get(p, "waypoint.preview").uppercase(), Tint.INK_SOFT, 2)
 
+        shareGuild(s)?.let { g ->
+            ui.tag(X + 12, Y + 156, lang.get(p, "waypoint.share").uppercase())
+            ui.glyph(if (share) "lamp_on" else "lamp_off", X + 64, Y + 156, Tint.NONE, 2, Fx.HOVER)
+            ui.text(ui.glyphs.small, X + 80, Y + 158, lang.get(p, "waypoint.share_with", g.name).uppercase(), Tint.INK_SOFT, 2, max = 130.0)
+            ui.hit(X + 60, Y + 154.0, 150.0, 14.0, "share", { share = !share })
+        }
+
         ui.cbutton("parch", 56, X + 12, Y + 175, lang.get(p, "button.cancel").uppercase(), "cancel") { s.setPanel(null) }
         ui.cbutton("gold", 92, X + Win.W - 12 - 92, Y + 175, lang.get(p, if (editing == null) "waypoint.create" else "waypoint.save").uppercase(), "confirm") { confirm(s) }
     }
 
+    private fun shareGuild(s: ScreenSession) = s.plugin.guilds?.takeIf { s.cfg.guilds.sharedWaypoints }?.guildOf(s.player.uniqueId)
+
     private fun confirm(s: ScreenSession) {
         val store = s.map.waypoints
         val finalName = name.trim().ifEmpty { s.plugin.lang.get(s.player, "waypoint.default_name") }
-        val existing = editing?.let { store.get(it) }
-        if (existing != null) {
-            existing.name = finalName
-            existing.x = x
-            existing.y = y
-            existing.z = z
-            existing.color = color
-            existing.icon = icon
-            store.save()
+        val w = editing?.let { store.get(it) } ?: Waypoint(UUID.randomUUID(), finalName, s.player.world.name, x, y, z, color, icon, owner = s.player.uniqueId)
+        val was = w.guild
+        w.name = finalName
+        w.x = x
+        w.y = y
+        w.z = z
+        w.color = color
+        w.icon = icon
+        val hook = s.plugin.guilds
+        val target = if (share) shareGuild(s)?.id ?: was else null
+        if (hook != null && was != null && was != target) hook.unshare(was, w.id)
+        if (hook != null && target != null) {
+            if (w.owner == null) w.owner = s.player.uniqueId
+            store.remove(w.id)
+            hook.share(target, w)
+        } else if (store.all.none { it.id == w.id }) {
+            store.add(w.copy(null))
         } else {
-            store.add(Waypoint(UUID.randomUUID(), finalName, s.player.world.name, x, y, z, color, icon))
+            store.save()
         }
+        s.map.syncGuild()
         s.map.onWaypointsChanged()
         s.invalidateMap()
         s.setPanel(null)
@@ -207,7 +236,8 @@ class WaypointListPanel : Panel {
                 ui.text(ui.glyphs.small, rx + 10, ry + 7, w.letter(), if (w.color == 7) Tint.CREAM else Tint.DARK, 3, Fx.CLIP_A)
             }
             ui.text(ui.glyphs.bold, rx + 24, ry + 1, w.name, Tint.INK, 2, Fx.CLIP_A, 74.0)
-            ui.text(ui.glyphs.small, rx + 24, ry + 13, "${w.x}, ${w.y}, ${w.z}", Tint.INK_SOFT, 2, Fx.CLIP_A)
+            val coords = "${w.x}, ${w.y}, ${w.z}" + if (w.guild != null) "  " + lang.get(p, "guilds.tag").uppercase() else ""
+            ui.text(ui.glyphs.small, rx + 24, ry + 13, coords, Tint.INK_SOFT, 2, Fx.CLIP_A, 74.0)
             ui.hit(rx, ry.toDouble(), 98.0, rowH - 2.0, id, { selected = w.id })
             val actions = listOf(
                 (if (w.visible) "eye" else "eye_off") to { w.visible = !w.visible; s.map.waypoints.save(); s.map.onWaypointsChanged(); s.invalidateMap() },
@@ -215,7 +245,13 @@ class WaypointListPanel : Panel {
                 "pencil" to { s.setPanel(WaypointEditPanel(w.id, null)) },
                 (if (armed == w.id) "trash_armed" else "trash") to {
                     if (armed == w.id) {
-                        s.map.waypoints.remove(w.id)
+                        val g = w.guild
+                        if (g != null) {
+                            s.plugin.guilds?.unshare(g, w.id)
+                            s.map.syncGuild()
+                        } else {
+                            s.map.waypoints.remove(w.id)
+                        }
                         s.map.onWaypointsChanged()
                         s.invalidateMap()
                         armed = null
@@ -223,7 +259,7 @@ class WaypointListPanel : Panel {
                         armed = w.id
                     }
                 },
-            )
+            ).take(if (s.canEdit(w)) 4 else 2)
             for ((j, a) in actions.withIndex()) {
                 val bx = rx + 100 + j * 17
                 val on = (j == 1 && w.tracked) || (j == 3 && armed == w.id)
@@ -247,7 +283,7 @@ class WaypointListPanel : Panel {
         if (sel != null) ui.chip(X + 12, Y + 196, (lang.get(p, "waypoints.editing") + " " + sel.name).uppercase())
         ui.cbutton("gold", 64, X + Win.W - 12 - 64, Y + 193, lang.get(p, "waypoints.edit").uppercase(), "edit") {
             val id = selected
-            if (id != null) s.setPanel(WaypointEditPanel(id, null))
+            if (id != null && s.map.waypoints.get(id)?.let { s.canEdit(it) } == true) s.setPanel(WaypointEditPanel(id, null))
         }
     }
 }
@@ -266,7 +302,7 @@ class SettingsPanel : Panel {
             Triple(lang.get(p, "settings.row_players"), st.showPlayers) { st.showPlayers = !st.showPlayers },
             Triple(lang.get(p, "settings.row_coords"), st.coords) { st.coords = !st.coords },
             Triple(lang.get(p, "settings.row_minimap"), st.minimap) { st.minimap = !st.minimap },
-        )
+        ) + listOfNotNull(s.plugin.guilds?.let { Triple(lang.get(p, "settings.row_guild"), st.showGuild) { st.showGuild = !st.showGuild } })
         for ((i, r) in rows.withIndex()) {
             val ry = Y + 56 + i * 23
             ui.text(ui.glyphs.text, X + 16, ry, r.first, Tint.INK, 2, max = 66.0)
@@ -314,6 +350,7 @@ class SettingsPanel : Panel {
             st.coords = d.coords
             st.showMobs = true
             st.showPlayers = true
+            st.showGuild = true
             st.minimap = true
             st.sensitivity = d.sensitivity
             st.cursor = d.cursor
@@ -351,16 +388,77 @@ class FaqPanel : Panel {
 }
 
 class SearchPanel : Panel {
+    private class Result(
+        val id: String,
+        val name: String,
+        val x: Double,
+        val y: Double?,
+        val z: Double,
+        val sameWorld: Boolean,
+        val nameTint: Tint,
+        val tag: String?,
+        val tagTint: Tint?,
+        val description: String?,
+        val descTint: Tint,
+        val icon: (Ui, Double, Int) -> Unit,
+    )
+
     private var query = ""
     private var scroll = 0
     override val modal: Boolean get() = false
 
-    override fun onOpen(s: ScreenSession) {
-        focus(s)
-    }
-
     private fun focus(s: ScreenSession) {
         s.focus(TextField(query, 40, { v -> query = v; scroll = 0 }, { }))
+    }
+
+    override fun tick(s: ScreenSession) {
+        if (s.textField != null && s.ticks % 10 == 0) s.invalidateUi()
+    }
+
+    private fun results(s: ScreenSession, text: String): List<Result> {
+        val p = s.player
+        val lang = s.plugin.lang
+        val world = p.world.name
+        val q = text.trim().lowercase()
+        val out = ArrayList<Result>()
+        COORDS.matchEntire(q)?.let { m ->
+            val n = m.groupValues.drop(1).filter { it.isNotEmpty() }.map { it.toDouble() }
+            val x = n.first()
+            val z = n.last()
+            val y = if (n.size == 3) n[1] else null
+            out += Result("goto", lang.get(p, "search.goto"), x, y, z, true, Tint.INK, lang.get(p, "search.tag_coords"), Tint.GOLD, null, Tint.MUTED) { ui, cx, cy ->
+                val g = ui.glyphs["icon_compass"]
+                ui.glyph("icon_compass", cx + 4 + (18 - g.width) / 2, cy + (28 - g.height) / 2, Tint.NONE, 2)
+            }
+        }
+        val ranked = ArrayList<Pair<Int, Result>>()
+        for (w in s.map.waypoints.inWorld(world)) {
+            val score = if (q.isEmpty()) 6 else LocationService.matchScore(q, w.name, null, null) ?: continue
+            val tint = Tint.nearest(Waypoint.COLORS[w.color.coerceIn(0, 7)])
+            ranked += score to Result("wp:${w.id}", w.name, w.x + 0.5, w.y.toDouble(), w.z + 0.5, true, Tint.INK, lang.get(p, if (w.guild != null) "guilds.tag" else "search.tag_waypoint"), tint, null, Tint.MUTED) { ui, cx, cy ->
+                val sq = ui.glyphs["mark_square"]
+                val gx = cx + 4 + (18 - sq.width) / 2
+                val gy = cy + (28 - sq.height) / 2
+                ui.glyph("mark_square", gx, gy, tint, 2)
+                val font = ui.glyphs.small
+                val letter = w.letter()
+                ui.text(font, Math.round(gx + (sq.width - font.width(letter)) / 2.0).toDouble(), gy + 2, letter, if (w.color == 7) Tint.CREAM else Tint.DARK, 3)
+            }
+        }
+        for ((score, l) in s.plugin.locations.search(p, world, q)) {
+            ranked += score to Result(
+                "loc:${l.index}", l.name, l.x, l.y, l.z, l.world == null || l.world == world,
+                l.nameColor?.let { Tint.nearest(it) } ?: Tint.INK, l.tag, l.tagColor?.let { Tint.nearest(it) },
+                l.description, l.descColor?.let { Tint.nearest(it) } ?: Tint.MUTED,
+            ) { ui, cx, cy ->
+                val icon = l.icon?.let { s.plugin.pins.iconGlyphName(it, ui.glyphs) } ?: "loc_waypoint"
+                val g = ui.glyphs[icon]
+                ui.glyph(icon, cx + 4 + (18 - g.width) / 2, cy + (28 - g.height) / 2, Tint.NONE, 2)
+            }
+        }
+        ranked.sortWith(compareBy({ it.first }, { it.second.name.length }, { it.second.name.lowercase() }))
+        ranked.mapTo(out) { it.second }
+        return out
     }
 
     override fun render(s: ScreenSession, ui: Ui) {
@@ -372,18 +470,20 @@ class SearchPanel : Panel {
         ui.threeSlice("sfield", X, Y, W, Tint.NONE, 1)
         ui.glyph("icon_magnifier", X + 6, Y + 4, Tint.NONE, 2)
         val shown = s.textField?.value ?: query
-        if (shown.isEmpty()) {
-            ui.text(ui.glyphs.text, X + 18, Y + 4, lang.get(p, "search.placeholder"), Tint.MUTED, 2)
+        val typing = s.textField != null
+        val caretOn = typing && (s.ticks / 10) % 2 == 0
+        if (shown.isEmpty() && !typing) {
+            ui.text(ui.glyphs.text, X + 18, Y + 3, lang.get(p, "search.placeholder"), Tint.MUTED, 2)
         } else {
-            val w = ui.text(ui.glyphs.text, X + 18, Y + 4, shown, Tint.CREAM, 2, max = 170.0)
-            if (s.textField != null && (s.ticks / 10) % 2 == 0) ui.text(ui.glyphs.text, X + 19 + w, Y + 4, "_", Tint.GOLD, 2)
+            val w = if (shown.isEmpty()) 0.0 else ui.text(ui.glyphs.text, X + 18, Y + 3, shown, Tint.CREAM, 2, max = 170.0)
+            if (caretOn) ui.text(ui.glyphs.text, X + 19 + w, Y + 3, "_", Tint.GOLD, 2)
         }
         ui.hit(X, Y.toDouble(), W - 36.0, 16.0, "search_field", { focus(s) })
         ui.keycap(X + W - 36, Y + 2, "ESC")
         ui.glyph("close_small", X + W - 15, Y + 3, Tint.NONE, 2, Fx.HOVER)
         ui.hit(X + W - 15, Y + 3.0, 10.0, 10.0, "search_close", { s.setPanel(null) })
 
-        val results = s.plugin.locations.search(p, p.world.name, shown)
+        val results = results(s, shown)
         val ry = Y + 18
         val rows = results.size.coerceIn(1, 5)
         val bodyH = rows * 29 + 1
@@ -391,9 +491,9 @@ class SearchPanel : Panel {
         val mid = ui.glyphs["win3_mid"]
         for (i in 0 until bodyH) ui.canvas.glyph(mid, X, ry + 19 + i, Codes.glyph(ry + 19 + i, Tint.NONE, 0))
         ui.glyph("win3_bot", X, ry + 19 + bodyH, Tint.NONE, 0)
-        ui.text(ui.glyphs.small, X + 8, ry + 5, lang.get(p, "search.results").uppercase(), Tint.CREAM, 2)
+        ui.text(ui.glyphs.small, X + 8, ry + 4, lang.get(p, "search.results").uppercase(), Tint.CREAM, 2)
         val found = lang.get(p, "search.found", results.size).uppercase()
-        ui.text(ui.glyphs.small, X + W - 34 - ui.glyphs.small.width(found), ry + 5, found, Tint.GOLD, 2)
+        ui.text(ui.glyphs.small, X + W - 34 - ui.glyphs.small.width(found), ry + 4, found, Tint.GOLD, 2)
         val rowH = 29
         val visible = 5
         val maxScroll = (results.size - visible).coerceAtLeast(0)
@@ -405,35 +505,32 @@ class SearchPanel : Panel {
         if (results.isEmpty()) ui.centered(ui.glyphs.text, X + W / 2.0, ry + 29, lang.get(p, "search.none"), Tint.INK_SOFT, 2)
         val here = p.location
         for (row in 0 until visible) {
-            val l = results.getOrNull(scroll + row) ?: break
+            val r = results.getOrNull(scroll + row) ?: break
             val cy = ry + 19 + row * rowH
             val cx = X + 10
-            val id = "result:${l.index}"
+            val id = "result:${r.id}"
             ui.glyph(if (ui.isHovered(id)) "rcard_hover" else "rcard", cx, cy, Tint.NONE, 1)
-            val icon = l.icon?.let { s.plugin.pins.iconGlyphName(it, ui.glyphs) } ?: "loc_waypoint"
-            val ig = ui.glyphs[icon]
-            ui.glyph(icon, cx + 4 + (18 - ig.width) / 2, cy + (28 - ig.height) / 2, Tint.NONE, 2)
-            val nameTint = l.nameColor?.let { Tint.nearest(it) } ?: Tint.INK
-            val nw = ui.text(ui.glyphs.bold, cx + 27, cy + 2, l.name, nameTint, 2, max = 110.0)
-            if (l.tag != null) {
+            r.icon(ui, cx, cy)
+            val top = if (r.description == null) cy + 5 else cy + 2
+            val nw = ui.text(ui.glyphs.bold, cx + 27, top, r.name, r.nameTint, 2, max = 110.0)
+            if (r.tag != null) {
                 val font = ui.glyphs.small
-                val label = l.tag.uppercase()
+                val label = r.tag.uppercase()
                 val tw = font.width(label).toInt() + 8
                 val tx = cx + 30 + nw
-                val tint = l.tagColor?.let { Tint.nearest(it) }
-                if (tint == null) ui.threeSlice("ribbon2", tx, cy + 2, tw, Tint.NONE, 2) else ui.threeSlice("pill", tx, cy + 3, tw, tint, 2)
-                ui.text(font, tx + 4, cy + 3, label, Tint.CREAM, 3)
+                if (r.tagTint == null) ui.threeSlice("ribbon2", tx, top + 1, tw, Tint.NONE, 2) else ui.threeSlice("pill", tx, top + 1, tw, r.tagTint, 2)
+                ui.text(font, tx + 4, top + 2, label, Tint.CREAM, 3)
             }
-            val coords = "X ${l.x.toInt()}  " + (l.y?.let { "Y ${it.toInt()}  " } ?: "") + "Z ${l.z.toInt()}"
-            ui.text(ui.glyphs.small, cx + 27, cy + 12, coords, Tint.INK_SOFT, 2)
-            if (l.world == null || l.world == p.world.name) {
-                val dist = distance(Math.hypot(l.x - here.x, l.z - here.z))
-                ui.text(ui.glyphs.small, cx + 196 - ui.glyphs.small.width(dist), cy + 12, dist, Tint.INK, 2)
+            val coords = "X ${r.x.toInt()}  " + (r.y?.let { "Y ${it.toInt()}  " } ?: "") + "Z ${r.z.toInt()}"
+            ui.text(ui.glyphs.small, cx + 27, top + 10, coords, Tint.INK_SOFT, 2)
+            if (r.sameWorld) {
+                val dist = distance(Math.hypot(r.x - here.x, r.z - here.z))
+                ui.text(ui.glyphs.small, cx + 196 - ui.glyphs.small.width(dist), top + 10, dist, Tint.INK, 2)
             }
-            if (l.description != null) ui.text(ui.glyphs.small, cx + 27, cy + 19, l.description, l.descColor?.let { Tint.nearest(it) } ?: Tint.MUTED, 2, max = 170.0)
+            if (r.description != null) ui.text(ui.glyphs.small, cx + 27, cy + 19, r.description, r.descTint, 2, max = 170.0)
             ui.hit(cx, cy.toDouble(), 212.0, 28.0, id, {
-                s.flyTo(l.x, l.z)
-                s.player.sendActionBar(Component.text(lang.get(p, "search.moved", l.name, l.x.toInt(), l.y?.toInt() ?: "?", l.z.toInt())))
+                s.flyTo(r.x, r.z)
+                s.player.sendActionBar(Component.text(lang.get(p, "search.moved", r.name, r.x.toInt(), r.y?.toInt() ?: "?", r.z.toInt())))
                 s.setPanel(null)
             })
         }
@@ -448,4 +545,8 @@ class SearchPanel : Panel {
 
     private fun distance(blocks: Double): String =
         if (blocks < 1000) "${blocks.toInt()}M" else String.format(Locale.ROOT, "%.1fKM", blocks / 1000)
+
+    companion object {
+        private val COORDS = Regex("""^\s*(-?\d{1,8})[\s,]+(-?\d{1,8})(?:[\s,]+(-?\d{1,8}))?\s*$""")
+    }
 }

@@ -1,19 +1,31 @@
 package com.github.ssquadteam.kmap.screen
 
-import com.github.ssquadteam.kmap.pack.ShaderDefines
+import com.github.ssquadteam.kmap.hooks.Relation
 import com.github.ssquadteam.kmap.render.Fx
 import com.github.ssquadteam.kmap.render.Tint
-import java.util.Locale
 
 object ScreenChrome {
     private const val SEARCH_W = 16
     private const val ZOOM_X = ScreenSession.W - 22
+    private val ZOOM_LABELS = arrayOf("1/8", "3/16", "1/4", "3/8", "1/2", "3/4", "1X", "1.5X", "2X", "3X", "4X", "6X")
 
     fun render(s: ScreenSession, ui: Ui, plate: String) {
         val lang = s.plugin.lang
         val p = s.player
-        val g = s.cfg.guis
         topBar(s, ui, plate)
+        ui.edge { rails(s, ui) }
+        s.hoveredWaypoint?.let { id -> s.map.waypoints.get(id) }?.let { w ->
+            tooltip(ui, w.name + "  -  " + lang.get(p, if (s.canEdit(w)) "waypoint.click_edit" else "waypoint.click_track"), s.cursorX, s.cursorY)
+        }
+        s.hoveredMate?.let { id -> s.mates().firstOrNull { it.player.uniqueId == id } }?.let { m ->
+            tooltip(ui, lang.get(p, if (m.relation == Relation.ALLY) "guilds.ally_tooltip" else "guilds.member_tooltip", m.player.name, m.guild.name), s.cursorX, s.cursorY)
+        }
+    }
+
+    private fun rails(s: ScreenSession, ui: Ui) {
+        val lang = s.plugin.lang
+        val p = s.player
+        val g = s.cfg.guis
         ui.glyph("seal", ScreenSession.W - 19, 4, Tint.NONE, 2, Fx.HOVER)
         ui.hit(ScreenSession.W - 19, 4.0, 15.0, 15.0, "close", { s.map.closeScreen() })
         val buttons = ArrayList<Triple<String, String, () -> Unit>>()
@@ -33,9 +45,6 @@ object ScreenChrome {
             if (ui.isHovered(id)) tooltipAt(ui, b.second, 26.0, y + 4)
         }
         if (g.zoomButtons) zoomStack(s, ui)
-        s.hoveredWaypoint?.let { id -> s.map.waypoints.get(id) }?.let { w ->
-            tooltip(ui, w.name + "  -  " + lang.get(p, "waypoint.click_edit"), s.cursorX, s.cursorY)
-        }
     }
 
     private fun topBar(s: ScreenSession, ui: Ui, plate: String) {
@@ -60,12 +69,12 @@ object ScreenChrome {
         val minusY = bottom - 14
         val readY = minusY - 13
         val plusY = readY - 16
+        ui.glyph("compass_rose", ZOOM_X - 43, plusY + 2, Tint.NONE, 1)
         ui.glyph(if (ui.isHovered("zoom:in")) "zoom_plus_on" else "zoom_plus", ZOOM_X, plusY, Tint.NONE, 1)
         ui.hit(ZOOM_X, plusY.toDouble(), 16.0, 14.0, "zoom:in", { s.zoomBy(1) })
-        val level = ShaderDefines.SCREEN_ZOOMS[s.zoom]
-        val label = if (level >= 1.0) String.format(Locale.ROOT, "%.0fX", level) else "1/" + String.format(Locale.ROOT, "%.0f", 1 / level)
+        val label = ZOOM_LABELS[s.zoom.coerceIn(0, ZOOM_LABELS.size - 1)]
         val font = ui.glyphs.small
-        val w = font.width(label).toInt() + 8
+        val w = font.width(label).toInt() + 7
         val px = ZOOM_X + 8 - w / 2.0
         ui.threeSlice("plate", Math.round(px).toDouble(), readY, w, Tint.NONE, 1)
         ui.text(font, Math.round(px).toDouble() + 4, readY + 2, label, Tint.CREAM, 2)
@@ -75,11 +84,11 @@ object ScreenChrome {
         if (ui.isHovered("zoom:out")) tooltipAt(ui, lang.get(p, "bar.zoom_out"), leftOf(ui, lang.get(p, "bar.zoom_out"), ZOOM_X), minusY + 2)
     }
 
-    private fun leftOf(ui: Ui, text: String, x: Double): Double = x - 4 - (ui.glyphs.small.width(text.uppercase()).toInt() + 10)
+    private fun leftOf(ui: Ui, text: String, x: Double): Double = x - 4 - (ui.glyphs.small.width(text.uppercase()).toInt() + 9)
 
     fun tooltipAt(ui: Ui, text: String, x: Double, y: Int) {
         val font = ui.glyphs.small
-        val w = font.width(text.uppercase()).toInt() + 10
+        val w = font.width(text.uppercase()).toInt() + 9
         ui.threeSlice("plate", x, y, w, Tint.NONE, 3)
         ui.text(font, x + 5, y + 2, text.uppercase(), Tint.CREAM, 3)
     }

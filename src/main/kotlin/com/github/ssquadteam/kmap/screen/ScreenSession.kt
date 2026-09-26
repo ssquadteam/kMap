@@ -2,6 +2,7 @@ package com.github.ssquadteam.kmap.screen
 
 import com.github.ssquadteam.kmap.KMapPlugin
 import com.github.ssquadteam.kmap.config.PinLabel
+import com.github.ssquadteam.kmap.hooks.Mate
 import com.github.ssquadteam.kmap.locations.MapLocation
 import com.github.ssquadteam.kmap.pack.ShaderDefines
 import com.github.ssquadteam.kmap.render.Canvas
@@ -11,10 +12,14 @@ import com.github.ssquadteam.kmap.render.Fx
 import com.github.ssquadteam.kmap.render.Surface
 import com.github.ssquadteam.kmap.render.Tint
 import com.github.ssquadteam.kmap.session.PlayerMap
+import com.github.ssquadteam.kmap.terrain.ZoomAnim
 import com.github.ssquadteam.kmap.waypoints.Waypoint
 import java.util.LinkedHashSet
 import java.util.UUID
 import kotlin.math.abs
+import kotlin.math.exp
+import kotlin.math.ln
+import kotlin.math.pow
 import kotlin.math.floor
 import net.minecraft.core.BlockPos
 import net.minecraft.core.component.DataComponents
@@ -72,6 +77,7 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
     private var lastPlate = ""
     private var dirtyMap = true
     private var dirtyUi = true
+    private var anim = ZoomAnim.NONE
     var ticks = 0
         private set
 
@@ -93,10 +99,8 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
         savedYaw = p.location.yaw
         savedPitch = p.location.pitch
         savedMode = p.gameMode
-        panX = p.location.x
-        panZ = p.location.z
         zoom = map.settings.screenZoom.coerceIn(0, ShaderDefines.SCREEN_ZOOMS.size - 1)
-        clampPan()
+        setPan(p.location.x, p.location.z)
         cursorX = W / 2.0
         cursorY = H / 2.0
         val out = ArrayList<Packet<in ClientGamePacketListener>>()
@@ -121,7 +125,6 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
         dirtyUi = true
         render()
         map.setBand(2)
-        map.onScreenChanged()
     }
 
     fun close() {
@@ -152,7 +155,6 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
         uiCarrier = null
         cursorCarrier = null
         map.settings.screenZoom = zoom
-        map.onScreenChanged()
     }
 
     private fun GameMode.ordinalId(): Int = when (this) {
@@ -168,8 +170,8 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
 
     fun updateSensitivity() {
         val sens = Codes.sensParam(map.settings.sensitivity)
-        for (c in listOfNotNull(mapCarrier, uiCarrier, cursorCarrier)) c.setParam(sens)?.let { map.send(it) }
-        map.onScreenChanged()
+        mapCarrier?.setParam(mapParam())?.let { map.send(it) }
+        for (c in listOfNotNull(uiCarrier, cursorCarrier)) c.setParam(sens)?.let { map.send(it) }
     }
 
     fun abilities(): ClientboundPlayerAbilitiesPacket {
@@ -212,17 +214,45 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
         return s
     }
 
-    fun clampPan() {
-        val bake = map.worldMap()?.bake
-        if (bake != null) {
-            panX = panX.coerceIn(bake.originX.toDouble(), bake.originX + bake.widthPx * bake.blocksPerPx)
-            panZ = panZ.coerceIn(bake.originZ.toDouble(), bake.originZ + bake.heightPx * bake.blocksPerPx)
-        } else {
-            val r = cfg.screenPanRadiusBlocks.toDouble()
-            val loc = player.location
-            panX = panX.coerceIn(loc.x - r, loc.x + r)
-            panZ = panZ.coerceIn(loc.z - r, loc.z + r)
-        }
+    private fun setPan(x: Double, z: Double) {
+        panX = Math.round(x.coerceIn(-WORLD_LIMIT, WORLD_LIMIT) * 4.0) / 4.0
+        panZ = Math.round(z.coerceIn(-WORLD_LIMIT, WORLD_LIMIT) * 4.0) / 4.0
+    }
+
+    private fun clientTick(): Int = Math.floorMod(player.world.gameTime, 5000L).toInt()
+
+    private fun animProgress(a: ZoomAnim): Double {
+        val elapsed = Math.floorMod(clientTick() - a.startTick, 128)
+        val t = (elapsed / ANIM_TICKS.toDouble()).coerceIn(0.0, 1.0)
+        return 1.0 - (1.0 - t).pow(3)
+    }
+
+    private fun displayedRatio(): Double {
+        val a = anim
+        if (!a.active) return 1.0
+        return exp(ln(a.startRatio) * (1.0 - animProgress(a)))
+    }
+
+    fun zoomAnim(): ZoomAnim = anim
+
+    fun mapParam(): Int {
+        val sens = Codes.sensParam(map.settings.sensitivity)
+        val a = anim
+        return if (a.active) sens or ((a.startTick and 127) shl 5) or (1 shl 12) else sens
+    }
+
+    fun panQuarters(): Pair<Int, Int> {
+        val (dragging, sx, sy) = dragState()
+        val x = if (dragging) panStartX + (sx - W / 2.0) / scale else panX
+        val z = if (dragging) panStartZ + (sy - H / 2.0) / scale else panZ
+        return Math.round(x * 4.0).toInt() to Math.round(z * 4.0).toInt()
+    }
+
+    fun viewCenter(): Pair<Int, Int> {
+        val dragging = drag is Drag.Map
+        val x = if (dragging) panStartX - (cursorX - dragStartX) / scale else panX
+        val z = if (dragging) panStartZ - (cursorY - dragStartY) / scale else panZ
+        return floor(x).toInt() to floor(z).toInt()
     }
 
     fun setPanel(p: Panel?) {
@@ -291,6 +321,24 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
             dirtyMap = true
             dirtyUi = true
         }
+        val mate = if (h == null && wp == null && drag == null && panel?.modal != true) mateAt(cursorX, cursorY)?.player?.uniqueId else null
+        if (mate != hoveredMate) {
+            hoveredMate = mate
+            dirtyUi = true
+        }
+    }
+
+    var hoveredMate: UUID? = null
+        private set
+
+    fun mates(): List<Mate> = if (map.settings.showGuild) plugin.guilds?.mates(player) ?: emptyList() else emptyList()
+
+    private fun mateAt(cx: Double, cy: Double): Mate? {
+        if (inEdge(cx)) return null
+        return mates().lastOrNull { m ->
+            val l = m.player.location
+            abs(cx - canvasX(l.x)) <= 6.5 && abs(cy - canvasY(l.z)) <= 6.5
+        }
     }
 
     fun onLeftDown() {
@@ -312,13 +360,13 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
         }
         if (panel?.modal == true) return
         if (hits.any { it.contains(cursorX, cursorY) && it.scroll != null }) return
+        anim = ZoomAnim.NONE
         drag = Drag.Map
         dragStartX = cursorX
         dragStartY = cursorY
         panStartX = panX
         panStartZ = panZ
         dirtyMap = true
-        map.onScreenChanged()
         render()
     }
 
@@ -326,20 +374,29 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
         val d = drag ?: return
         drag = null
         if (d is Drag.Map) {
-            panX = panStartX - (cursorX - dragStartX) / scale
-            panZ = panStartZ - (cursorY - dragStartY) / scale
-            clampPan()
+            setPan(panStartX - (cursorX - dragStartX) / scale, panStartZ - (cursorY - dragStartY) / scale)
             dirtyMap = true
-            map.onScreenChanged()
-            if (abs(cursorX - dragStartX) < 2 && abs(cursorY - dragStartY) < 2) clickMap()
+                if (abs(cursorX - dragStartX) < 2 && abs(cursorY - dragStartY) < 2) clickMap()
         }
         render()
+    }
+
+    fun canEdit(w: Waypoint) = w.guild == null || plugin.guilds?.canEdit(player.uniqueId, w) == true
+
+    private fun openWaypoint(w: Waypoint) {
+        if (canEdit(w)) {
+            setPanel(WaypointEditPanel(w.id, null))
+        } else {
+            map.setTracked(if (w.tracked) null else w.id)
+            dirtyMap = true
+            render()
+        }
     }
 
     private fun clickMap() {
         val wp = waypointAt(cursorX, cursorY)
         if (wp != null) {
-            setPanel(WaypointEditPanel(wp.id, null))
+            openWaypoint(wp)
             return
         }
         val pin = pinAt(cursorX, cursorY)
@@ -354,10 +411,10 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
         if (panel?.modal == true) return
         val wp = waypointAt(cursorX, cursorY)
         if (wp != null) {
-            setPanel(WaypointEditPanel(wp.id, null))
+            openWaypoint(wp)
             return
         }
-        if (!cfg.guis.newWaypoint) return
+        if (!cfg.guis.newWaypoint || inEdge(cursorX)) return
         val wx = floor(worldX(cursorX)).toInt()
         val wz = floor(worldZ(cursorY)).toInt()
         setPanel(WaypointEditPanel(null, Triple(wx, map.heightAt(wx, wz) ?: player.location.blockY, wz)))
@@ -379,34 +436,62 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
         if (next == zoom) return
         val wx = worldX(ax)
         val wz = worldZ(ay)
+        val r1 = displayedRatio()
+        val a1 = anim
+        val before = scale
         zoom = next
-        panX = wx - (ax - W / 2.0) / scale
-        panZ = wz - (ay - H / 2.0) / scale
-        clampPan()
+        setPan(wx - (ax - W / 2.0) / scale, wz - (ay - H / 2.0) / scale)
+        startAnim(r1, a1, before / scale, ax, ay)
+        dirtyUi = true
         dirtyMap = true
-        map.onScreenChanged()
         render()
     }
 
+    private fun startAnim(r1: Double, a1: ZoomAnim, ratio: Double, ax: Double, ay: Double) {
+        val k = 1.0 / ratio
+        val start = r1 / k
+        if (abs(start - 1.0) < 1e-3) {
+            anim = ZoomAnim.NONE
+            return
+        }
+        val px: Double
+        val py: Double
+        if (a1.active && abs(r1 - 1.0) > 1e-6) {
+            val d = 1.0 - r1 / k
+            px = (a1.anchorX * (1 - r1) + ax * r1 * (1 - 1 / k)) / d
+            py = (a1.anchorY * (1 - r1) + ay * r1 * (1 - 1 / k)) / d
+        } else {
+            px = ax
+            py = ay
+        }
+        anim = if (px in -2000.0..6000.0 && py in -2000.0..6000.0 && start in 0.02..50.0) ZoomAnim(start, px, py, 0.0, 0.0, clientTick()) else ZoomAnim.NONE
+    }
+
     fun resetView() {
-        panX = player.location.x
-        panZ = player.location.z
-        zoom = if (map.worldMap()?.mode?.hd == true) 5 else 6
-        clampPan()
+        anim = ZoomAnim.NONE
+        zoom = 6
+        setPan(player.location.x, player.location.z)
+        dirtyUi = true
         dirtyMap = true
-        map.onScreenChanged()
         render()
     }
 
     fun flyTo(x: Double, z: Double) {
         ping = x to z
         pingUntil = ticks + PING_TICKS
-        panX = x
-        panZ = z
+        val s1 = scale
+        var dx = (x - panX) * s1
+        var dz = (z - panZ) * s1
+        val len = Math.hypot(dx, dz)
+        if (len > SLIDE_PX) {
+            dx *= SLIDE_PX / len
+            dz *= SLIDE_PX / len
+        }
+        setPan(x, z)
         if (zoom < 6) zoom = 7
-        clampPan()
+        anim = if (len < 0.5) ZoomAnim.NONE else ZoomAnim(s1 / scale, W / 2.0, H / 2.0, dx, dz, clientTick())
+        dirtyUi = true
         dirtyMap = true
-        map.onScreenChanged()
         render()
     }
 
@@ -419,19 +504,14 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
         return if (d is Drag.Map) Triple(true, dragStartX, dragStartY) else Triple(false, 0.0, 0.0)
     }
 
-    fun panForTiles(): Pair<Int, Int> {
-        val (dragging, sx, sy) = dragState()
-        return if (dragging) {
-            Math.round(panStartX + (sx - W / 2.0) / scale).toInt() to Math.round(panStartZ + (sy - H / 2.0) / scale).toInt()
-        } else {
-            Math.round(panX).toInt() to Math.round(panZ).toInt()
-        }
-    }
-
     fun tick() {
         ticks++
         if (ticks % 2 == 0) updatePlate()
         if (ticks % cfg.entities.updateTicks == 0 && drag == null) dirtyMap = true
+        if (anim.active && Math.floorMod(clientTick() - anim.startTick, 128) > ANIM_TICKS + 1) {
+            anim = ZoomAnim.NONE
+            dirtyMap = true
+        }
         if (ping != null) {
             if (ticks >= pingUntil) ping = null
             if (ticks % 5 == 0) dirtyMap = true
@@ -452,9 +532,12 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
     }
 
     fun render() {
+        val out = ArrayList<Packet<in ClientGamePacketListener>>()
         if (dirtyMap) {
             dirtyMap = false
-            mapCarrier?.setText(MapLayer.render(this))?.let { map.send(it) }
+            map.syncTiles(out)
+            mapCarrier?.setParam(mapParam())?.let { out.add(it) }
+            mapCarrier?.setText(MapLayer.render(this))?.let { out.add(it) }
         }
         if (dirtyUi) {
             dirtyUi = false
@@ -463,9 +546,10 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
             panel?.render(this, ui)
             tooltip?.let { ScreenChrome.tooltip(ui, it, cursorX, cursorY) }
             hits = ui.hits
-            uiCarrier?.setText(ui.canvas.build())?.let { map.send(it) }
+            uiCarrier?.setText(ui.canvas.build())?.let { out.add(it) }
             updateHoverSilently()
         }
+        map.sendAll(out)
     }
 
     private fun updateHoverSilently() {
@@ -476,7 +560,10 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
         }
     }
 
+    private fun inEdge(cx: Double) = cx < EDGE || cx > W - EDGE
+
     fun pinAt(cx: Double, cy: Double): MapLocation? {
+        if (inEdge(cx)) return null
         val world = player.world.name
         return plugin.locations.visible(player, world).filter { it.pin }.lastOrNull { l ->
             val size = pinSize(l)
@@ -487,6 +574,7 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
     }
 
     fun waypointAt(cx: Double, cy: Double): Waypoint? {
+        if (inEdge(cx)) return null
         return map.waypoints.inWorld(player.world.name).filter { it.visible }.lastOrNull { w ->
             abs(cx - canvasX(w.x + 0.5)) <= 8.5 && abs(cy - canvasY(w.z + 0.5)) <= 8.5
         }
@@ -527,8 +615,12 @@ class ScreenSession(val plugin: KMapPlugin, val map: PlayerMap) {
 
     companion object {
         const val PING_TICKS = 60
+        const val ANIM_TICKS = 5
+        private const val SLIDE_PX = 240.0
+        private const val WORLD_LIMIT = 30_000_000.0
         const val W = 640.0
         const val H = 360.0
+        const val EDGE = 26.0
 
         fun pinLabelVisible(l: MapLocation, hovered: Boolean): Boolean = when (l.pinLabel) {
             PinLabel.ALWAYS -> true

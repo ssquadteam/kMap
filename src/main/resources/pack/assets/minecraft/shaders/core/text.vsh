@@ -28,7 +28,6 @@ out vec2 texCoord0;
 flat out int kmMode;
 flat out int kmClipKind;
 flat out vec4 kmClip;
-flat out vec4 kmTexRect;
 flat out vec4 kmAux;
 flat out vec2 kmCursor;
 out vec2 kmCanvas;
@@ -52,8 +51,15 @@ int kmPaletteId(vec4 c) {
     return KM_CHD_T[(h2 + KM_CHD_D[h1]) % 256];
 }
 
+const int KM_GLOW_LIGHT = 210;
+ivec2 kmTileBase = ivec2(0);
+
 int kmDigit(ivec2 p) {
-    return kmPaletteId(texelFetch(Sampler0, p, 0)) - 4;
+    return kmPaletteId(texelFetch(Sampler0, kmTileBase + p, 0)) - 4;
+}
+
+bool kmIsTile() {
+    return kmDigit(ivec2(0, 0)) == 107 && kmDigit(ivec2(1, 0)) == 77;
 }
 
 int kmDigits(int start, int count) {
@@ -65,13 +71,23 @@ int kmDigits(int start, int count) {
 }
 #endif
 
+float kmNowTicks(int band) {
+    return GameTime * 24000.0 - float(band) * 6000.0;
+}
+
+float kmAnimEase(int start, int band) {
+    float elapsed = mod(kmNowTicks(band) - float(start), 128.0);
+    float t = clamp(elapsed / KM_ANIM_TICKS, 0.0, 1.0);
+    float r = 1.0 - t;
+    return 1.0 - r * r * r;
+}
+
 int kmBand() {
     return int(clamp(floor(GameTime * 4.0), 0.0, 3.0));
 }
 
 float kmUiScale() {
-    float fit = min(ScreenSize.x / KM_CANVAS_W, ScreenSize.y / KM_CANVAS_H);
-    return fit >= 1.0 ? floor(fit) : fit;
+    return min(ScreenSize.x / KM_CANVAS_W, ScreenSize.y / KM_CANVAS_H);
 }
 
 vec2 kmCanvasOrigin() {
@@ -126,6 +142,19 @@ vec2 kmCursorPos(float sens) {
     return clamp(c, vec2(0.0), vec2(KM_CANVAS_W, KM_CANVAS_H));
 }
 
+float kmGutter() {
+    return max(0.0, -kmScreenToCanvas(vec2(0.0)).x);
+}
+
+vec2 kmCursorShown(vec2 c) {
+    if (c.x < KM_EDGE) {
+        c.x -= kmGutter();
+    } else if (c.x > KM_CANVAS_W - KM_EDGE) {
+        c.x += kmGutter();
+    }
+    return c;
+}
+
 float kmSens(int param) {
     return 1.0 + float(param & 31) * 0.1;
 }
@@ -160,26 +189,6 @@ void kmHide() {
 vec2 kmFontCorner() {
     vec2 f = fract(UV0 * 256.0);
     return vec2(f.x > 0.5 ? 1.0 : 0.0, f.y > 0.5 ? 1.0 : 0.0);
-}
-
-ivec2 kmCornerTexelU(vec2 uv, vec2 u, ivec2 size) {
-    vec2 p = uv * vec2(size);
-    return ivec2(u.x > 0.5 ? int(ceil(p.x - 0.25)) - 1 : int(floor(p.x + 0.25)),
-                 u.y > 0.5 ? int(ceil(p.y - 0.25)) - 1 : int(floor(p.y + 0.25)));
-}
-
-vec2 kmSpriteCorner(ivec2 size) {
-    for (int i = 0; i < 4; i++) {
-        vec2 u = vec2(float(i & 1), float(i >> 1));
-        vec4 t = texelFetch(Sampler0, kmCornerTexelU(UV0, u, size), 0);
-        ivec3 v = ivec3(round(t.rgb * 255.0));
-        if (v.r == 107 && v.g == 77 && v.b >= 16 && v.b < 20) {
-            int c = v.b - 16;
-            vec2 expect = c == 0 ? vec2(0.0, 0.0) : c == 1 ? vec2(0.0, 1.0) : c == 2 ? vec2(1.0, 1.0) : vec2(1.0, 0.0);
-            if (expect == u) return u;
-        }
-    }
-    return vec2(-1.0);
 }
 
 ivec2 kmCornerTexel(vec2 uv, int corner, ivec2 size) {
@@ -229,7 +238,7 @@ void kmClassA(int surface, float localX, float localY, int param, int band) {
     kmQuad = kmCornerUnit(corner);
     vertexColor = vec4(1.0);
 
-    if (kind == 0 || kind == 5) {
+    if (kind == 0 || kind == 1 || kind == 5) {
         float y = float(c & 511) - 128.0;
         int tint = (c >> 9) & 63;
         int layer = (c >> 15) & 3;
@@ -237,6 +246,9 @@ void kmClassA(int surface, float localX, float localY, int param, int band) {
         vec2 canvas = origin + vec2(localX - 1.0, y + localY + 2.0);
         if (fx == 1 && surface == 2) {
             canvas += kmCursorPos(kmSens(param)) - vec2(KM_CANVAS_W, KM_CANVAS_H) * 0.5;
+        }
+        if (kind == 1) {
+            canvas.x += canvas.x < KM_CANVAS_W * 0.5 ? -kmGutter() : kmGutter();
         }
         if (kind == 0 && surface <= 1 && fx != 4) {
             kmClipKind = 0;
@@ -251,67 +263,13 @@ void kmClassA(int surface, float localX, float localY, int param, int band) {
         }
         kmAux = vec4(float(fx), float(tint), 0.0, 0.0);
         if (fx == 2 || fx == 3) {
-            kmCursor = kmCursorPos(kmSens(param));
+            kmCursor = kmCursorShown(kmCursorPos(kmSens(param)));
+        }
+        if (surface == 2 && ((param >> 12) & 1) == 1) {
+            vertexColor.a = smoothstep(0.55, 1.0, kmAnimEase((param >> 5) & 127, band));
         }
         gl_Position = kmCanvasToClip(canvas, kmDepth(surface, layer));
         kmMode = 1;
-        return;
-    }
-
-    if (kind == 1) {
-        ivec2 atlas = textureSize(Sampler0, 0);
-        vec2 u = kmSpriteCorner(atlas);
-        if (u.x < 0.0) {
-            kmHide();
-            return;
-        }
-        ivec2 ct = kmCornerTexelU(UV0, u, atlas);
-        ivec2 hStep = ivec2(u.x > 0.5 ? -1 : 1, 0);
-        ivec2 vStep = ivec2(0, u.y > 0.5 ? -1 : 1);
-        vec4 wPix = texelFetch(Sampler0, ct + hStep, 0);
-        vec4 hPix = texelFetch(Sampler0, ct + vStep, 0);
-        ivec3 wv = ivec3(round(wPix.rgb * 255.0));
-        ivec3 hv = ivec3(round(hPix.rgb * 255.0));
-        int imgW = wv.r << 16 | wv.g << 8 | wv.b;
-        int imgH = hv.r << 16 | hv.g << 8 | hv.b;
-        ivec2 tl = ct - ivec2(u.x > 0.5 ? imgW + 1 : 0, u.y > 0.5 ? imgH + 1 : 0);
-        ivec3 ox = ivec3(round(texelFetch(Sampler0, tl + ivec2(3, 0), 0).rgb * 255.0));
-        ivec3 oz = ivec3(round(texelFetch(Sampler0, tl + ivec2(4, 0), 0).rgb * 255.0));
-        ivec3 sc = ivec3(round(texelFetch(Sampler0, tl + ivec2(5, 0), 0).rgb * 255.0));
-        float originX = float((ox.r << 16 | ox.g << 8 | ox.b) - 8388608);
-        float originZ = float((oz.r << 16 | oz.g << 8 | oz.b) - 8388608);
-        float blocksPerPx = float(sc.r << 16 | sc.g << 8 | sc.b) / 256.0;
-        vec2 texel = 1.0 / vec2(atlas);
-        vec4 inner = vec4((vec2(tl) + 1.0) * texel, (vec2(tl) + 1.0 + vec2(imgW, imgH)) * texel);
-        kmTexRect = inner;
-        vec2 imgSize = vec2(imgW, imgH);
-        vec2 canvas;
-        vec2 uv;
-        if (surface <= 1) {
-            float zoom = surface == 0 ? kmZoom((param >> 3) & 7) : kmZoom((param >> 3) & 7);
-            float blocksAcross = (surface == 0 ? KM_MINI_BLOCKS : KM_BIG_BLOCKS) / zoom;
-            vec2 cam = kmCameraXZ();
-            vec2 camPx = (cam - vec2(originX, originZ)) / blocksPerPx;
-            vec2 halfPx = vec2(blocksAcross * 0.5 / blocksPerPx);
-            vec2 p = camPx - halfPx + u * halfPx * 2.0;
-            uv = inner.xy + p / imgSize * (inner.zw - inner.xy);
-            canvas = area.xy + u * area.zw;
-        } else {
-            int panZ = c & 16383;
-            int zoomIdx = (c >> 14) & 15;
-            int fx = (c >> 18) & 3;
-            float scale = KM_SCREEN_ZOOMS[clamp(zoomIdx, 0, 11)] * blocksPerPx;
-            vec2 tlCanvas = vec2(localX - 1.0, KM_CANVAS_H * 0.5 - float(panZ) * scale);
-            canvas = tlCanvas + u * imgSize * scale;
-            if (fx == 1) {
-                canvas += kmCursorPos(kmSens(param)) - vec2(KM_CANVAS_W, KM_CANVAS_H) * 0.5;
-            }
-            uv = mix(inner.xy, inner.zw, u);
-        }
-        texCoord0 = uv;
-        kmCanvas = canvas;
-        gl_Position = kmCanvasToClip(canvas, kmDepth(surface, 0) + 0.0004);
-        kmMode = 3;
         return;
     }
 
@@ -334,6 +292,9 @@ void kmClassA(int surface, float localX, float localY, int param, int band) {
         }
         kmCanvas = canvas;
         kmClipKind = 0;
+        if (surface == 2 && ((param >> 12) & 1) == 1) {
+            vertexColor.a = smoothstep(0.55, 1.0, kmAnimEase((param >> 5) & 127, band));
+        }
         gl_Position = kmCanvasToClip(canvas, kmDepth(surface, 3) + 0.0005);
         kmMode = 1;
         return;
@@ -357,7 +318,7 @@ void kmClassA(int surface, float localX, float localY, int param, int band) {
     }
 
     if (kind == 4) {
-        vec2 cur = kmCursorPos(kmSens(param));
+        vec2 cur = kmCursorShown(kmCursorPos(kmSens(param)));
         vec2 canvas = cur + kmCornerUnit(corner) * KM_CURSOR_PX - vec2(KM_CURSOR_HOT_X, KM_CURSOR_HOT_Y);
         kmCanvas = canvas;
         gl_Position = kmCanvasToClip(canvas, 0.995);
@@ -373,13 +334,19 @@ void main() {
     kmMode = 0;
     kmClipKind = 0;
     kmClip = vec4(0.0);
-    kmTexRect = vec4(0.0);
     kmAux = vec4(0.0);
     kmCursor = vec2(-1000.0);
     kmCanvas = vec2(0.0);
     kmQuad = vec2(0.0);
     texCoord0 = UV0;
     int corner = 0;
+
+#if !defined(IS_GUI)
+    if (ivec3(round(Color.rgb * 255.0)) == KM_SHADER_ONLY) {
+        kmHide();
+        return;
+    }
+#endif
     int band = kmBand();
 
 #if !defined(IS_GUI) && !defined(IS_SEE_THROUGH)
@@ -395,21 +362,36 @@ void main() {
     }
 
     ivec2 texSize = textureSize(Sampler0, 0);
-    if (texSize == ivec2(128, 128) && kmDigit(ivec2(0, 0)) == 107 && kmDigit(ivec2(1, 0)) == 77) {
+    vec2 u = UV0;
+    bool tile = false;
+    if (texSize == ivec2(128, 128)) {
+        tile = kmIsTile();
+    } else if (texSize.x > 128 && (texSize.x & 127) == 0 && (texSize.y & 127) == 0 && max(abs(Position.x), abs(Position.z)) < 1.5) {
+        vec2 texel = UV0 * vec2(texSize);
+        vec2 grid = round(texel / 128.0) * 128.0;
+        if (all(lessThan(abs(texel - grid), vec2(0.01)))) {
+            u = vec2(Position.x > 0.0 ? 1.0 : 0.0, (Position.z > 0.0) == (UV2.x == KM_GLOW_LIGHT) ? 1.0 : 0.0);
+            kmTileBase = ivec2(grid) - ivec2(u) * 128;
+            tile = all(greaterThanEqual(kmTileBase, ivec2(0))) && kmIsTile() && kmDigit(ivec2(2, 0)) <= 3;
+        }
+    }
+    if (tile) {
         kmPassFog();
         int tkind = kmDigit(ivec2(2, 0));
-        int originX = kmDigits(3, 3) - 1048576;
-        int originZ = kmDigits(6, 3) - 1048576;
-        int flags = kmDigit(ivec2(9, 0));
-        int mini = kmDigit(ivec2(10, 0));
-        int panX = kmDigits(11, 3) - 1048576;
-        int panZ = kmDigits(14, 3) - 1048576;
-        int screen = kmDigit(ivec2(17, 0));
-        int sensP = kmDigit(ivec2(18, 0));
-        float blocksWide = (tkind == 1 || tkind == 4) ? 64.0 : (tkind == 2 ? 2048.0 : 128.0);
-        float blocksTall = tkind == 2 ? 2048.0 : 128.0;
-        vec2 u = UV0;
-        vec2 world = vec2(originX, originZ) + u * vec2(blocksWide, blocksTall);
+        ivec2 origin = ivec2(kmDigits(3, 4), kmDigits(7, 4)) - 134217728;
+        int flags = kmDigit(ivec2(11, 0));
+        int mini = kmDigit(ivec2(12, 0));
+        ivec2 panQ = ivec2(kmDigits(13, 4), kmDigits(17, 4)) - 134217728;
+        int screen = kmDigit(ivec2(21, 0));
+        int sensP = kmDigit(ivec2(22, 0));
+        float blocksWide = tkind == 1 ? 64.0 : 128.0;
+        float blocksTall = 128.0;
+        if (tkind == 3) {
+            float lodScale = exp2(float(kmDigit(ivec2(23, 0))));
+            blocksWide = 128.0 * lodScale;
+            blocksTall = 128.0 * lodScale;
+        }
+        vec2 span = u * vec2(blocksWide, blocksTall);
         vec2 canvas;
         int surface;
         vec4 area;
@@ -422,8 +404,8 @@ void main() {
             area = band == 0 ? kmMiniRect(mini) : kmBigRect();
             float zoom = kmZoom((mini >> 3) & 7);
             float blocksAcross = (band == 0 ? KM_MINI_BLOCKS : KM_BIG_BLOCKS) / zoom;
-            vec2 cam = kmCameraXZ();
-            canvas = area.xy + area.zw * 0.5 + (world - cam) * (area.z / blocksAcross);
+            vec2 rel = vec2(origin - CameraBlockPos.xz) + CameraOffset.xz + span;
+            canvas = area.xy + area.zw * 0.5 + rel * (area.z / blocksAcross);
             kmClipKind = (band == 0 && (mini & 4) != 0) ? 2 : 1;
             kmClip = area;
         } else {
@@ -433,17 +415,25 @@ void main() {
             }
             surface = 2;
             float scale = KM_SCREEN_ZOOMS[clamp(screen & 15, 0, 11)];
-            canvas = vec2(KM_CANVAS_W, KM_CANVAS_H) * 0.5 + (world - vec2(panX, panZ)) * scale;
+            vec2 rel = vec2(origin * 4 - panQ) * 0.25 + span;
+            canvas = vec2(KM_CANVAS_W, KM_CANVAS_H) * 0.5 + rel * scale;
             if ((screen & 16) != 0) {
                 canvas += kmCursorPos(kmSens(sensP)) - vec2(KM_CANVAS_W, KM_CANVAS_H) * 0.5;
+            }
+            float lnStart = float(kmDigits(24, 2)) / 2048.0 - 4.0;
+            vec2 slide = (vec2(kmDigits(31, 2), kmDigits(33, 2)) - 8192.0) * 0.5;
+            if (abs(lnStart) > 0.0005 || slide != vec2(0.0)) {
+                vec2 anchor = (vec2(kmDigits(26, 2), kmDigits(28, 2)) - 4096.0) * 0.5;
+                float e = kmAnimEase(kmDigit(ivec2(30, 0)), band);
+                canvas = anchor + (canvas - anchor) * exp(lnStart * (1.0 - e)) + slide * (1.0 - e);
             }
             kmClipKind = 0;
         }
         texCoord0 = UV0;
         kmCanvas = canvas;
-        kmAux = vec4(float(tkind), 0.0, 0.0, 0.0);
+        kmAux = vec4(float(tkind), float(origin.x & 4095), float(origin.y & 4095), float((kmTileBase.x >> 7) * 256 + (kmTileBase.y >> 7)));
         vertexColor = vec4(1.0);
-        float layerDepth = tkind == 2 ? 0.0010 : 0.0006;
+        float layerDepth = (flags & 8) != 0 ? 0.0001 : (tkind == 3 ? 0.0003 : 0.0006);
         gl_Position = kmCanvasToClip(canvas, kmDepth(surface, 0) + layerDepth);
         kmMode = 2;
         return;

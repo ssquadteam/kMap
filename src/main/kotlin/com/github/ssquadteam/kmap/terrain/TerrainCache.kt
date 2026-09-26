@@ -15,8 +15,56 @@ class TerrainCache(
     val world: World,
     private val sampler: SurfaceSampler,
     val store: TerrainStore?,
+    private val brightness: Double,
     private val options: () -> SampleOptions,
 ) {
+    private val thumbs = ConcurrentHashMap<Long, ShortArray>()
+    private val thumbRegions = ConcurrentHashMap.newKeySet<Long>()
+
+    fun thumb(cx: Int, cz: Int): ShortArray? {
+        val t = thumbs[key(cx, cz)]
+        if (t != null || store == null) return t
+        val rk = key(cx shr 5, cz shr 5)
+        if (thumbRegions.add(rk) && store.regionHasChunks(rk)) {
+            store.loadThumbs(rk, { Thumbnails.of(it, brightness) }) { loaded ->
+                val rx = (rk shr 32).toInt() shl 5
+                val rz = rk.toInt() shl 5
+                for ((i, arr) in loaded) {
+                    val x = rx + (i and 31)
+                    val z = rz + (i shr 5)
+                    if (thumbs.putIfAbsent(key(x, z), arr) == null) bumpOverview(x, z)
+                }
+            }
+        }
+        return null
+    }
+
+    private fun setThumb(surface: ChunkSurface, persist: Boolean) {
+        val t = Thumbnails.of(surface, brightness)
+        thumbs[key(surface.cx, surface.cz)] = t
+        if (persist) store?.markThumb(surface.cx, surface.cz, t)
+        bumpOverview(surface.cx, surface.cz)
+    }
+
+    private fun bumpOverview(cx: Int, cz: Int) {
+        for (lod in 1..MAX_LOD) {
+            val span = 128 shl lod
+            val stride = TileData.STRIDE_Z shl lod
+            val x = cx shl 4
+            val z0 = cz shl 4
+            val tx = Math.floorDiv(x, span)
+            for (tz in Math.floorDiv(z0 - stride, stride)..Math.floorDiv(z0 + 15, stride)) {
+                val top = tz * stride
+                if (top + span <= z0 || top > z0 + 15) continue
+                tileMods.merge(overviewKey(lod, tx, tz), 1L, Long::plus)
+            }
+        }
+    }
+
+    fun overviewMod(lod: Int, tx: Int, tz: Int): Long = tileMods[overviewKey(lod, tx, tz)] ?: 0L
+
+    private fun overviewKey(lod: Int, tx: Int, tz: Int): Long = key(tx * 8 + lod + 2, tz)
+
     private val surfaces = ConcurrentHashMap<Long, ChunkSurface>()
     private val slices = ConcurrentHashMap<Long, ConcurrentHashMap<Int, ChunkSurface>>()
     private val pending = ConcurrentHashMap.newKeySet<Long>()
@@ -29,7 +77,7 @@ class TerrainCache(
 
     fun tileMod(wide: Int, tx: Int, tz: Int): Long = tileMods[modKey(wide, tx, tz)] ?: 0L
 
-    private fun modKey(wide: Int, tx: Int, tz: Int): Long = key(tx * 2 + (if (wide == 64) 1 else 0), tz)
+    private fun modKey(wide: Int, tx: Int, tz: Int): Long = key(tx * 8 + (if (wide == 64) 1 else 0), tz)
 
     private fun bump(cx: Int, cz: Int) {
         val x0 = (cx shl 4) - 1
@@ -79,7 +127,10 @@ class TerrainCache(
     fun onChunkLoad(cx: Int, cz: Int) {
         val k = key(cx, cz)
         misses.remove(k)
-        if (surfaces[k]?.fromDisk == true) invalidate(cx, cz)
+        val s = surfaces[k]
+        if (s == null || s.fromDisk) {
+            if (pending.add(k)) queue.add(k)
+        }
     }
 
     fun sampleNow(chunk: LevelChunk) {
@@ -93,13 +144,18 @@ class TerrainCache(
         surfaces[k] = surface
         misses.remove(k)
         bump(surface.cx, surface.cz)
-        if (store != null && store.hashOf(surface.cx, surface.cz) != surface.hash) store.mark(surface)
+        val changed = store == null || store.hashOf(surface.cx, surface.cz) != surface.hash
+        if (store != null && changed) store.mark(surface)
+        if (changed || !thumbs.containsKey(k)) setThumb(surface, true)
     }
 
     private fun putFromDisk(surface: ChunkSurface) {
         surface.version = clock.incrementAndGet()
         surface.lastAccess = now
-        if (surfaces.putIfAbsent(key(surface.cx, surface.cz), surface) == null) bump(surface.cx, surface.cz)
+        if (surfaces.putIfAbsent(key(surface.cx, surface.cz), surface) == null) {
+            bump(surface.cx, surface.cz)
+            if (!thumbs.containsKey(key(surface.cx, surface.cz))) setThumb(surface, true)
+        }
     }
 
     fun pump(budget: Int, sliceBudget: Int, sliceHeight: Int) {
@@ -110,23 +166,21 @@ class TerrainCache(
             n++
             val cx = (k shr 32).toInt()
             val cz = k.toInt()
-            if (level.chunkSource.getChunkNow(cx, cz) != null) {
-                Bukkit.getRegionScheduler().execute(plugin, world, cx, cz) {
-                    try {
-                        val chunk = level.getChunkIfLoaded(cx, cz)
-                        if (chunk != null) put(sampler.sample(chunk, options())) else misses[k] = now
-                    } finally {
-                        pending.remove(k)
+            Bukkit.getRegionScheduler().execute(plugin, world, cx, cz) {
+                try {
+                    val chunk = level.getChunkIfLoaded(cx, cz)
+                    if (chunk != null) {
+                        put(sampler.sample(chunk, options()))
+                    } else if (store != null && store.has(cx, cz)) {
+                        store.load(cx, cz) { s ->
+                            if (s != null) putFromDisk(s) else misses[k] = now
+                        }
+                    } else {
+                        misses[k] = now
                     }
-                }
-            } else if (store != null && store.has(cx, cz)) {
-                store.load(cx, cz) { s ->
-                    if (s != null) putFromDisk(s) else misses[k] = now
+                } finally {
                     pending.remove(k)
                 }
-            } else {
-                misses[k] = now
-                pending.remove(k)
             }
         }
         var s = 0
@@ -176,6 +230,7 @@ class TerrainCache(
         var now = 0L
         private const val MISS_TICKS = 60L
         private val WIDTHS = intArrayOf(64, 128)
+        const val MAX_LOD = 4
         private const val SLICE_IDLE_TICKS = 2400L
 
         fun key(cx: Int, cz: Int): Long = (cx.toLong() shl 32) or (cz.toLong() and 0xFFFFFFFFL)

@@ -3,8 +3,10 @@ package com.github.ssquadteam.kmap.render
 import com.github.ssquadteam.kmap.nms.EntityDataKeys
 import com.github.ssquadteam.kmap.nms.FakeIds
 import com.github.ssquadteam.kmap.nms.Packets
+import com.github.ssquadteam.kmap.pack.ShaderDefines
 import io.papermc.paper.adventure.PaperAdventure
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.protocol.Packet
 import net.minecraft.network.protocol.game.ClientGamePacketListener
 import net.minecraft.network.syncher.SynchedEntityData
@@ -71,5 +73,17 @@ class Carrier(val surface: Surface) {
     companion object {
         private val SCALE: Vector3fc = Vector3f(4000f, 4000f, 4000f)
         private val IDENTITY: Quaternionfc = Quaternionf()
+
+        fun shaderHint(id: Int, text: Component, x: Double, y: Double, z: Double): List<Packet<in ClientGamePacketListener>> {
+            val values: List<SynchedEntityData.DataValue<*>> = listOf(
+                Packets.value(EntityDataKeys.TEXT, PaperAdventure.asVanilla(text.color(TextColor.color(ShaderDefines.SHADER_ONLY_RGB)))),
+                Packets.value(EntityDataKeys.BACKGROUND, 0),
+                Packets.value(EntityDataKeys.BILLBOARD, 3.toByte()),
+                Packets.value(EntityDataKeys.TRANSLATION, Vector3f(0f, -0.35f, -2f)),
+                Packets.value(EntityDataKeys.SCALE, Vector3f(0.3f, 0.3f, 0.3f)),
+                Packets.value(EntityDataKeys.BRIGHTNESS, 15 shl 4 or (15 shl 20)),
+            )
+            return listOf(Packets.spawn(id, EntityTypes.TEXT_DISPLAY, x, y, z), Packets.data(id, values))
+        }
     }
 }

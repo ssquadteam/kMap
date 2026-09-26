@@ -3,6 +3,7 @@ kotlin = "2.4.10"
 paperweight = "2.0.0-beta.21"
 paper-dev-bundle = "26.2.build.128-stable"
 nexo = "1.27.0"
+guilds = "3.5.7.0"
 shadow = "9.4.1"
 
 [plugins]
@@ -12,3 +13,4 @@ paperweight-userdev = { id = "io.papermc.paperweight.userdev", version.ref = "pa
 [libraries]
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 nexo = { module = "com.nexomc:nexo", version.ref = "nexo" }
+guilds = { module = "me.glaremasters:guilds", version.ref = "guilds" }

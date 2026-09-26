@@ -5,6 +5,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.world.entity.Display
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.Interaction
 import net.minecraft.world.entity.decoration.HangingEntity
 import net.minecraft.world.entity.decoration.ItemFrame
 import net.minecraft.world.item.ItemStack
@@ -40,4 +41,6 @@ object EntityDataKeys {
     val FRAME_ITEM: EntityDataAccessor<ItemStack> = field(ItemFrame::class.java, "DATA_ITEM")
     val FRAME_ROTATION: EntityDataAccessor<Int> = field(ItemFrame::class.java, "DATA_ROTATION")
     val HANGING_DIRECTION: EntityDataAccessor<Direction> = field(HangingEntity::class.java, "DATA_DIRECTION")
+    val INTERACTION_WIDTH: EntityDataAccessor<Float> = field(Interaction::class.java, "DATA_WIDTH_ID")
+    val INTERACTION_HEIGHT: EntityDataAccessor<Float> = field(Interaction::class.java, "DATA_HEIGHT_ID")
 }

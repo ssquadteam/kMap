@@ -7,7 +7,6 @@ object MapPalette {
     private val valid = BooleanArray(256)
     const val KNOWN: Byte = 119
     const val UNKNOWN: Byte = 116
-    const val GREY_KNOWN: Byte = 87
 
     fun load(input: InputStream) {
         input.bufferedReader().forEachLine { line ->
@@ -46,15 +45,43 @@ object MapPalette {
         lut
     }
 
+    private val fullLut: ByteArray by lazy {
+        val lut = ByteArray(32768)
+        for (v in 0 until 32768) {
+            val r = ((v shr 10) and 31) * 255 / 31
+            val g = ((v shr 5) and 31) * 255 / 31
+            val b = (v and 31) * 255 / 31
+            var best = 4
+            var bestD = Int.MAX_VALUE
+            for (id in 4 until 256) {
+                if (!valid[id]) continue
+                val c = rgb[id]
+                val dr = (c shr 16 and 255) - r
+                val dg = (c shr 8 and 255) - g
+                val db = (c and 255) - b
+                val d = dr * dr * 3 + dg * dg * 4 + db * db * 2
+                if (d < bestD) {
+                    bestD = d
+                    best = id
+                }
+            }
+            lut[v] = best.toByte()
+        }
+        lut
+    }
+
+    fun nearestFull555(v: Int): Byte = fullLut[v and 32767]
+
     fun nearestBase(color: Int): Int = baseLut[((color shr 19 and 31) shl 10) or ((color shr 11 and 31) shl 5) or (color shr 3 and 31)].toInt() and 255
 
     fun digit(d: Int): Byte = (4 + d).toByte()
 
-    fun rgb555Pair(color: Int): Pair<Byte, Byte> {
-        val r = (color shr 19) and 31
-        val g = (color shr 11) and 31
-        val b = (color shr 3) and 31
-        val v = (r shl 10) or (g shl 5) or b
+    fun rgb555Pair(color: Int, edges: Int = 0): Pair<Byte, Byte> {
+        val v = if (edges == 0) {
+            (((color shr 19) and 31) shl 10) or (((color shr 11) and 31) shl 5) or ((color shr 3) and 31)
+        } else {
+            32768 + (edges - 1) * 8192 + ((((color shr 20) and 15) shl 9) or (((color shr 11) and 31) shl 4) or ((color shr 4) and 15))
+        }
         return (4 + v / 240).toByte() to (4 + v % 240).toByte()
     }
 

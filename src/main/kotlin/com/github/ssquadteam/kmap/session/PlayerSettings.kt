@@ -19,6 +19,7 @@ class PlayerSettings(
     var screenZoom: Int,
     var zoomTouched: Boolean,
     var cursor: Int,
+    var showGuild: Boolean = true,
 ) {
     fun toYaml(): YamlConfiguration {
         val y = YamlConfiguration()
@@ -34,6 +35,7 @@ class PlayerSettings(
         y.set("screenZoom", screenZoom)
         y.set("zoomTouched", zoomTouched)
         y.set("cursor", cursor)
+        y.set("showGuild", showGuild)
         return y
     }
 
@@ -57,6 +59,7 @@ class PlayerSettings(
                 y.getInt("screenZoom", d.screenZoom).coerceIn(0, 11),
                 y.getBoolean("zoomTouched", false),
                 y.getInt("cursor", 0).coerceIn(0, CURSORS - 1),
+                y.getBoolean("showGuild", true),
             )
         }
     }

@@ -5,6 +5,7 @@
 #endif
 
 #moj_import <minecraft:dynamictransforms.glsl>
+#moj_import <minecraft:globals.glsl>
 
 uniform sampler2D Sampler0;
 
@@ -18,7 +19,6 @@ in vec2 texCoord0;
 flat in int kmMode;
 flat in int kmClipKind;
 flat in vec4 kmClip;
-flat in vec4 kmTexRect;
 flat in vec4 kmAux;
 flat in vec2 kmCursor;
 in vec2 kmCanvas;
@@ -38,6 +38,10 @@ int kmPaletteId(vec4 c) {
     return KM_CHD_T[(h2 + KM_CHD_D[h1]) % 256];
 }
 
+float kmUiScale() {
+    return min(ScreenSize.x / KM_CANVAS_W, ScreenSize.y / KM_CANVAS_H);
+}
+
 bool kmClipped() {
     if (kmClipKind == 1) {
         return kmCanvas.x < kmClip.x || kmCanvas.y < kmClip.y || kmCanvas.x > kmClip.x + kmClip.z || kmCanvas.y > kmClip.y + kmClip.w;
@@ -49,40 +53,63 @@ bool kmClipped() {
     return false;
 }
 
+float kmHash(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+}
+
 vec4 kmSampleTile() {
-    ivec2 size = textureSize(Sampler0, 0);
     int tkind = int(kmAux.x + 0.5);
-    vec2 p = clamp(texCoord0, vec2(0.0), vec2(0.99999)) * vec2(size);
+    int cell = int(kmAux.w + 0.5);
+    ivec2 base = ivec2(cell / 256, cell % 256) * 128;
+    vec2 p = clamp(texCoord0 * vec2(textureSize(Sampler0, 0)) - vec2(base), vec2(0.0), vec2(127.999));
     ivec2 t = ivec2(p);
-    if (tkind == 1 || tkind == 4) {
+    if (tkind == 1) {
         ivec2 a = ivec2((t.x / 2) * 2, t.y);
-        if (a.y == 0 && a.x < 24) {
+        if (a.y == 0 && a.x < KM_META_W) {
             return vec4(0.0);
         }
-        vec4 ca = texelFetch(Sampler0, a, 0);
-        vec4 cb = texelFetch(Sampler0, a + ivec2(1, 0), 0);
+        vec4 ca = texelFetch(Sampler0, base + a, 0);
+        vec4 cb = texelFetch(Sampler0, base + a + ivec2(1, 0), 0);
         if (ca.a < 0.5 || cb.a < 0.5) {
             return vec4(0.0);
         }
         int v = (kmPaletteId(ca) - 4) * 240 + (kmPaletteId(cb) - 4);
-        if (v < 0 || v >= 32768) {
+        if (v < 0 || v >= 57344) {
             return vec4(0.0);
         }
-        vec3 rgb = vec3(float((v >> 10) & 31), float((v >> 5) & 31), float(v & 31)) / 31.0;
+        vec3 rgb;
+        int edges = 0;
+        if (v < 32768) {
+            rgb = vec3(float((v >> 10) & 31), float((v >> 5) & 31), float(v & 31)) / 31.0;
+        } else {
+            int c = (v - 32768) % 8192;
+            edges = (v - 32768) / 8192 + 1;
+            rgb = vec3(float((c >> 9) & 15) / 15.0, float((c >> 4) & 31) / 31.0, float(c & 15) / 15.0);
+        }
+        vec2 block = vec2(p.x * 0.5, p.y);
+        vec2 f = fract(block);
+        float perCanvas = max(fwidth(block.x), fwidth(block.y)) * kmUiScale();
+        float px = clamp(perCanvas, 0.0, 1.0);
+        if (edges != 0) {
+            float k = 1.0;
+            if (px > 0.5) {
+                k = 0.84;
+            } else {
+                if ((edges & 1) != 0 && f.y >= 1.0 - px) k = 0.6;
+                if ((edges & 2) != 0 && f.x >= 1.0 - px) k = 0.6;
+            }
+            rgb *= k;
+        }
+        if (px <= 0.34) {
+            vec2 cell = floor(block) * 8.0 + floor(f / px);
+            rgb *= 0.965 + 0.07 * kmHash(cell + kmAux.yz);
+        }
         return vec4(rgb, 1.0);
     }
-    if (t.y == 0 && t.x < 24) {
+    if (t.y == 0 && t.x < KM_META_W) {
         return vec4(0.0);
     }
-    vec4 c = texelFetch(Sampler0, t, 0);
-    if (tkind == 2) {
-        if (c.a < 0.5) {
-            return vec4(0.0);
-        }
-        int id = kmPaletteId(c);
-        return id == 119 ? vec4(KM_FOG_KNOWN, 1.0) : vec4(KM_FOG_UNKNOWN, 1.0);
-    }
-    return c;
+    return texelFetch(Sampler0, base + t, 0);
 }
 
 void main() {
@@ -93,14 +120,6 @@ void main() {
         vec4 color;
         if (kmMode == 2) {
             color = kmSampleTile();
-        } else if (kmMode == 3) {
-            vec2 uv = texCoord0;
-            if (uv.x < kmTexRect.x || uv.y < kmTexRect.y || uv.x > kmTexRect.z || uv.y > kmTexRect.w) {
-                color = vec4(KM_VOID, 1.0);
-            } else {
-                vec2 atlas = vec2(textureSize(Sampler0, 0));
-                color = texelFetch(Sampler0, ivec2(uv * atlas), 0);
-            }
         } else if (kmMode == 4) {
             color = vertexColor;
         } else {

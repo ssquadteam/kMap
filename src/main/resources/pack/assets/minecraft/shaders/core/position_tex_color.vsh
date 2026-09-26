@@ -32,13 +32,14 @@ void main() {
     vertexColor = Color;
     int band = int(clamp(floor(GameTime * 4.0), 0.0, 3.0));
     if (band >= 2 && ProjMat[3][3] == 1.0 && ProjMat[1][1] < 0.0) {
-        vec2 gui = vec2(2.0 / ProjMat[0][0], -2.0 / ProjMat[1][1]);
+        vec2 gui = ceil(vec2(2.0 / ProjMat[0][0], -2.0 / ProjMat[1][1]) - 0.01);
         vec4 p = ModelViewMat * vec4(Position, 1.0);
-        bool crosshair = abs(p.x - gui.x * 0.5) < 9.0 && abs(p.y - gui.y * 0.5) < 9.0;
+        vec2 mid = p.xy - floor(gui * 0.5);
+        bool crosshair = abs(mid.x) < 10.0 && mid.y > -10.0 && mid.y < 16.0;
         bool hotbar = abs(p.x - gui.x * 0.5) < 125.0 && p.y > gui.y - 66.0;
-        bool fullscreen = (abs(p.x) < 0.5 || abs(p.x - gui.x) < 0.5) && (abs(p.y) < 0.5 || abs(p.y - gui.y) < 0.5);
+        bool fullscreen = (abs(p.x) < 0.5 || abs(p.x - gui.x) < 1.0) && (abs(p.y) < 0.5 || abs(p.y - gui.y) < 1.0);
         if (band == 3 || crosshair || hotbar || fullscreen) {
-            gl_Position = vec4(2.0, 2.0, 2.0, 1.0);
+            vertexColor = vec4(0.0);
         }
     }
 }

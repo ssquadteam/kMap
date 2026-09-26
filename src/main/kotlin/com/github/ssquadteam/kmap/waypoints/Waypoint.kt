@@ -13,8 +13,12 @@ class Waypoint(
     var icon: String?,
     var visible: Boolean = true,
     var tracked: Boolean = false,
+    var owner: UUID? = null,
+    var guild: UUID? = null,
 ) {
     fun letter(): String = name.trim().firstOrNull()?.uppercaseChar()?.toString() ?: "?"
+
+    fun copy(guild: UUID? = this.guild) = Waypoint(id, name, world, x, y, z, color, icon, visible, tracked, owner, guild)
 
     companion object {
         val COLORS = intArrayOf(0xF0C83C, 0xD84838, 0x96C446, 0x78C8DC, 0xDC386E, 0xE6823A, 0xAAC8E6, 0x28282C)

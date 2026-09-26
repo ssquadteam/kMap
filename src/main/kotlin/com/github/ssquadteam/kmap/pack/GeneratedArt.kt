@@ -12,6 +12,7 @@ class GeneratedArt {
     private var next = 0xF900
     val glyphs = HashMap<String, GlyphInfo>()
     private val font: Key = Key.key("kmap", "gen")
+    private val scaled = ArrayList<Pair<String, String>>()
 
     fun add(name: String, image: BufferedImage, magicCode: Int? = null) {
         if (magicCode != null) {
@@ -33,6 +34,13 @@ class GeneratedArt {
         glyphs[name] = GlyphInfo(name, font, cp, image.width, image.height, adv + 1)
     }
 
+    fun scaled(name: String, file: String, source: GlyphInfo, height: Int) {
+        val cp = next++
+        val k = height.toDouble() / source.height
+        glyphs[name] = GlyphInfo(name, font, cp, Math.round(source.width * k).toInt(), height, (0.5 + (source.advance - 1) * k).toInt() + 1)
+        scaled.add(name to file)
+    }
+
     fun write(pack: PackBuilder, spaceProvider: String) {
         val providers = StringBuilder()
         providers.append(spaceProvider)
@@ -42,6 +50,10 @@ class GeneratedArt {
             pack.put("assets/kmap/textures/gen/$name.png", out.toByteArray())
             val g = glyphs[name]!!
             providers.append(",{\"type\":\"bitmap\",\"file\":\"kmap:gen/$name.png\",\"height\":${image.height},\"ascent\":0,\"chars\":[\"\\u%04x\"]}".format(g.codepoint))
+        }
+        for ((name, file) in scaled) {
+            val g = glyphs[name]!!
+            providers.append(",{\"type\":\"bitmap\",\"file\":\"$file\",\"height\":${g.height},\"ascent\":0,\"chars\":[\"\\u%04x\"]}".format(g.codepoint))
         }
         pack.putText("assets/kmap/font/gen.json", "{\"providers\":[$providers]}")
     }
@@ -53,6 +65,30 @@ class GeneratedArt {
         private const val LIGHT = 0xFFB07C4E.toInt()
         private const val GOLD = 0xFFE8B84A.toInt()
         private const val GOLD_D = 0xFFB0802A.toInt()
+
+        fun pinOutline(icon: BufferedImage): BufferedImage {
+            val img = BufferedImage(icon.width + 4, icon.height + 4, BufferedImage.TYPE_INT_ARGB)
+            img.graphics.drawImage(icon, 2, 2, null)
+            ring(img, 0xFFFFFAEC.toInt())
+            ring(img, OUT)
+            return img
+        }
+
+        private fun ring(img: BufferedImage, color: Int) {
+            val w = img.width
+            val h = img.height
+            val solid = Array(h) { y -> BooleanArray(w) { x -> (img.getRGB(x, y) ushr 24) > 128 } }
+            for (y in 0 until h) for (x in 0 until w) {
+                if (img.getRGB(x, y) ushr 24 != 0) continue
+                var hit = false
+                for (dy in -1..1) for (dx in -1..1) {
+                    val xx = x + dx
+                    val yy = y + dy
+                    if (xx in 0 until w && yy in 0 until h && solid[yy][xx]) hit = true
+                }
+                if (hit) img.setRGB(x, y, color)
+            }
+        }
 
         fun squareFrame(size: Int): BufferedImage {
             val s = size + 6

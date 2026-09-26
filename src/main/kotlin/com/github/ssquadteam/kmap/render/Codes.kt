@@ -21,15 +21,10 @@ enum class Fx(val id: Int) {
 }
 
 object Codes {
-    fun glyph(y: Int, tint: Tint = Tint.NONE, layer: Int = 1, fx: Fx = Fx.NONE): Int {
+    fun glyph(y: Int, tint: Tint = Tint.NONE, layer: Int = 1, fx: Fx = Fx.NONE, edge: Boolean = false): Int {
         val yy = (y + 128).coerceIn(0, 511)
-        return (0 shl 20) or yy or (tint.ordinal shl 9) or ((layer and 3) shl 15) or (fx.id shl 17)
+        return ((if (edge) 1 else 0) shl 20) or yy or (tint.ordinal shl 9) or ((layer and 3) shl 15) or (fx.id shl 17)
     }
-
-    fun terrainMini(): Int = 1 shl 20
-
-    fun terrainScreen(panZ: Int, zoom: Int, drag: Boolean): Int =
-        (1 shl 20) or (panZ.coerceIn(0, 16383)) or ((zoom and 15) shl 14) or ((if (drag) 1 else 0) shl 18)
 
     fun arrow(y: Int, angle256: Int = 0, drag: Boolean = false): Int =
         (2 shl 20) or (y + 128).coerceIn(0, 511) or ((angle256 and 255) shl 9) or ((if (drag) 1 else 0) shl 17)

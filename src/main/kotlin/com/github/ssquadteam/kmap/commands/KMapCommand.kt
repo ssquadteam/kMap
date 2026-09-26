@@ -52,11 +52,10 @@ class KMapCommand(private val plugin: KMapPlugin) : BasicCommand {
         },
         Sub("zoom", false, { a -> if (a.size == 1) listOf("in", "out", "reset") else emptyList() }) { sender, player, a ->
             withMap(sender, player) { map ->
-                val def = if (map.worldMap()?.mode?.hd == true) 2 else 3
                 val next = when (a.getOrNull(0)?.lowercase()) {
                     "in" -> map.settings.zoom + 1
                     "out" -> map.settings.zoom - 1
-                    "reset" -> def
+                    "reset" -> DEFAULT_MINI_ZOOM
                     else -> return@withMap usage(sender, "zoom")
                 }.coerceIn(0, ShaderDefines.MINI_ZOOMS.size - 1)
                 settings(map) {
@@ -83,23 +82,6 @@ class KMapCommand(private val plugin: KMapPlugin) : BasicCommand {
                 say(sender, "locations_failed")
             }
         },
-        Sub("world-register", true, { a -> if (a.size == 1) Bukkit.getWorlds().map { it.name } else emptyList() }) { sender, _, a ->
-            val name = a.getOrNull(0) ?: return@Sub usage(sender, "world-register")
-            val w = a.getOrNull(1)?.toIntOrNull()?.coerceIn(64, 8192) ?: 1000
-            val h = a.getOrNull(2)?.toIntOrNull()?.coerceIn(64, 8192) ?: w
-            val world = Bukkit.getWorld(name)
-            val cx = a.getOrNull(3)?.toIntOrNull() ?: world?.spawnLocation?.blockX ?: 0
-            val cz = a.getOrNull(4)?.toIntOrNull() ?: world?.spawnLocation?.blockZ ?: 0
-            val rot = a.getOrNull(5)?.toIntOrNull() ?: 0
-            plugin.worldsConfig.register(name, w, h, cx, cz, rot, null)
-            if (world != null) say(sender, "registered", name, w, h, cx, cz) else say(sender, "registered_loaded", name)
-        },
-        Sub("rebake", true, { a -> if (a.size == 1) Bukkit.getWorlds().map { it.name } else emptyList() }) { sender, player, a ->
-            val name = a.getOrNull(0) ?: player?.world?.name ?: return@Sub usage(sender, "rebake")
-            val world = Bukkit.getWorld(name) ?: return@Sub say(sender, "unknown_world", name)
-            say(sender, "rebake", name)
-            plugin.bakes.rebake(world, sender)
-        },
         Sub("refresh", true) { sender, player, a ->
             val p = player ?: return@Sub say(sender, "players_only")
             val r = (a.getOrNull(0)?.toIntOrNull() ?: 8).coerceIn(1, 64)
@@ -114,21 +96,6 @@ class KMapCommand(private val plugin: KMapPlugin) : BasicCommand {
                 }
             }
             say(sender, "refresh", n)
-        },
-        Sub("area", true, { a -> areaCompletions(a) }) { sender, player, a ->
-            val p = player ?: return@Sub say(sender, "players_only")
-            when (a.getOrNull(0)?.lowercase()) {
-                "add" -> {
-                    val name = a.getOrNull(1) ?: return@Sub usage(sender, "area")
-                    val w = a.getOrNull(2)?.toIntOrNull() ?: return@Sub usage(sender, "area")
-                    plugin.areas.add(p, name, w, a.getOrNull(3)?.toIntOrNull() ?: w)
-                }
-                "confirm" -> plugin.areas.confirm(p)
-                "cancel" -> plugin.areas.cancel(p)
-                "remove" -> plugin.areas.remove(p, a.getOrNull(1) ?: return@Sub usage(sender, "area"))
-                "list" -> plugin.areas.list(p)
-                else -> usage(sender, "area")
-            }
         },
         Sub("world", true, { a -> if (a.size == 1) worldFolders() else emptyList() }) { sender, player, a ->
             val name = a.getOrNull(0)
@@ -194,11 +161,6 @@ class KMapCommand(private val plugin: KMapPlugin) : BasicCommand {
     private fun worldFolders(): List<String> =
         Bukkit.getWorldContainer().listFiles { f -> f.isDirectory && File(f, "level.dat").isFile }?.map { it.name } ?: emptyList()
 
-    private fun areaCompletions(a: List<String>): List<String> = when (a.size) {
-        1 -> listOf("add", "confirm", "cancel", "remove", "list")
-        else -> emptyList()
-    }
-
     private fun help(sender: CommandSender) {
         val p = sender as? Player
         val admin = sender.hasPermission(ADMIN)
@@ -241,6 +203,7 @@ class KMapCommand(private val plugin: KMapPlugin) : BasicCommand {
     companion object {
         const val USE = "kmap.minimap"
         const val ADMIN = "kmap.admin"
+        private const val DEFAULT_MINI_ZOOM = 3
     }
 }
 
